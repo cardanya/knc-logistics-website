@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="supplyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#812530;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a52f3c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#supplyBg)"/>
+
+  <!-- Network Icon -->
+  <g transform="translate(100, 180)">
+    <rect x="0" y="0" width="180" height="180" rx="20" fill="#FFD700"/>
+    <!-- Network nodes -->
+    <circle cx="60" cy="70" r="15" fill="#812530"/>
+    <circle cx="120" cy="70" r="15" fill="#812530"/>
+    <circle cx="90" cy="130" r="15" fill="#812530"/>
+    <!-- Connections -->
+    <line x1="60" y1="70" x2="120" y2="70" stroke="#812530" stroke-width="4"/>
+    <line x1="60" y1="70" x2="90" y2="130" stroke="#812530" stroke-width="4"/>
+    <line x1="120" y1="70" x2="90" y2="130" stroke="#812530" stroke-width="4"/>
+  </g>
+
+  <!-- K&C Logo -->
+  <text x="320" y="230" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#FFD700">K&amp;C LOGISTICS</text>
+
+  <!-- Main Title -->
+  <text x="320" y="300" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#FFFFFF">Supply Chain Management</text>
+
+  <!-- Features -->
+  <g transform="translate(320, 350)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="28" fill="#FFFFFF">✓ Freight Consolidation</text>
+    <text x="0" y="50" font-family="Arial, sans-serif" font-size="28" fill="#FFFFFF">✓ Real-Time Tracking</text>
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="28" fill="#FFFFFF">✓ End-to-End Solutions</text>
+  </g>
+
+  <!-- Location -->
+  <text x="100" y="580" font-family="Arial, sans-serif" font-size="24" fill="#FFD700">Nationwide Services • (714) 588-2005</text>
+</svg>

@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# K&C Logistics - Next.js Web Sitesi
 
-## Getting Started
+Bu proje, K&C Logistics lojistik şirketi için HTML'den Next.js'e dönüştürülmüş modern bir web sitesidir.
 
-First, run the development server:
+## Özellikler
+
+- ✅ Next.js 16 (App Router)
+- ✅ TypeScript desteği
+- ✅ Responsive tasarım
+- ✅ Dark mode desteği
+- ✅ SEO optimize edilmiş (meta tags, schema.org markup)
+- ✅ Font Awesome ikonları
+- ✅ Modern CSS (CSS Variables ile tema desteği)
+- ✅ Tüm orijinal özellikler korundu:
+  - Hero section
+  - Stats section
+  - Services grid
+  - About section
+  - Testimonials
+  - FAQ accordion
+  - Contact form
+  - Google Maps entegrasyonu (hazır)
+
+## Kurulum
+
+```bash
+cd knc-logistics-nextjs
+npm install
+```
+
+## Geliştirme
+
+Development server'ı başlatmak için:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Proje Yapısı
 
-To learn more about Next.js, take a look at the following resources:
+```
+knc-logistics-nextjs/
+├── app/
+│   ├── layout.tsx          # Ana layout (Header, Footer içerir)
+│   ├── page.tsx             # Ana sayfa
+│   └── globals.css          # Global CSS stilleri
+├── components/
+│   ├── Header.tsx           # Header component
+│   └── Footer.tsx           # Footer component
+├── public/
+│   ├── robots.txt
+│   └── sitemap.xml
+└── next.config.ts           # Next.js konfigürasyonu
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tamamlanan Özellikler
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Aşağıdaki service detail sayfaları tamamlandı:
 
-## Deploy on Vercel
+- ✅ `/parking-solutions` - Park çözümleri detay sayfası
+- ✅ `/warehousing-services` - Depolama hizmetleri detay sayfası
+- ✅ `/supply-chain-solutions` - Tedarik zinciri çözümleri detay sayfası
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact Form Email Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contact form'dan gelen mesajları email olarak almak için email servisi konfigüre etmelisin:
+
+1. `.env.local` dosyası oluştur (`.env.example`'dan kopyalayabilirsin)
+2. Tercih ettiğin email servisini seç ve konfigüre et:
+   - **Resend** (önerilen) - `npm install resend`
+   - **SendGrid** - `npm install @sendgrid/mail`
+   - **SMTP/Nodemailer** - `npm install nodemailer`
+
+3. Detaylı setup talimatları için [EMAIL_SETUP.md](EMAIL_SETUP.md) dosyasına bak
+
+**Not:** Email servisi konfigüre edilmediğinde, form submissions console'a log'lanır (development mode).
+
+## Yapılacaklar
+
+Gelecekte eklenebilecek özellikler:
+
+- `/parking-booking` - Park yeri online rezervasyon sistemi (opsiyonel)
+- Database integration (form submissions kaydetmek için)
+- Admin dashboard (submissions görüntülemek için)
+
+## Önemli Notlar
+
+1. **Font Awesome**: CDN üzerinden yükleniyor ([layout.tsx](app/layout.tsx))
+2. **Dark Mode**: Kullanıcı tercihi localStorage'da saklanıyor
+3. **External Images**: Unsplash için `next.config.ts`'de remote patterns yapılandırıldı
+4. **Schema.org**: Local business structured data eklendi (SEO için)
+
+## Teknolojiler
+
+- Next.js 16
+- React 19
+- TypeScript
+- CSS Variables
+- Font Awesome 6.5.1
+
+## Lisans
+
+© 2025 K&C Logistics. Tüm hakları saklıdır.
