@@ -241,7 +241,6 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
   } else if (process.env.SENDGRID_API_KEY) {
     // Option 2: SendGrid
     try {
-      // @ts-expect-error - SendGrid package is optional and installed separately
       const sgMail = await import("@sendgrid/mail");
       sgMail.default.setApiKey(process.env.SENDGRID_API_KEY);
 
