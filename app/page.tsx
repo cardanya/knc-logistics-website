@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from "react";
 import HeroSlider from "@/components/HeroSlider";
 import StatsCounter from "@/components/StatsCounter";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
 import Toast, { ToastType } from "@/components/Toast";
 
 interface FormErrors {
@@ -485,48 +484,6 @@ export default function Home() {
             <span>Call Us Now</span>
           </Link>
         </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="testimonials" id="testimonials">
-        <div className="section-header scroll-animate">
-          <h2>What Our Clients Say</h2>
-          <p>Read testimonials from our satisfied customers</p>
-        </div>
-        <TestimonialCarousel
-          testimonials={[
-            {
-              name: "Michael Rodriguez",
-              role: "Operations Manager, Pacific Distribution",
-              text: "K&C Logistics has been our go-to partner for warehousing for over 5 years. Their facilities are top-notch, and their team is always responsive. Highly recommend!",
-            },
-            {
-              name: "Sarah Chen",
-              role: "Fleet Manager, TransWest Logistics",
-              text: "The parking facilities are secure and convenient. I've been using their truck parking for my fleet, and the 24/7 access makes operations so much easier. Great service!",
-            },
-            {
-              name: "James Thompson",
-              role: "CEO, Southwest Freight Solutions",
-              text: "Professional team, excellent communication, and competitive pricing. K&C helped us optimize our supply chain and reduce costs significantly. Couldn't be happier!",
-            },
-            {
-              name: "Linda Martinez",
-              role: "Logistics Coordinator, Valley Express",
-              text: "Their cross-docking services have streamlined our operations tremendously. Fast turnaround times and careful handling of our freight. We trust K&C completely.",
-            },
-            {
-              name: "David Kim",
-              role: "Supply Chain Director, Coastal Imports",
-              text: "Clean facilities, friendly staff, and great location near the ports. K&C has made our warehousing needs easy and hassle-free. Five stars all the way!",
-            },
-            {
-              name: "Robert Anderson",
-              role: "Owner, Anderson Trucking Co.",
-              text: "Reliable, efficient, and cost-effective. K&C Logistics has been instrumental in our company's growth. Their team goes above and beyond to ensure our success.",
-            },
-          ]}
-        />
       </section>
 
       {/* FAQ Section */}

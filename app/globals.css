@@ -188,7 +188,7 @@ p {
 main {
   position: relative;
   z-index: var(--z-content);
-  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px)); /* Keep content clear of fixed header */
+  padding-top: 0;
 }
 
 main > section {
@@ -403,6 +403,7 @@ nav {
   overflow: hidden;
   margin-top: 0;
   isolation: isolate;
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
 }
 
 @supports (height: 100dvh) {
@@ -1929,6 +1930,10 @@ footer {
     height: auto;
     min-height: 420px;
     margin-top: 60px;
+  }
+
+  .hero-slider video {
+    filter: brightness(0.85);
   }
 
   .hero-content {
