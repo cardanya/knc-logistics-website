@@ -53,9 +53,9 @@ export default function ParkingSolutions() {
               K&C Logistics provides safe, affordable parking solutions for owner
               operators and fleet managers throughout Orange County.
             </p>
-            <Link href="https://www.orangecountytruckstop.com/reserve-parking-spot" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            <a href="https://www.orangecountytruckstop.com/reserve-parking-spot" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               Reserve a Spot
-            </Link>
+            </a>
           </div>
           <div className="service-hero-image">
             <Image
@@ -200,13 +200,13 @@ export default function ParkingSolutions() {
             and secure your spot at our Santa Ana facility.
           </p>
           <div className="service-cta-buttons">
-            <Link href="tel:7145882005" className="btn btn-primary">
+            <a href="tel:7145882005" className="btn btn-primary">
               <i className="fas fa-phone-alt"></i>
               Call (714) 588-2005
-            </Link>
-            <Link href="https://www.orangecountytruckstop.com/reserve-parking-spot" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+            </a>
+            <a href="https://www.orangecountytruckstop.com/reserve-parking-spot" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
               Reserve a Spot
-            </Link>
+            </a>
           </div>
         </div>
       </section>

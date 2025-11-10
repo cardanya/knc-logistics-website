@@ -30,7 +30,10 @@ export default function MobileStickyBar() {
   return (
     <nav className="mobile-sticky-bar" aria-label="Quick actions">
       {quickActions.map((action) => {
-        const isExternal = action.href.startsWith("http");
+        const isExternal =
+          action.href.startsWith("http") ||
+          action.href.startsWith("tel:") ||
+          action.href.startsWith("mailto:");
 
         const content = (
           <>

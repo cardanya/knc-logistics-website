@@ -64,10 +64,10 @@ export default function Header() {
         </ul>
 
         <div className="nav-right">
-          <Link href="tel:7145882005" className="emergency-call-btn">
+          <a href="tel:7145882005" className="emergency-call-btn">
             <i className="fas fa-phone-alt"></i>
             <span className="emergency-text">Emergency Call?</span>
-          </Link>
+          </a>
           <button
             className="theme-toggle"
             id="themeToggle"

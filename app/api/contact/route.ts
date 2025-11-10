@@ -3,14 +3,26 @@ import { NextRequest, NextResponse } from 'next/server';
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Rate limiting - simple in-memory store (for production, use Redis or similar)
-const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
+const RATE_LIMIT_WINDOW_SECONDS = Math.ceil(RATE_LIMIT_WINDOW / 1000);
 const MAX_REQUESTS_PER_WINDOW = 5;
+const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
+const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-function checkRateLimit(identifier: string): boolean {
+declare global {
+  var __kncRateLimitMap: Map<string, number[]> | undefined;
+}
+
+const memoryRateLimitMap =
+  globalThis.__kncRateLimitMap ?? new Map<string, number[]>();
+
+if (!globalThis.__kncRateLimitMap) {
+  globalThis.__kncRateLimitMap = memoryRateLimitMap;
+}
+
+function checkMemoryRateLimit(identifier: string): boolean {
   const now = Date.now();
-  const timestamps = rateLimitMap.get(identifier) || [];
+  const timestamps = memoryRateLimitMap.get(identifier) || [];
 
   // Remove old timestamps outside the window
   const validTimestamps = timestamps.filter(
@@ -22,8 +34,61 @@ function checkRateLimit(identifier: string): boolean {
   }
 
   validTimestamps.push(now);
-  rateLimitMap.set(identifier, validTimestamps);
+  memoryRateLimitMap.set(identifier, validTimestamps);
   return true;
+}
+
+async function incrementRedisCounter(identifier: string): Promise<number> {
+  if (!REDIS_URL || !REDIS_TOKEN) {
+    throw new Error('Redis configuration missing');
+  }
+
+  const key = `rate-limit:contact:${identifier}`;
+  const response = await fetch(`${REDIS_URL}/pipeline`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${REDIS_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify([
+      ['INCR', key],
+      ['EXPIRE', key, RATE_LIMIT_WINDOW_SECONDS.toString()],
+    ]),
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Redis error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  const firstResult = Array.isArray(data.result)
+    ? data.result[0]?.result
+    : undefined;
+
+  const numericResult =
+    typeof firstResult === 'number'
+      ? firstResult
+      : Number.parseInt(firstResult, 10);
+
+  if (!Number.isFinite(numericResult)) {
+    throw new Error('Unexpected Redis response');
+  }
+
+  return numericResult;
+}
+
+async function checkRateLimit(identifier: string): Promise<boolean> {
+  if (REDIS_URL && REDIS_TOKEN) {
+    try {
+      const count = await incrementRedisCounter(identifier);
+      return count <= MAX_REQUESTS_PER_WINDOW;
+    } catch (error) {
+      console.error('Distributed rate limit failed, falling back to in-memory store:', error);
+    }
+  }
+
+  return checkMemoryRateLimit(identifier);
 }
 
 export async function POST(request: NextRequest) {
@@ -34,7 +99,7 @@ export async function POST(request: NextRequest) {
                'unknown';
 
     // Check rate limit
-    if (!checkRateLimit(ip)) {
+    if (!(await checkRateLimit(ip))) {
       return NextResponse.json(
         {
           success: false,
@@ -142,14 +207,10 @@ export async function POST(request: NextRequest) {
       // Continue - we still want to acknowledge the submission
     }
 
-    // Log the submission for monitoring
-    console.log('Contact Form Submission:', {
+    // Log non-sensitive submission metadata for monitoring
+    console.log('Contact submission received', {
       service,
-      name,
-      email,
-      phone: phone || 'N/A',
       timestamp: new Date().toISOString(),
-      ip,
     });
 
     // TODO: Save to database if needed
