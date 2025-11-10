@@ -15,7 +15,7 @@ const slides: Slide[] = [
   {
     type: "video",
     src: "/videos/hero-video-1.mp4",
-    title: "Expert Cross Docking Services for Efficient Freight Distribution",
+    title: "Expert Cross Docking Services.",
     description: `Speed isn't just about driving fast.
     It's about smarter logistics.
     Save Time with Cross-Docking. `,
@@ -192,6 +192,7 @@ export default function HeroSlider() {
                       markSlideLoaded(index);
                     }
                   }}
+                  data-video-src={slide.src}
                 />
               </>
             ) : (

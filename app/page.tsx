@@ -23,7 +23,10 @@ export default function Home() {
     "idle"
   );
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: ToastType;
+  } | null>(null);
 
   // Refs for form inputs
   const serviceRef = useRef<HTMLSelectElement>(null);
@@ -116,7 +119,7 @@ export default function Home() {
     if (!validateForm(formData)) {
       setToast({
         message: "Please fix the errors in the form before submitting.",
-        type: "error"
+        type: "error",
       });
       return;
     }
@@ -124,24 +127,24 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          service: formData.get('service'),
-          name: formData.get('name'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          message: formData.get('message'),
+          service: formData.get("service"),
+          name: formData.get("name"),
+          email: formData.get("email"),
+          phone: formData.get("phone"),
+          message: formData.get("message"),
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
+        throw new Error(data.error || "Failed to send message");
       }
 
       setIsLoading(false);
@@ -149,22 +152,26 @@ export default function Home() {
       (e.target as HTMLFormElement).reset();
 
       setToast({
-        message: data.message || "Thank you for contacting us! We'll get back to you soon.",
-        type: "success"
+        message:
+          data.message ||
+          "Thank you for contacting us! We'll get back to you soon.",
+        type: "success",
       });
 
       // Clear success message after 5 seconds
       setTimeout(() => {
         setFormStatus("idle");
       }, 5000);
-
     } catch (error) {
       setIsLoading(false);
       setFormStatus("error");
 
       setToast({
-        message: error instanceof Error ? error.message : "Failed to send message. Please try again.",
-        type: "error"
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again.",
+        type: "error",
       });
 
       // Clear error message after 7 seconds
@@ -222,8 +229,8 @@ export default function Home() {
           <p>
             Cross-Docking keeps operations fast and efficient by moving goods
             directly from inbound to outbound trucks, no warehouse delay, no
-            wasted time. It&rsquo;s how K&amp;C Logistics keeps your supply chain
-            moving smoothly.
+            wasted time. It&rsquo;s how K&amp;C Logistics keeps your supply
+            chain moving smoothly.
           </p>
           <Link href="tel:7145882005" className="cta-call-btn">
             <i className="fas fa-phone-alt"></i>
@@ -457,6 +464,352 @@ export default function Home() {
                   <p>Optimized process management</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="contact" id="contact">
+        <div className="section-header scroll-animate">
+          <h2>Contact Us</h2>
+          <p>
+            Get in touch with us for your questions or requests. We&apos;ll get
+            back to you as soon as possible.
+          </p>
+        </div>
+        <div className="contact-container">
+          <div className="contact-info scroll-animate-left">
+            <div className="contact-item">
+              <i className="fas fa-map-marker-alt"></i>
+              <div>
+                <h4>Our Addresses</h4>
+                <div className="address-entry">
+                  <div>
+                    <strong>
+                      K&C Warehousing, Cross Docking, Lumper Services and
+                      Trucking
+                    </strong>
+                    <span>3060 Daimler St, Santa Ana, CA 92705</span>
+                  </div>
+                  <button
+                    className="address-directions-btn"
+                    onClick={() =>
+                      openDirections(
+                        "K&C Warehousing, Cross Docking, Lumper Services and Trucking, 3060 Daimler St, Santa Ana, CA 92705"
+                      )
+                    }
+                    aria-label="Get directions to K&C Warehousing"
+                  >
+                    <i className="fas fa-directions"></i>
+                  </button>
+                </div>
+                <div className="address-entry">
+                  <div>
+                    <strong>Orange County Truck Stop & Warehousing</strong>
+                    <span>3100 S Standard Ave, Santa Ana, CA 92705</span>
+                  </div>
+                  <button
+                    className="address-directions-btn"
+                    onClick={() =>
+                      openDirections(
+                        "Orange County Truck Stop & Warehousing, 3100 S Standard Ave, Santa Ana, CA 92705"
+                      )
+                    }
+                    aria-label="Get directions to Orange County Truck Stop"
+                  >
+                    <i className="fas fa-directions"></i>
+                  </button>
+                </div>
+                <div className="address-entry">
+                  <div>
+                    <strong>K&C Logistics, Warehousing Alton Branch</strong>
+                    <span>133 E Alton Ave, Santa Ana, CA 92707</span>
+                  </div>
+                  <button
+                    className="address-directions-btn"
+                    onClick={() =>
+                      openDirections(
+                        "K&C Logistics, Warehousing Alton Branch, 133 E Alton Ave, Santa Ana, CA 92707"
+                      )
+                    }
+                    aria-label="Get directions to K&C Alton Branch"
+                  >
+                    <i className="fas fa-directions"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="contact-item">
+              <i className="fas fa-phone"></i>
+              <div>
+                <h4>Phone Numbers</h4>
+                <p>
+                  <strong>Direct:</strong>{" "}
+                  <a href="tel:+19494844686">(949) 484-4686</a>
+                </p>
+                <p>
+                  <strong>Cell:</strong>{" "}
+                  <a href="tel:+17145882005">(714) 588-2005</a>
+                </p>
+                <p>
+                  <strong>WhatsApp:</strong>{" "}
+                  <a
+                    href="https://wa.me/17149097190"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    (714) 909-7190
+                  </a>
+                </p>
+                <p>
+                  <strong>Fax:</strong> (949) 484-7146
+                </p>
+              </div>
+            </div>
+            <div className="contact-item">
+              <i className="fas fa-envelope"></i>
+              <div>
+                <h4>Email</h4>
+                <p>
+                  <a href="mailto:info@knclogistics.com">
+                    info@knclogistics.com
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:info@orangecountytruckstop.com">
+                    info@orangecountytruckstop.com
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div className="contact-item">
+              <i className="fas fa-clock"></i>
+              <div>
+                <h4>Working Hours</h4>
+                <p>Monday - Sunday: 8:00 AM - 6:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <form
+            className="contact-form scroll-animate-right"
+            onSubmit={handleContactSubmit}
+          >
+            {formStatus === "success" && (
+              <div
+                className="form-alert success"
+                role="status"
+                aria-live="polite"
+              >
+                <i className="fas fa-check-circle"></i>
+                <span>
+                  Your message has been sent successfully! We will get back to
+                  you as soon as possible.
+                </span>
+              </div>
+            )}
+
+            <div className={`form-group ${formErrors.service ? "error" : ""}`}>
+              <label htmlFor="service">Service Interest</label>
+              <select
+                id="service"
+                name="service"
+                ref={serviceRef}
+                required
+                autoComplete="off"
+                aria-invalid={formErrors.service ? "true" : "false"}
+                aria-describedby={
+                  formErrors.service ? "service-error" : undefined
+                }
+              >
+                <option value="">Select a service...</option>
+                <option value="parking">Parking Solutions</option>
+                <option value="warehousing">Warehousing Services</option>
+                <option value="supply-chain">Supply Chain Solutions</option>
+              </select>
+              {formErrors.service && (
+                <span id="service-error" className="error-message" role="alert">
+                  {formErrors.service}
+                </span>
+              )}
+            </div>
+
+            <div className={`form-group ${formErrors.name ? "error" : ""}`}>
+              <label htmlFor="name">Your Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Full Name"
+                ref={nameRef}
+                required
+                minLength={2}
+                autoComplete="name"
+                aria-invalid={formErrors.name ? "true" : "false"}
+                aria-describedby={formErrors.name ? "name-error" : undefined}
+              />
+              {formErrors.name && (
+                <span id="name-error" className="error-message" role="alert">
+                  {formErrors.name}
+                </span>
+              )}
+            </div>
+
+            <div className={`form-group ${formErrors.email ? "error" : ""}`}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="example@email.com"
+                ref={emailRef}
+                required
+                autoComplete="email"
+                aria-invalid={formErrors.email ? "true" : "false"}
+                aria-describedby={formErrors.email ? "email-error" : undefined}
+              />
+              {formErrors.email && (
+                <span id="email-error" className="error-message" role="alert">
+                  {formErrors.email}
+                </span>
+              )}
+            </div>
+
+            <div className={`form-group ${formErrors.phone ? "error" : ""}`}>
+              <label htmlFor="phone">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="+1 (XXX) XXX-XXXX"
+                ref={phoneRef}
+                autoComplete="tel"
+                aria-invalid={formErrors.phone ? "true" : "false"}
+                aria-describedby={formErrors.phone ? "phone-error" : undefined}
+              />
+              {formErrors.phone && (
+                <span id="phone-error" className="error-message" role="alert">
+                  {formErrors.phone}
+                </span>
+              )}
+            </div>
+
+            <div className={`form-group ${formErrors.message ? "error" : ""}`}>
+              <label htmlFor="message">Your Message</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Type your message here..."
+                ref={messageRef}
+                required
+                minLength={10}
+                autoComplete="off"
+                aria-invalid={formErrors.message ? "true" : "false"}
+                aria-describedby={
+                  formErrors.message ? "message-error" : undefined
+                }
+              ></textarea>
+              {formErrors.message && (
+                <span id="message-error" className="error-message" role="alert">
+                  {formErrors.message}
+                </span>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className={`submit-btn ${isLoading ? "loading" : ""}`}
+              disabled={isLoading}
+            >
+              {isLoading && <span className="spinner"></span>}
+              <span>
+                <i className="fas fa-paper-plane"></i>{" "}
+                {isLoading ? "Sending..." : "Send Message"}
+              </span>
+            </button>
+          </form>
+        </div>
+
+        {/* Maps Section */}
+        <div className="maps-section">
+          <div
+            className="section-header scroll-animate"
+            style={{ marginTop: "4rem" }}
+          >
+            <h2>Our Locations</h2>
+            <p>
+              Visit us at any of our three convenient Orange County locations
+            </p>
+          </div>
+          <div className="maps-grid">
+            <div className="map-card scroll-animate-fade">
+              <h3>
+                <i className="fas fa-map-marker-alt"></i> K&C Warehousing &
+                Trucking
+              </h3>
+              <p>3060 Daimler St, Santa Ana, CA 92705</p>
+              <MapWithSkeleton
+                src="https://maps.google.com/maps?q=K%26C%20Warehousing%2C%20Cross%20Docking%2C%20Lumper%20Services%2C%20Trucking&output=embed"
+                title="Map of K&C Warehousing and Trucking location"
+              />
+              <button
+                className="map-directions-btn"
+                onClick={() =>
+                  openDirections(
+                    "K&C Warehousing, Cross Docking, Lumper Services, Trucking"
+                  )
+                }
+                aria-label="Get directions to K&C Warehousing & Trucking"
+              >
+                <i className="fas fa-directions"></i>
+                Get Directions
+              </button>
+            </div>
+
+            <div className="map-card scroll-animate-fade">
+              <h3>
+                <i className="fas fa-map-marker-alt"></i> Orange County Truck
+                Stop
+              </h3>
+              <p>3100 S Standard Ave, Santa Ana, CA 92705</p>
+              <MapWithSkeleton
+                src="https://maps.google.com/maps?q=Orange%20County%20Truck%20Stop%20%26%20Warehousing&output=embed"
+                title="Map of Orange County Truck Stop and Warehousing"
+              />
+              <button
+                className="map-directions-btn"
+                onClick={() =>
+                  openDirections("Orange County Truck Stop & Warehousing")
+                }
+                aria-label="Get directions to Orange County Truck Stop & Warehousing"
+              >
+                <i className="fas fa-directions"></i>
+                Get Directions
+              </button>
+            </div>
+
+            <div className="map-card scroll-animate-fade">
+              <h3>
+                <i className="fas fa-map-marker-alt"></i> K&C Alton Branch
+              </h3>
+              <p>133 E Alton Ave, Santa Ana, CA 92707</p>
+              <MapWithSkeleton
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3317.2!2d-117.8670!3d33.7420!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcd7e1a0b8c6d5%3A0x3456789012cdefgh!2s133%20E%20Alton%20Ave%2C%20Santa%20Ana%2C%20CA%2092707!5e0!3m2!1sen!2sus!4v1234567892"
+                title="Map of K&C Logistics Alton Branch"
+              />
+              <button
+                className="map-directions-btn"
+                onClick={() =>
+                  openDirections(
+                    "K&C Alton Branch, 133 E Alton Ave, Santa Ana CA"
+                  )
+                }
+                aria-label="Get directions to K&C Alton Branch"
+              >
+                <i className="fas fa-directions"></i>
+                Get Directions
+              </button>
             </div>
           </div>
         </div>
