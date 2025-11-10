@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
+import MobileStickyBar from "@/components/MobileStickyBar";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -63,6 +64,7 @@ export default function RootLayout({
         <Footer />
         <CookieConsent />
         <WhatsAppWidget />
+        <MobileStickyBar />
 
         {/* Google Analytics 4 */}
         {process.env.NEXT_PUBLIC_GA_ID && (
