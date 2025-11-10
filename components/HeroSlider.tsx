@@ -180,7 +180,7 @@ export default function HeroSlider() {
                   loop
                   muted
                   playsInline
-                  preload="auto"
+                  preload={index === currentSlide ? "auto" : "metadata"}
                   poster={slide.poster ?? defaultPoster}
                   onCanPlay={() => {
                     if (index === currentSlide) {

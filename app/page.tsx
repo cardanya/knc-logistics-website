@@ -27,6 +27,8 @@ export default function Home() {
     message: string;
     type: ToastType;
   } | null>(null);
+  const successTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Refs for form inputs
   const serviceRef = useRef<HTMLSelectElement>(null);
@@ -55,6 +57,17 @@ export default function Home() {
     animateElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (successTimeoutRef.current) {
+        clearTimeout(successTimeoutRef.current);
+      }
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
+    };
   }, []);
 
   const toggleFAQ = (index: number) => {
@@ -159,8 +172,12 @@ export default function Home() {
       });
 
       // Clear success message after 5 seconds
-      setTimeout(() => {
+      if (successTimeoutRef.current) {
+        clearTimeout(successTimeoutRef.current);
+      }
+      successTimeoutRef.current = setTimeout(() => {
         setFormStatus("idle");
+        successTimeoutRef.current = null;
       }, 5000);
     } catch (error) {
       setIsLoading(false);
@@ -175,8 +192,12 @@ export default function Home() {
       });
 
       // Clear error message after 7 seconds
-      setTimeout(() => {
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
+      errorTimeoutRef.current = setTimeout(() => {
         setFormStatus("idle");
+        errorTimeoutRef.current = null;
       }, 7000);
     }
   };
@@ -232,10 +253,10 @@ export default function Home() {
             wasted time. It&rsquo;s how K&amp;C Logistics keeps your supply
             chain moving smoothly.
           </p>
-          <Link href="tel:7145882005" className="cta-call-btn">
+          <a href="tel:7145882005" className="cta-call-btn">
             <i className="fas fa-phone-alt"></i>
             <span>Call Us: (714) 588-2005</span>
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -747,14 +768,14 @@ export default function Home() {
             Logistics - your trusted partner for freight consolidation,
             transloading, and complete supply chain optimization.
           </p>
-          <Link
+          <a
             href="tel:7145882005"
             className="btn btn-primary"
             style={{ background: "var(--accent-color)" }}
           >
             <i className="fas fa-phone-alt"></i>
             <span>Call Us Now</span>
-          </Link>
+          </a>
         </div>
       </section>
 

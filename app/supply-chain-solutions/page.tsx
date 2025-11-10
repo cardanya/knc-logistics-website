@@ -204,10 +204,10 @@ export default function SupplyChainSolutions() {
             solutions.
           </p>
           <div className="service-cta-buttons">
-            <Link href="tel:7145882005" className="btn btn-primary">
+            <a href="tel:7145882005" className="btn btn-primary">
               <i className="fas fa-phone-alt"></i>
               Call (714) 588-2005
-            </Link>
+            </a>
             <Link href="/#contact" className="btn btn-secondary">
               Request Quote
             </Link>
