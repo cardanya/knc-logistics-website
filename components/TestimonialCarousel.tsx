@@ -15,26 +15,8 @@ interface TestimonialCarouselProps {
 export default function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [cardsPerView, setCardsPerView] = useState(3);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const SCROLL_INTERVAL = 5000; // 5 seconds
-
-  // Update cards per view based on window width
-  useEffect(() => {
-    const updateCardsPerView = () => {
-      if (window.innerWidth <= 768) {
-        setCardsPerView(1);
-      } else if (window.innerWidth <= 1024) {
-        setCardsPerView(2);
-      } else {
-        setCardsPerView(3);
-      }
-    };
-
-    updateCardsPerView();
-    window.addEventListener('resize', updateCardsPerView);
-    return () => window.removeEventListener('resize', updateCardsPerView);
-  }, []);
 
   const startAutoScroll = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -83,7 +65,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
         <div
           className="testimonial-carousel-track"
           style={{
-            transform: `translateX(-${(currentIndex * 100) / cardsPerView}%)`,
+            transform: `translateX(-${currentIndex * 100}%)`, // Always move a full card width (single card view)
             transition: "transform 0.8s ease-in-out",
           }}
         >
