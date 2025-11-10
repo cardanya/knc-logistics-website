@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+// Quick action buttons exposed on the sticky CTA bar
 const quickActions = [
   {
     label: "Call",
