@@ -109,6 +109,12 @@
   --text-color: #4a4849;
   --card-bg: #ffffff;
   --border-color: #e5e7eb;
+  --header-height: 80px;
+  --sticky-bar-height: 64px;
+  --z-header: 50;
+  --z-whatsapp: 40;
+  --z-sticky: 30;
+  --z-content: 10;
 }
 
 [data-theme="dark"] {
@@ -133,6 +139,9 @@ body {
   background-color: var(--bg-color);
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+  min-height: 100%;
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
 }
 
 a {
@@ -145,6 +154,7 @@ a:hover {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
 }
 
 h1,
@@ -175,6 +185,11 @@ p {
   line-height: 1.7;
 }
 
+main {
+  position: relative;
+  z-index: var(--z-content);
+}
+
 main > section {
   padding-left: clamp(1.5rem, 4vw, 3rem);
   padding-right: clamp(1.5rem, 4vw, 3rem);
@@ -185,6 +200,13 @@ main > section.hero-slider {
   padding-right: 0;
 }
 
+a:focus-visible,
+button:focus-visible,
+.sticky-bar-btn:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
 /* Header & Navigation */
 header {
   background: var(--card-bg);
@@ -192,7 +214,8 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 1000;
+  z-index: var(--z-header);
+  min-height: var(--header-height);
   transition: all 0.3s ease;
 }
 
@@ -200,6 +223,7 @@ nav {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.5rem 2rem;
+  min-height: var(--header-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -370,11 +394,10 @@ nav {
 /* Hero Slider */
 .hero-slider {
   position: relative;
-  height: 70vh;
-  min-height: 500px;
-  max-height: 700px;
+  min-height: clamp(520px, 75vh, 820px);
   overflow: hidden;
-  margin-top: 80px;
+  margin-top: 0;
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
 }
 
 .slider-container {
@@ -446,31 +469,34 @@ nav {
 
 .hero-content {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
+  text-align: left;
   color: var(--white);
   z-index: 3;
   max-width: 900px;
-  width: 90%;
-  padding: 2rem;
+  width: min(92%, 48rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
   margin-bottom: 1.5rem;
   line-height: 1.2;
   font-weight: 800;
   animation: fadeInUp 1s ease;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  max-width: 14ch;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .hero-description {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 2vw, 1.25rem);
   margin-bottom: 2.5rem;
   opacity: 0.95;
-  line-height: 1.8;
+  line-height: 1.6;
   animation: fadeInUp 1s ease 0.2s both;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
@@ -524,7 +550,7 @@ nav {
 /* Slide Indicators */
 .slide-indicators {
   position: absolute;
-  bottom: 2rem;
+  bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -557,9 +583,10 @@ nav {
 /* Slider Navigation Buttons */
 .slider-nav-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
+  top: auto;
+  bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  transform: none;
+  z-index: var(--z-content);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.25);
@@ -1133,6 +1160,10 @@ nav {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s;
   border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 100%;
 }
 
 .testimonial-card:hover {
@@ -1191,7 +1222,7 @@ nav {
   position: relative;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 60px;
+  padding: 0 60px 5rem;
 }
 
 .testimonial-carousel-container {
@@ -1201,8 +1232,10 @@ nav {
 
 .testimonial-carousel-track {
   display: flex;
+  align-items: stretch;
   gap: 2rem;
   will-change: transform;
+  transition: min-height 0.3s ease;
 }
 
 .testimonial-carousel-track .testimonial-card {
@@ -1212,8 +1245,9 @@ nav {
 
 .carousel-nav-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 1.5rem;
+  top: auto;
+  transform: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -1238,18 +1272,22 @@ nav {
 }
 
 .carousel-prev {
-  left: 0;
+  left: 0.5rem;
 }
 
 .carousel-next {
-  right: 0;
+  right: 0.5rem;
 }
 
 .carousel-indicators {
   display: flex;
   justify-content: center;
   gap: 0.8rem;
-  margin-top: 2rem;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0.25rem;
+  transform: translateX(-50%);
 }
 
 .carousel-indicator {
@@ -1448,15 +1486,17 @@ nav {
 
 .address-entry {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
   margin-top: 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--white);
   transition: all 0.3s;
+  width: 100%;
 }
 
 .address-entry:first-of-type {
@@ -1464,7 +1504,7 @@ nav {
 }
 
 .address-entry > div {
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .address-entry strong {
@@ -1477,6 +1517,7 @@ nav {
   display: block;
   color: var(--gray);
   font-size: 0.9rem;
+  white-space: normal;
 }
 
 .address-entry:hover {
@@ -1496,6 +1537,8 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .address-directions-btn:hover {
@@ -1615,13 +1658,13 @@ nav {
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5rem;
 }
 
 .map-card h3 i {
   color: var(--accent-color);
   font-size: 1.1rem;
+  margin-left: auto;
 }
 
 .map-card p {
@@ -2053,8 +2096,7 @@ footer {
   }
 
   .carousel-indicators {
-    margin-top: 2rem;
-    justify-content: center;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
   }
 
   .contact-item {
@@ -2068,15 +2110,11 @@ footer {
   }
 
   .address-entry {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1rem;
   }
 
   .address-directions-btn {
-    width: 100%;
-    margin-top: 0.75rem;
+    min-height: 46px;
   }
 
   .cta h2 {
@@ -2456,7 +2494,7 @@ footer {
   position: fixed;
   bottom: calc(16px + env(safe-area-inset-bottom));
   right: 16px;
-  z-index: 99999;
+  z-index: var(--z-whatsapp);
 }
 
 .whatsapp-button {
@@ -2554,10 +2592,11 @@ footer {
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.08);
   display: none;
-  z-index: 9999;
+  z-index: var(--z-sticky);
   gap: 0.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px);
+  min-height: var(--sticky-bar-height);
 }
 
 .mobile-sticky-bar .sticky-bar-btn {
@@ -2573,6 +2612,7 @@ footer {
   text-decoration: none;
   color: var(--dark);
   font-weight: 600;
+  min-height: 44px;
 }
 
 .mobile-sticky-bar .sticky-bar-btn i {
@@ -2584,6 +2624,10 @@ footer {
   .mobile-sticky-bar {
     display: flex;
     padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  }
+
+  .whatsapp-widget {
+    bottom: calc(var(--sticky-bar-height) + 20px + env(safe-area-inset-bottom, 0px));
   }
 }
 
