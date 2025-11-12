@@ -29,55 +29,74 @@ export default function About() {
         </section>
 
         {/* About Section */}
-        <section className="about-page" id="about">
+        <section className="about-page about-page-full" id="about">
           <div className="about-container">
-            <div className="about-content scroll-animate-right">
-              <h1>Leading Cross Docking & Logistics Solutions Provider</h1>
+            <div className="about-content">
+              <h1>Your Trusted Partner in Logistics &amp; Supply Chain Excellence</h1>
+              <h2>Delivering Reliable, Efficient, and End-to-End Logistics Solutions</h2>
               <p>
-                K&C Logistics is Orange County&apos;s premier cross docking and
-                logistics service provider, strategically located in Santa Ana,
-                California. With over 20 years of industry expertise, we specialize
-                in efficient cross docking operations, comprehensive warehousing
-                solutions, professional truck parking, and reliable freight
-                transportation services.
+                At K&amp;C Logistics, we are committed to offering reliable and scalable logistics solutions that help businesses move freight faster, store smarter, and operate more efficiently. Based in Orange County, California, we specialize in warehousing, trucking, cross docking, truck parking, and integrated supply chain services designed to support carriers, 3PLs, manufacturers, and distributors across the region.
               </p>
               <p>
-                Our state-of-the-art facilities and expert team provide seamless
-                cargo handling, just-in-time delivery solutions, and strategic
-                logistics planning. From dock-to-dock operations to complete
-                supply chain optimization, we deliver reliable, cost-effective
-                freight management services that drive business growth and
-                operational excellence.
+                With a customer-first approach, professional handling, and 24/7 operational support, we ensure every shipment, pallet, and vehicle is managed with precision. Our mission is to deliver logistics services that are dependable, flexible, cost-efficient, and built for real-world demands. As a growing logistics provider, we continue to invest in secure facilities, advanced yard management processes, and a team dedicated to making supply chain operations smoother for every client we serve.
               </p>
 
               <div className="values-grid">
                 <div className="value-item">
-                  <i className="fas fa-shield-alt"></i>
-                  <div>
-                    <h3>Reliability</h3>
-                    <p>20 years of industry experience</p>
-                  </div>
-                </div>
-                <div className="value-item">
-                  <i className="fas fa-clock"></i>
-                  <div>
-                    <h3>Speed</h3>
-                    <p>On-time delivery guarantee</p>
-                  </div>
-                </div>
-                <div className="value-item">
                   <i className="fas fa-handshake"></i>
                   <div>
-                    <h3>Professionalism</h3>
-                    <p>Expert team and service</p>
+                    <h3>Integrity &amp; Transparency</h3>
+                    <p>We communicate clearly, stay accountable, and prioritize trust in every partnership.</p>
                   </div>
                 </div>
                 <div className="value-item">
-                  <i className="fas fa-chart-line"></i>
+                  <i className="fas fa-shield-alt"></i>
                   <div>
-                    <h3>Efficiency</h3>
-                    <p>Optimized process management</p>
+                    <h3>Reliability &amp; Consistency</h3>
+                    <p>From storage to transport, we operate with precision and deliver on time.</p>
                   </div>
+                </div>
+                <div className="value-item">
+                  <i className="fas fa-users"></i>
+                  <div>
+                    <h3>Customer-First Service</h3>
+                    <p>Your operations come first. We adapt to your schedule, volume, and needs.</p>
+                  </div>
+                </div>
+                <div className="value-item">
+                  <i className="fas fa-expand-alt"></i>
+                  <div>
+                    <h3>Scalable Solutions</h3>
+                    <p>From single loads to full supply chain management, our services grow with you.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mission-block">
+                <h3>Mission Statement</h3>
+                <p>
+                  To simplify logistics by providing secure, fast, and dependable solutions that support the success of our partners and the communities we serve.
+                </p>
+              </div>
+
+              <div className="operation-area">
+                <h3>Where We Operate</h3>
+                <p>
+                  Proudly serving Orange County and Southern California, with easy access to major freeways including I-5, 405, and 55.
+                </p>
+              </div>
+
+              <div className="about-cta">
+                <p>
+                  Want to partner with a logistics team you can depend on? We&apos;re here to support your warehousing, trucking, and supply chain needs.
+                </p>
+                <div className="about-cta-buttons">
+                  <Link href="/contact" className="btn btn-primary">
+                    Get a Quote
+                  </Link>
+                  <a href="tel:7145882005" className="btn btn-secondary">
+                    Call/Text Us
+                  </a>
                 </div>
               </div>
             </div>
@@ -103,8 +122,9 @@ export default function About() {
                   Modern warehouse facilities with climate control, inventory
                   management, and flexible storage solutions for short and long-term needs.
                 </p>
-                <Link href="/warehousing-services" className="btn btn-link">
-                  Learn More →
+                <Link href="/warehousing-services" className="learn-more-btn">
+                  <span>Learn More</span>
+                  <i className="fas fa-arrow-right"></i>
                 </Link>
               </div>
 
@@ -117,8 +137,24 @@ export default function About() {
                   Reliable trucking with flexible capacity, dispatch support,
                   and on-time delivery for local and regional routes.
                 </p>
-                <Link href="/trucking" className="btn btn-link">
-                  Learn More →
+                <Link href="/trucking" className="learn-more-btn">
+                  <span>Learn More</span>
+                  <i className="fas fa-arrow-right"></i>
+                </Link>
+              </div>
+
+              <div className="service-feature-card">
+                <div className="feature-icon">
+                  <i className="fas fa-network-wired"></i>
+                </div>
+                <h3>Supply Chain Solutions</h3>
+                <p>
+                  End-to-end supply chain management with real-time tracking, freight
+                  consolidation, and complete logistics optimization.
+                </p>
+                <Link href="/supply-chain-solutions" className="learn-more-btn">
+                  <span>Learn More</span>
+                  <i className="fas fa-arrow-right"></i>
                 </Link>
               </div>
 
@@ -131,29 +167,15 @@ export default function About() {
                   Secure 24/7 truck parking with spacious lots, staging areas,
                   and convenient access to major highways.
                 </p>
-                <Link href="/truck-parking" className="btn btn-link">
-                  Learn More →
-                </Link>
-              </div>
-
-              <div className="service-feature-card">
-                <div className="feature-icon">
-                  <i className="fas fa-truck-loading"></i>
-                </div>
-                <h3>Cross Docking</h3>
-                <p>
-                  Fast load transfers, freight consolidation, and repalletizing
-                  services to minimize dwell time and optimize operations.
-                </p>
-                <Link href="/cross-docking" className="btn btn-link">
-                  Learn More →
+                <Link href="/truck-parking" className="learn-more-btn">
+                  <span>Learn More</span>
+                  <i className="fas fa-arrow-right"></i>
                 </Link>
               </div>
             </div>
           </div>
         </section>
-
-        {/* CTA Section */}
+        {/* Main CTA Section */}
         <section className="service-cta">
           <div className="service-cta-content">
             <h2>Ready to Optimize Your Logistics?</h2>
@@ -169,6 +191,15 @@ export default function About() {
               <Link href="/contact" className="btn btn-secondary">
                 Contact Us
               </Link>
+              <a
+                href="https://wa.me/17145882005"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+              >
+                <i className="fab fa-whatsapp"></i>
+                WhatsApp
+              </a>
             </div>
           </div>
         </section>

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.knclogistics.com";
-  const lastmod = "2025-11-07";
+  const lastmod = new Date().toISOString();
 
   const pages: Array<{ url: string; priority: number; changeFrequency: "yearly" | "monthly" | "weekly" | "daily" }> = [
     { url: "/", priority: 1.0, changeFrequency: "weekly" },

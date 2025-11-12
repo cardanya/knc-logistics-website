@@ -246,17 +246,20 @@ export default function Home() {
           <div className="cta-icon">
             <i className="fas fa-truck-loading"></i>
           </div>
-          <h2>Cross Docking Services for Your Business</h2>
+          <h2>Need Immediate Cross Docking Support?</h2>
           <p>
-            Cross-Docking keeps operations fast and efficient by moving goods
-            directly from inbound to outbound trucks, no warehouse delay, no
-            wasted time. It&rsquo;s how K&amp;C Logistics keeps your supply
-            chain moving smoothly.
+            Contact our operations team for same-day transfer and keep your
+            freight moving without warehouse delays.
           </p>
-          <a href="tel:7145882005" className="cta-call-btn">
-            <i className="fas fa-phone-alt"></i>
-            <span>Call Us: (714) 588-2005</span>
-          </a>
+          <div className="cta-buttons">
+            <Link href="/cross-docking" className="btn btn-primary">
+              Learn More
+            </Link>
+            <a href="tel:7145882005" className="btn btn-secondary">
+              <i className="fas fa-phone-alt"></i>
+              Call/Text Us
+            </a>
+          </div>
         </div>
       </section>
 
@@ -277,30 +280,28 @@ export default function Home() {
             <div className="service-icon">
               <i className="fas fa-warehouse"></i>
             </div>
-            <h3>Warehousing & Distribution Services</h3>
+            <h3>Warehousing & Distribution</h3>
             <p>
-              State-of-the-art warehouse facilities offering secure storage,
-              advanced inventory management, and efficient distribution
-              solutions. Our warehousing services include cross docking
-              capabilities, freight handling, and strategic distribution center
-              operations to optimize your supply chain.
+              Secure, scalable storage in Orange County with 24/7 access,
+              inventory management, and seamless inbound/outbound coordination
+              to keep your products protected and delivered on schedule.
             </p>
             <ul className="service-features">
               <li>
-                <i className="fas fa-check-circle"></i> Climate-controlled
-                storage facilities
+                <i className="fas fa-check-circle"></i> Short &amp; long-term
+                pallet storage
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Real-time inventory
-                management systems
+                <i className="fas fa-check-circle"></i> Inventory tracking &amp;
+                reporting
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Multi-dock loading
-                facilities
+                <i className="fas fa-check-circle"></i> Inbound / outbound
+                coordination
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Flexible short &
-                long-term storage
+                <i className="fas fa-check-circle"></i> Palletizing &amp; SKU
+                organization
               </li>
             </ul>
             <Link href="/warehousing-services" className="learn-more-btn">
@@ -340,25 +341,28 @@ export default function Home() {
             <div className="service-icon">
               <i className="fas fa-truck-moving"></i>
             </div>
-            <h3>Professional Trucking Services</h3>
+            <h3>Trucking Services</h3>
             <p>
-              Reliable trucking solutions with flexible capacity, professional
-              dispatch support, and on-time delivery throughout Orange County
-              and Southern California. Our experienced drivers and well-maintained
-              fleet ensure safe, efficient freight transportation for your business.
+              Keep freight moving with experienced drivers, a well-maintained
+              fleet, and real-time tracking for local and regional routes across
+              Southern California.
             </p>
             <ul className="service-features">
               <li>
-                <i className="fas fa-check-circle"></i> Local & regional route coverage
+                <i className="fas fa-check-circle"></i> Local &amp; regional
+                delivery
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Professional dispatch & tracking
+                <i className="fas fa-check-circle"></i> LTL &amp; FTL transport
+                options
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Flexible capacity options
+                <i className="fas fa-check-circle"></i> Same-day and scheduled
+                pickups
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Reliable on-time delivery
+                <i className="fas fa-check-circle"></i> 24/7 dispatch and
+                tracking
               </li>
             </ul>
             <Link href="/trucking" className="learn-more-btn">
@@ -376,28 +380,26 @@ export default function Home() {
             </div>
             <h3>Supply Chain & Logistics Management</h3>
             <p>
-              Complete supply chain solutions with integrated cross docking,
-              freight consolidation, and transloading services. We optimize
-              logistics operations through strategic planning, advanced tracking
-              systems, and efficient cargo handling to reduce costs and improve
-              delivery performance across your distribution network.
+              Integrated supply chain solutions that combine warehousing,
+              trucking, cross docking, and real-time coordination to keep
+              freight moving and costs under control.
             </p>
             <ul className="service-features">
               <li>
-                <i className="fas fa-check-circle"></i> End-to-end supply chain
-                management
+                <i className="fas fa-check-circle"></i> End-to-end freight
+                coordination
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Real-time freight
-                tracking & visibility
+                <i className="fas fa-check-circle"></i> Warehousing &amp;
+                inventory management
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Cross docking &
-                consolidation services
+                <i className="fas fa-check-circle"></i> LTL / FTL trucking
+                support
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Just-in-time delivery
-                optimization
+                <i className="fas fa-check-circle"></i> Real-time visibility and
+                tracking
               </li>
             </ul>
             <Link href="/supply-chain-solutions" className="learn-more-btn">
@@ -437,30 +439,28 @@ export default function Home() {
             <div className="service-icon">
               <i className="fas fa-parking"></i>
             </div>
-            <h3>Professional Truck Parking & Staging</h3>
+            <h3>Truck Parking</h3>
             <p>
-              Secure truck parking and freight staging solutions with 24/7
-              access for commercial vehicles. Our facilities support cross
-              docking operations, transloading activities, and temporary freight
-              storage with convenient access for efficient logistics operations
-              and cargo transfer.
+              Secure 24/7 yard storage with gated access, HD surveillance, and
+              flexible daily, weekly, or monthly parking for semi-trucks,
+              trailers, box trucks, and commercial fleets.
             </p>
             <ul className="service-features">
               <li>
-                <i className="fas fa-check-circle"></i> 24/7 secure truck
-                parking access
+                <i className="fas fa-check-circle"></i> 24/7 gated access &
+                cameras
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Monitored facilities
-                with security
+                <i className="fas fa-check-circle"></i> Dedicated spaces for
+                truck & trailer
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Staging areas for
-                freight operations
+                <i className="fas fa-check-circle"></i> Flexible
+                daily/weekly/monthly rates
               </li>
               <li>
-                <i className="fas fa-check-circle"></i> Strategic location for
-                distribution
+                <i className="fas fa-check-circle"></i> Quick access to I-5,
+                405, and 55
               </li>
             </ul>
             <Link href="/truck-parking" className="learn-more-btn">
@@ -477,19 +477,18 @@ export default function Home() {
           <div className="cta-icon">
             <i className="fas fa-truck-loading"></i>
           </div>
-          <h2>Need Fast Cross Docking Services?</h2>
+          <h2>Need Immediate Cross Docking Support?</h2>
           <p>
-            Minimize dwell time with our efficient cross docking operations.
-            Quick transfers, freight consolidation, repalletizing, and staging
-            services to keep your supply chain moving.
+            Same-day transfers, consolidation, and repalletizing to keep your
+            shipments on schedule.
           </p>
           <div className="cta-buttons">
             <Link href="/cross-docking" className="btn btn-primary">
-              Learn More About Cross Docking
+              Learn More
             </Link>
             <a href="tel:7145882005" className="btn btn-secondary">
               <i className="fas fa-phone-alt"></i>
-              Call (714) 588-2005
+              Call/Text Us
             </a>
           </div>
         </div>
@@ -509,50 +508,51 @@ export default function Home() {
             />
           </div>
           <div className="about-content">
-            <h2>Leading Cross Docking & Logistics Solutions Provider</h2>
+            <h2>
+              Your Trusted Partner in Logistics &amp; Supply Chain Excellence
+            </h2>
             <p>
-              K&C Logistics specializes in professional cross docking services,
-              freight consolidation, and comprehensive supply chain management
-              solutions. With over 20 years of experience in warehousing,
-              transloading, and distribution operations, we help businesses
-              optimize their logistics processes, reduce operational costs, and
-              improve delivery efficiency.
+              At K&amp;C Logistics, we deliver reliable, scalable logistics
+              solutions that help businesses move freight faster, store smarter,
+              and operate more efficiently. From warehousing and trucking to
+              truck parking, cross docking, and supply chain support, our Orange
+              County team keeps your freight on schedule with 24/7 visibility.
             </p>
             <p>
-              Our state-of-the-art facilities and expert team provide seamless
-              cargo handling, just-in-time delivery solutions, and strategic
-              logistics planning. From dock-to-dock operations to complete
-              supply chain optimization, we deliver reliable, cost-effective
-              freight management services that drive business growth and
-              operational excellence.
+              With a customer-first mindset and professional handling, every
+              shipment, pallet, and vehicle is managed with precision. We
+              continue to invest in secure facilities, advanced yard processes,
+              and a dedicated team to keep logistics simple for our partners.
             </p>
             <div className="values-grid">
               <div className="value-item">
-                <i className="fas fa-shield-alt"></i>
-                <div>
-                  <h4>Reliability</h4>
-                  <p>20 years of industry experience</p>
-                </div>
-              </div>
-              <div className="value-item">
-                <i className="fas fa-clock"></i>
-                <div>
-                  <h4>Speed</h4>
-                  <p>On-time delivery guarantee</p>
-                </div>
-              </div>
-              <div className="value-item">
                 <i className="fas fa-handshake"></i>
                 <div>
-                  <h4>Professionalism</h4>
-                  <p>Expert team and service</p>
+                  <h4>Integrity &amp; Transparency</h4>
+                  <p>
+                    Clear communication and accountability in every project.
+                  </p>
                 </div>
               </div>
               <div className="value-item">
-                <i className="fas fa-chart-line"></i>
+                <i className="fas fa-shield-alt"></i>
                 <div>
-                  <h4>Efficiency</h4>
-                  <p>Optimized process management</p>
+                  <h4>Reliability &amp; Consistency</h4>
+                  <p>Precision operations from storage to transport.</p>
+                </div>
+              </div>
+              <div className="value-item">
+                <i className="fas fa-users"></i>
+                <div>
+                  <h4>Customer-First Service</h4>
+                  <p>We adapt to your schedule, volume, and requirements.</p>
+                </div>
+              </div>
+              <div className="value-item">
+                <i className="fas fa-expand-alt"></i>
+                <div>
+                  <h4>Scalable Solutions</h4>
+                  <p>From single loads to full supply chain management.</p>
                 </div>
               </div>
             </div>
@@ -823,8 +823,6 @@ export default function Home() {
         </div>
       </section>
 
-
-
       {/* CTA Section */}
       <section className="cta scroll-animate">
         <div className="cta-content">
@@ -858,44 +856,82 @@ export default function Home() {
         <div className="faq-container">
           {[
             {
-              question: "What types of vehicles can I park at your facilities?",
+              question: "What services does K&C Logistics provide?",
               answer:
-                "We accommodate all types of commercial vehicles including semi-trucks with trailers, solo tractors, trailers only, and box trucks. Our facilities have ample space for vehicles of various sizes.",
+                "We offer warehousing, trucking, cross docking, truck parking, pallet handling, lumping, and complete supply chain solutions.",
             },
             {
-              question: "Do you offer 24/7 access to parking and warehousing?",
+              question: "Do you offer 24/7 truck parking access?",
               answer:
-                "Yes! We provide 24/7 access to both our parking facilities and warehousing services. You can access your vehicle or inventory whenever you need it, day or night.",
+                "Yes. Our gated truck yards provide secure 24/7 access with HD camera surveillance and on-site staff.",
             },
             {
-              question: "What security measures do you have in place?",
+              question: "What types of vehicles can park at your yard?",
               answer:
-                "Our facilities feature 24/7 video surveillance, well-lit parking areas, secure fencing, and regular security patrols. We take the safety of your vehicles and cargo very seriously.",
+                "We accommodate semi-trucks, trailers, box trucks, sprinter vans, flatbeds, and other commercial vehicles.",
             },
             {
-              question: "How do I make a parking reservation?",
+              question:
+                "Do you offer daily, weekly, and monthly parking rates?",
               answer:
-                "You can easily book parking through our online booking system. Simply select your location, vehicle type, dates, and payment method. You'll receive immediate confirmation of your reservation.",
+                "Yes. We provide flexible parking packages including daily, weekly, and monthly options to fit your needs.",
             },
             {
-              question: "What warehousing services do you provide?",
+              question: "How secure is your truck parking facility?",
               answer:
-                "We offer comprehensive warehousing services including short and long-term storage, inventory management, cross-docking, transloading, palletizing, and order fulfillment. Our modern facilities are equipped to handle various storage needs.",
+                "Every yard is gated with controlled entry, HD surveillance, yard lighting, and staffed support for added security.",
             },
             {
-              question: "Do you offer monthly parking rates?",
+              question: "Do you provide cross docking services?",
               answer:
-                "Yes, we offer competitive daily, weekly, and monthly parking rates. Monthly rates provide the best value for long-term parking needs. Contact us for current pricing and any available discounts.",
+                "Yes. We offer truck-to-truck transfers, repalletizing, relabeling, sorting, and same-day cross docking support.",
+            },
+            {
+              question: "Can I store pallets short-term or long-term?",
+              answer:
+                "Absolutely. Our warehousing team can hold pallets for short-term overflow or long-term storage with inventory tracking.",
+            },
+            {
+              question: "Do you offer repalletizing and pallet rebuilding?",
+              answer:
+                "Yes, we handle pallet rebuilds, wrapping, sorting, and reconfiguration based on your requirements.",
+            },
+            {
+              question: "Do you offer LTL and FTL trucking?",
+              answer:
+                "Yes. We run local and regional LTL/FTL routes with same-day pickup options and scheduled deliveries.",
+            },
+            {
+              question:
+                "Can I coordinate inbound/outbound shipments with your warehouse?",
+              answer:
+                "Definitely. We manage inbound receiving, outbound loading, staging, and distribution coordination.",
+            },
+            {
+              question: "Do you offer supply chain consulting or optimization?",
+              answer:
+                "Yes. Our logistics specialists provide end-to-end supply chain analysis, cost optimization, and planning.",
+            },
+            {
+              question: "Are same-day services available?",
+              answer:
+                "Many services—including cross docking, trucking, and pallet rebuilds—can be scheduled same day based on availability.",
+            },
+            {
+              question: "How do I get a quote for your services?",
+              answer:
+                "Request pricing through our Get a Quote form, call us directly, or text our team for faster communication.",
             },
             {
               question: "Where are your facilities located?",
               answer:
-                "We have three convenient locations in Orange County: our main facility on Daimler St in Santa Ana, Orange County Truck Stop on S Standard Ave, and our Alton Branch location. All locations offer easy access to major highways and ports.",
+                "We operate in Orange County, CA with easy access to I-5, I-405, and CA-55 for convenient logistics.",
             },
             {
-              question: "What payment methods do you accept?",
+              question:
+                "Do you work with carriers, 3PLs, and distribution companies?",
               answer:
-                "We accept cash, Zelle, and online payments for your convenience. Payment is typically required at the time of booking or check-in.",
+                "Yes. We support carriers, brokers, 3PLs, e-commerce shippers, manufacturers, and distributors of every size.",
             },
           ].map((faq, index) => (
             <div
@@ -930,18 +966,20 @@ export default function Home() {
         </div>
       </section>
 
-
-
       {/* Maps Section */}
       <section className="maps-section">
-        <div className="section-header scroll-animate" style={{ marginTop: "4rem" }}>
+        <div
+          className="section-header scroll-animate"
+          style={{ marginTop: "4rem" }}
+        >
           <h2>Our Locations</h2>
           <p>Visit us at any of our three convenient Orange County locations</p>
         </div>
         <div className="maps-grid">
           <div className="map-card scroll-animate-fade">
             <h3>
-              <i className="fas fa-map-marker-alt"></i> K&C Warehousing & Trucking
+              <i className="fas fa-map-marker-alt"></i> K&C Warehousing &
+              Trucking
             </h3>
             <p>3060 Daimler St, Santa Ana, CA 92705</p>
             <MapWithSkeleton
@@ -973,7 +1011,9 @@ export default function Home() {
             />
             <button
               className="map-directions-btn"
-              onClick={() => openDirections("Orange County Truck Stop & Warehousing")}
+              onClick={() =>
+                openDirections("Orange County Truck Stop & Warehousing")
+              }
               aria-label="Get directions to Orange County Truck Stop & Warehousing"
             >
               <i className="fas fa-directions"></i>
@@ -993,7 +1033,9 @@ export default function Home() {
             <button
               className="map-directions-btn"
               onClick={() =>
-                openDirections("K&C Alton Branch, 133 E Alton Ave, Santa Ana CA")
+                openDirections(
+                  "K&C Alton Branch, 133 E Alton Ave, Santa Ana CA"
+                )
               }
               aria-label="Get directions to K&C Alton Branch"
             >
@@ -1003,8 +1045,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
 
       {/* Toast Notification */}
       {toast && (

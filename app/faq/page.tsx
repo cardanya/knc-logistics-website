@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Script from "next/script";
 import { useState } from "react";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 export default function FAQ() {
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
@@ -12,70 +14,96 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: "What types of vehicles can I park at your facilities?",
+      question: "What services does K&C Logistics provide?",
       answer:
-        "We accommodate all types of commercial vehicles including semi-trucks with trailers, solo tractors, trailers only, and box trucks. Our facilities have ample space for vehicles of various sizes.",
+        "We offer warehousing, trucking, cross docking, truck parking, pallet handling, lumping, and complete supply chain solutions.",
     },
     {
-      question: "Do you offer 24/7 access to parking and warehousing?",
+      question: "Do you offer 24/7 truck parking access?",
       answer:
-        "Yes! We provide 24/7 access to both our parking facilities and warehousing services. You can access your vehicle or inventory whenever you need it, day or night.",
+        "Yes. Our gated truck yards provide secure 24/7 access with HD camera surveillance and on-site support.",
     },
     {
-      question: "What security measures do you have in place?",
+      question: "What types of vehicles can park at your yard?",
       answer:
-        "Our facilities feature 24/7 video surveillance, well-lit parking areas, secure fencing, and regular security patrols. We take the safety of your vehicles and cargo very seriously.",
+        "We accommodate semi-trucks, trailers, box trucks, sprinter vans, flatbeds, and other commercial vehicles.",
     },
     {
-      question: "How do I make a parking reservation?",
+      question: "Do you offer daily, weekly, and monthly parking rates?",
       answer:
-        "You can easily book parking through our online booking system at orangecountytruckstop.com. Simply select your location, vehicle type, dates, and payment method. You'll receive immediate confirmation of your reservation. You can also call us at (714) 588-2005.",
+        "Yes. We provide flexible daily, weekly, and monthly parking options to match your scheduling needs.",
     },
     {
-      question: "What warehousing services do you provide?",
+      question: "How secure is your truck parking facility?",
       answer:
-        "We offer comprehensive warehousing services including short and long-term storage, inventory management, cross-docking, transloading, palletizing, and order fulfillment. Our modern facilities are equipped to handle various storage needs.",
+        "Every location has gated entry, HD surveillance, yard lighting, and controlled access for maximum security.",
     },
     {
-      question: "Do you offer monthly parking rates?",
+      question: "Do you provide cross docking services?",
       answer:
-        "Yes, we offer competitive daily, weekly, and monthly parking rates. Monthly rates provide the best value for long-term parking needs. Contact us for current pricing and any available discounts.",
+        "Yes. We offer truck-to-truck transfers, repalletizing, relabeling, sorting, and same-day cross docking support.",
+    },
+    {
+      question: "Can I store pallets short-term or long-term?",
+      answer:
+        "Absolutely. Our warehousing services cover short-term overflow and long-term pallet storage with inventory tracking.",
+    },
+    {
+      question: "Do you offer repalletizing and pallet rebuilding?",
+      answer:
+        "Yes, our team performs pallet rebuilds, stretch wrapping, sorting, and SKU reconfiguration to your specs.",
+    },
+    {
+      question: "Do you offer LTL and FTL trucking?",
+      answer:
+        "Yes. We provide local and regional LTL/FTL trucking, same-day pickup options, and scheduled delivery routes.",
+    },
+    {
+      question: "Can I coordinate inbound/outbound shipments with your warehouse?",
+      answer:
+        "Definitely. We handle inbound receiving, outbound loading, staging, and complete distribution support.",
+    },
+    {
+      question: "Do you offer supply chain consulting or optimization?",
+      answer:
+        "Yes. Our specialists provide end-to-end supply chain analysis, cost optimization, and logistics planning.",
+    },
+    {
+      question: "Are same-day services available?",
+      answer:
+        "Many services—cross docking, trucking, pallet rebuilds, select warehousing tasks—can be scheduled same day based on availability.",
+    },
+    {
+      question: "How do I get a quote for your services?",
+      answer:
+        "Submit our Get a Quote form, call us directly, or send a text for faster communication and pricing.",
     },
     {
       question: "Where are your facilities located?",
       answer:
-        "We have three convenient locations in Orange County: our main facility on Daimler St in Santa Ana, Orange County Truck Stop on S Standard Ave, and our Alton Branch location. All locations offer easy access to major highways and ports.",
+        "We operate in Orange County, California with easy access to I-5, I-405, and CA-55 for convenient logistics.",
     },
     {
-      question: "What payment methods do you accept?",
+      question: "Do you work with carriers, 3PLs, and distribution companies?",
       answer:
-        "We accept cash, Zelle, credit/debit cards, and online payments for your convenience. Payment is typically required at the time of booking or check-in.",
-    },
-    {
-      question: "What is cross docking and how does it work?",
-      answer:
-        "Cross docking is the process of transferring freight directly from inbound to outbound trucks with minimal or no storage time. We unload, sort, and reload cargo efficiently to reduce dwell time and transportation costs. This is ideal for time-sensitive shipments and freight consolidation.",
-    },
-    {
-      question: "Do you provide trucking services?",
-      answer:
-        "Yes, we offer reliable trucking services throughout Orange County and Southern California. Our services include local deliveries, regional routes, dedicated lanes, and flexible capacity options with professional dispatch support.",
-    },
-    {
-      question: "Can I visit your facilities before booking?",
-      answer:
-        "Absolutely! We welcome facility tours. Please call us at (714) 588-2005 to schedule a visit. Our team will be happy to show you our facilities and answer any questions you may have.",
-    },
-    {
-      question: "What are your cancellation policies?",
-      answer:
-        "Cancellation policies vary by service. For parking reservations, we typically require 24-hour notice for cancellations to receive a full refund. For warehousing and other services, please contact us to discuss specific terms and conditions.",
+        "Yes. We support carriers, brokers, 3PLs, e-commerce shippers, manufacturers, and distributors of all sizes.",
     },
   ];
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: "https://www.knclogistics.com/" },
+    { name: "FAQ", url: "https://www.knclogistics.com/faq" }
+  ]);
+
   return (
-    <main>
-      {/* Breadcrumb */}
+    <>
+      <Script
+        id="faq-breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <main>
+        {/* Breadcrumb */}
       <section className="breadcrumb">
         <div className="breadcrumb-container">
           <Link href="/">Home</Link>
@@ -86,7 +114,7 @@ export default function FAQ() {
 
       {/* FAQ Section */}
       <section className="faq" id="faq">
-        <div className="section-header scroll-animate">
+        <div className="section-header">
           <h1>Frequently Asked Questions</h1>
           <p>Find answers to common questions about our services</p>
         </div>
@@ -128,8 +156,8 @@ export default function FAQ() {
           <div className="service-cta-content">
             <h2>Still Have Questions?</h2>
             <p>
-              Can't find the answer you're looking for? Our team is here to help.
-              Contact us directly and we'll be happy to assist you.
+              Can&apos;t find the answer you&apos;re looking for? Our team is here to help.
+              Contact us directly and we&apos;ll be happy to assist you.
             </p>
             <div className="service-cta-buttons">
               <a href="tel:7145882005" className="btn btn-primary">
@@ -143,6 +171,7 @@ export default function FAQ() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

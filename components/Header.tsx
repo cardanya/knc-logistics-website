@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useLayoutEffect } from 'react';
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useLayoutEffect } from "react";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
 
   // Lazy initialization to prevent FOUC
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("theme") as "light" | "dark") || "light";
     }
-    return 'light';
+    return "light";
   });
 
   // useLayoutEffect runs synchronously before browser paint
   useLayoutEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   const toggleMobileMenu = () => {
@@ -54,12 +54,19 @@ export default function Header() {
           />
         </Link>
 
-        <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`} id="navLinks">
+        <ul
+          className={`nav-links ${mobileMenuOpen ? "active" : ""}`}
+          id="navLinks"
+        >
           <li>
-            <Link href="/" className="nav-link" onClick={closeMobileMenu}>Home</Link>
+            <Link href="/" className="nav-link" onClick={closeMobileMenu}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link href="/about" className="nav-link" onClick={closeMobileMenu}>About</Link>
+            <Link href="/about" className="nav-link" onClick={closeMobileMenu}>
+              About
+            </Link>
           </li>
           <li className="services-dropdown">
             <button
@@ -68,9 +75,18 @@ export default function Header() {
               aria-expanded={servicesDropdownOpen}
               aria-haspopup="true"
             >
-              Services <i className={`fas fa-chevron-down ${servicesDropdownOpen ? 'rotate' : ''}`}></i>
+              Services{" "}
+              <i
+                className={`fas fa-chevron-down ${
+                  servicesDropdownOpen ? "rotate" : ""
+                }`}
+              ></i>
             </button>
-            <ul className={`services-dropdown-menu ${servicesDropdownOpen ? 'active' : ''}`}>
+            <ul
+              className={`services-dropdown-menu ${
+                servicesDropdownOpen ? "active" : ""
+              }`}
+            >
               <li>
                 <Link href="/warehousing-services" onClick={closeMobileMenu}>
                   <i className="fas fa-warehouse"></i> Warehousing Services
@@ -83,7 +99,8 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/supply-chain-solutions" onClick={closeMobileMenu}>
-                  <i className="fas fa-network-wired"></i> Supply Chain Solutions
+                  <i className="fas fa-network-wired"></i> Supply Chain
+                  Solutions
                 </Link>
               </li>
               <li>
@@ -100,17 +117,25 @@ export default function Header() {
             </ul>
           </li>
           <li>
-            <Link href="/contact" className="contact-btn" onClick={closeMobileMenu}>Contact</Link>
+            <Link
+              href="/contact"
+              className="contact-btn"
+              onClick={closeMobileMenu}
+            >
+              Contact
+            </Link>
           </li>
           <li>
-            <Link href="/faq" className="nav-link" onClick={closeMobileMenu}>FAQ</Link>
+            <Link href="/faq" className="nav-link" onClick={closeMobileMenu}>
+              FAQ
+            </Link>
           </li>
         </ul>
 
         <div className="nav-right">
           <a href="tel:7145882005" className="emergency-call-btn">
             <i className="fas fa-phone-alt"></i>
-            <span className="emergency-text">Emergency Call?</span>
+            <span className="emergency-text">Need a Call?</span>
           </a>
           <button
             className="theme-toggle"
@@ -118,7 +143,7 @@ export default function Header() {
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
           >
-            <i className={`fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`}></i>
+            <i className={`fas ${theme === "dark" ? "fa-sun" : "fa-moon"}`}></i>
           </button>
           <button
             className="mobile-menu-btn"
@@ -126,7 +151,7 @@ export default function Header() {
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
-            <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+            <i className={`fas ${mobileMenuOpen ? "fa-times" : "fa-bars"}`}></i>
           </button>
         </div>
       </nav>

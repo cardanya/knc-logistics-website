@@ -46,14 +46,15 @@ export default function WarehousingServices() {
       <section className="service-detail-hero">
         <div className="service-hero-content">
           <div className="service-hero-text">
-            <h1>Warehousing & Distribution Services</h1>
+            <h1>Reliable Warehousing Solutions for Modern Supply Chains</h1>
+            <h2>Safe, Scalable, and Fully Managed Storage Services</h2>
             <p>
-              Professional warehousing solutions with modern facilities, advanced
-              inventory management, and efficient cross docking services. K&C
-              Logistics provides secure storage and distribution for businesses
-              throughout Orange County and beyond.
+              At K&amp;C Logistics, we offer secure and scalable warehousing services designed to support businesses of all sizes — from local distributors to nationwide carriers. Our Orange County facilities provide short-term and long-term storage, inventory management, and streamlined distribution to keep your products protected and delivered on time.
             </p>
-            <Link href="/#contact" className="btn btn-primary">
+            <p>
+              With 24/7 onsite staff, advanced surveillance, and seamless inbound/outbound coordination, we help you reduce operational stress, lower storage costs, and optimize every link in your supply chain.
+            </p>
+            <Link href="/contact" className="btn btn-primary">
               Get a Quote
             </Link>
           </div>
@@ -75,87 +76,40 @@ export default function WarehousingServices() {
       {/* Service Overview */}
       <section className="service-overview">
         <div className="service-overview-container">
-          <h2>Complete Warehousing Solutions</h2>
+          <h2>Our Warehousing Services Include:</h2>
           <p className="service-intro">
-            K&C Logistics operates state-of-the-art warehouse facilities designed
-            to meet the diverse needs of modern businesses. Our strategic location
-            in Santa Ana, California, provides easy access to major transportation
-            routes and ports, making us the ideal partner for your storage and
-            distribution needs.
+            Secure storage, inventory management, and distribution support tailored for fast-moving supply chains in Southern California.
           </p>
-
-          <div className="service-features-grid">
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-warehouse"></i>
-              </div>
-              <h3>Modern Facilities</h3>
-              <p>
-                Climate-controlled warehouses with advanced security systems,
-                24/7 monitoring, and flexible storage configurations to meet your
-                specific requirements.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-boxes"></i>
-              </div>
-              <h3>Inventory Management</h3>
-              <p>
-                Real-time tracking systems, barcode scanning, and comprehensive
-                inventory reports to keep you informed about your stock levels at
-                all times.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-truck-loading"></i>
-              </div>
-              <h3>Cross Docking</h3>
-              <p>
-                Efficient cross-docking services to minimize storage time and
-                reduce costs by transferring goods directly from inbound to
-                outbound shipments.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-dolly"></i>
-              </div>
-              <h3>Material Handling</h3>
-              <p>
-                Professional loading and unloading services with experienced
-                lumper crews and modern equipment for safe and efficient cargo
-                handling.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-chart-line"></i>
-              </div>
-              <h3>Scalable Solutions</h3>
-              <p>
-                Flexible storage options that grow with your business, from
-                short-term overflow to long-term warehousing contracts.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-shield-alt"></i>
-              </div>
-              <h3>Secure Storage</h3>
-              <p>
-                Advanced security measures including surveillance cameras, access
-                control systems, and insurance coverage for complete peace of
-                mind.
-              </p>
-            </div>
-          </div>
+          <ul className="capabilities-list">
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Short-term &amp; long-term pallet storage</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Inventory management &amp; reporting</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Inbound / outbound coordination</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Palletization &amp; repalletizing</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Labeling, sorting &amp; SKU organization</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Cross docking &amp; load transfer support</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Distribution &amp; last-mile delivery partnerships</span>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -199,19 +153,17 @@ export default function WarehousingServices() {
       {/* CTA Section */}
       <section className="service-cta">
         <div className="service-cta-content">
-          <h2>Ready to Optimize Your Warehousing?</h2>
+          <h2>Need Flexible Warehousing in Orange County?</h2>
           <p>
-            Contact K&C Logistics today to discuss your warehousing needs and get
-            a customized solution for your business.
+            Get fast, reliable storage solutions with 24/7 access and professional handling.
           </p>
           <div className="service-cta-buttons">
-            <a href="tel:7145882005" className="btn btn-primary">
-              <i className="fas fa-phone-alt"></i>
-              Call (714) 588-2005
-            </a>
-            <Link href="/#contact" className="btn btn-secondary">
-              Request Quote
+            <Link href="/contact" className="btn btn-primary">
+              Get a Quote
             </Link>
+            <a href="tel:7145882005" className="btn btn-secondary">
+              Call/Text Us
+            </a>
           </div>
         </div>
       </section>

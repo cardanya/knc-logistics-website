@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef } from "react";
+import Script from "next/script";
+import { useState, useRef, useEffect } from "react";
 import Toast, { ToastType } from "@/components/Toast";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 interface FormErrors {
   service?: string;
@@ -15,7 +17,6 @@ interface FormErrors {
 
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
-  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [toast, setToast] = useState<{
     message: string;
@@ -27,6 +28,28 @@ export default function Contact() {
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+        }
+      });
+    }, observerOptions);
+
+    const elements = document.querySelectorAll(
+      ".scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-fade"
+    );
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const openDirections = (address: string) => {
     const encodedAddress = encodeURIComponent(address);
@@ -79,7 +102,6 @@ export default function Contact() {
 
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormStatus("idle");
     setFormErrors({});
 
     const formData = new FormData(e.currentTarget);
@@ -116,7 +138,6 @@ export default function Contact() {
       }
 
       setIsLoading(false);
-      setFormStatus("success");
       (e.target as HTMLFormElement).reset();
 
       setToast({
@@ -124,36 +145,39 @@ export default function Contact() {
         type: "success"
       });
 
-      setTimeout(() => {
-        setFormStatus("idle");
-      }, 5000);
-
     } catch (error) {
       setIsLoading(false);
-      setFormStatus("error");
 
       setToast({
         message: error instanceof Error ? error.message : "Failed to send message. Please try again.",
         type: "error"
       });
 
-      setTimeout(() => {
-        setFormStatus("idle");
-      }, 7000);
     }
   };
 
-  return (
-    <main>
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: "https://www.knclogistics.com/" },
+    { name: "Contact Us", url: "https://www.knclogistics.com/contact" }
+  ]);
 
-      {/* Breadcrumb */}
+  return (
+    <>
+      <Script
+        id="contact-breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <main>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
+
+        {/* Breadcrumb */}
       <section className="breadcrumb">
         <div className="breadcrumb-container">
           <Link href="/">Home</Link>
@@ -462,6 +486,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 }
