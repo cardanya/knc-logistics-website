@@ -86,19 +86,21 @@ export default function RootLayout({
           </>
         )}
 
-        {/* Schema.org Organization & Service Markup */}
+        {/* Schema.org LocalBusiness & Service Markup */}
         <Script
-          id="schema-organization"
+          id="schema-localbusiness"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               "name": "K&C Logistics",
-              "image": "https://www.knclogistics.com/images/knc-logo.jpg",
+              "image": "https://www.knclogistics.com/og-image.png",
+              "logo": "https://www.knclogistics.com/kc_logo.png",
               "@id": "https://www.knclogistics.com",
               "url": "https://www.knclogistics.com",
-              "telephone": "(949) 484-4686",
+              "telephone": "(714) 588-2005",
+              "priceRange": "$$",
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "3060 Daimler St",
@@ -107,11 +109,29 @@ export default function RootLayout({
                 "postalCode": "92705",
                 "addressCountry": "US"
               },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 33.7175,
+                "longitude": -117.8897
+              },
+              "openingHours": "Mo-Su 00:00-23:59",
+              "areaServed": {
+                "@type": "GeoCircle",
+                "geoMidpoint": {
+                  "@type": "GeoCoordinates",
+                  "latitude": 33.7175,
+                  "longitude": -117.8897
+                },
+                "geoRadius": "100"
+              },
               "sameAs": [
-                "https://www.facebook.com/knclogistics",
-                "https://www.linkedin.com/company/knc-logistics"
+                "https://www.facebook.com/profile.php?id=61581692743100",
+                "https://www.instagram.com/knclogistics.co/",
+                "https://x.com/knclogistics",
+                "https://www.linkedin.com/in/knclogistics/",
+                "https://www.tiktok.com/@knclogistics"
               ],
-              "description": "Professional cross docking, warehousing, and supply chain management services provider specializing in freight consolidation, transloading, and logistics solutions.",
+              "description": "Professional logistics services provider in Orange County specializing in warehousing, cross docking, trucking, supply chain management, and truck parking with over 20 years of experience.",
               "hasOfferCatalog": {
                 "@type": "OfferCatalog",
                 "name": "Logistics Services",
@@ -120,17 +140,8 @@ export default function RootLayout({
                     "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
-                      "name": "Cross Docking Services",
-                      "description": "Professional cross docking services for freight consolidation and distribution. Reduce warehousing costs and accelerate delivery times with our efficient dock-to-dock solutions.",
-                      "serviceType": "Cross Docking"
-                    }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Warehousing Solutions",
-                      "description": "Modern warehouse facilities with climate-controlled storage, advanced inventory management systems, and flexible space options for all business needs.",
+                      "name": "Warehousing Services",
+                      "description": "Modern warehouse facilities with climate-controlled storage, advanced inventory management, and flexible short and long-term storage solutions.",
                       "serviceType": "Warehousing"
                     }
                   },
@@ -138,8 +149,17 @@ export default function RootLayout({
                     "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
-                      "name": "Supply Chain Management",
-                      "description": "End-to-end supply chain solutions with real-time tracking, cost optimization, and complete logistics management for improved operational efficiency.",
+                      "name": "Trucking Services",
+                      "description": "Reliable trucking with flexible capacity, dispatch support, and on-time delivery for local and regional routes throughout Orange County and Southern California.",
+                      "serviceType": "Trucking"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Supply Chain Solutions",
+                      "description": "End-to-end supply chain management with real-time tracking, freight consolidation, and complete logistics optimization for improved operational efficiency.",
                       "serviceType": "Supply Chain Management"
                     }
                   },
@@ -147,18 +167,18 @@ export default function RootLayout({
                     "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
-                      "name": "Freight Consolidation",
-                      "description": "Cargo consolidation and deconsolidation services to optimize shipping costs and improve delivery efficiency through our strategic distribution network.",
-                      "serviceType": "Freight Consolidation"
+                      "name": "Truck Parking",
+                      "description": "Secure 24/7 truck parking with spacious lots, staging areas, and convenient access to major highways including I-5 and I-405.",
+                      "serviceType": "Truck Parking"
                     }
                   },
                   {
                     "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
-                      "name": "Transloading Services",
-                      "description": "Professional transloading and transfer services between different transportation modes for seamless freight movement and distribution.",
-                      "serviceType": "Transloading"
+                      "name": "Cross Docking Services",
+                      "description": "Fast cross docking operations for quick load transfers, freight consolidation, repalletizing, and staging to minimize dwell time and optimize supply chain operations.",
+                      "serviceType": "Cross Docking"
                     }
                   }
                 ]

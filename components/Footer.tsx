@@ -12,10 +12,10 @@ export default function Footer() {
         <div className="footer-section">
           <h3>Quick Links</h3>
           <ul className="footer-links">
-            <li><Link href="/#home">Home</Link></li>
-            <li><Link href="/#services">Our Services</Link></li>
-            <li><Link href="/#about">About Us</Link></li>
-            <li><Link href="/#contact">Contact</Link></li>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/about">About Us</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
+            <li><Link href="/faq">FAQ</Link></li>
             <li><Link href="/privacy-policy">Privacy Policy</Link></li>
             <li><Link href="/terms-of-service">Terms of Service</Link></li>
           </ul>
@@ -24,9 +24,11 @@ export default function Footer() {
         <div className="footer-section">
           <h3>Services</h3>
           <ul className="footer-links">
-            <li><Link href="/parking-solutions">Parking Solutions</Link></li>
-            <li><Link href="/warehousing-services">Warehousing Services</Link></li>
-            <li><Link href="/supply-chain-solutions">Supply Chain Solutions</Link></li>
+            <li><Link href="/warehousing-services">Warehousing</Link></li>
+            <li><Link href="/trucking">Trucking</Link></li>
+            <li><Link href="/supply-chain-solutions">Supply Chain</Link></li>
+            <li><Link href="/truck-parking">Truck Parking</Link></li>
+            <li><Link href="/cross-docking">Cross Docking</Link></li>
           </ul>
         </div>
 
