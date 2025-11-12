@@ -6,6 +6,7 @@ import { useState, useLayoutEffect } from 'react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
 
   // Lazy initialization to prevent FOUC
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -33,6 +34,11 @@ export default function Header() {
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+    setServicesDropdownOpen(false);
+  };
+
+  const toggleServicesDropdown = () => {
+    setServicesDropdownOpen(!servicesDropdownOpen);
   };
 
   return (
@@ -50,16 +56,54 @@ export default function Header() {
 
         <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`} id="navLinks">
           <li>
-            <Link href="/#home" className="nav-link" onClick={closeMobileMenu}>Home</Link>
+            <Link href="/" className="nav-link" onClick={closeMobileMenu}>Home</Link>
           </li>
           <li>
-            <Link href="/#about" className="nav-link" onClick={closeMobileMenu}>About</Link>
+            <Link href="/about" className="nav-link" onClick={closeMobileMenu}>About</Link>
+          </li>
+          <li className="services-dropdown">
+            <button
+              className="nav-link services-dropdown-btn"
+              onClick={toggleServicesDropdown}
+              aria-expanded={servicesDropdownOpen}
+              aria-haspopup="true"
+            >
+              Services <i className={`fas fa-chevron-down ${servicesDropdownOpen ? 'rotate' : ''}`}></i>
+            </button>
+            <ul className={`services-dropdown-menu ${servicesDropdownOpen ? 'active' : ''}`}>
+              <li>
+                <Link href="/warehousing-services" onClick={closeMobileMenu}>
+                  <i className="fas fa-warehouse"></i> Warehousing Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/trucking" onClick={closeMobileMenu}>
+                  <i className="fas fa-truck-moving"></i> Trucking
+                </Link>
+              </li>
+              <li>
+                <Link href="/supply-chain-solutions" onClick={closeMobileMenu}>
+                  <i className="fas fa-network-wired"></i> Supply Chain Solutions
+                </Link>
+              </li>
+              <li>
+                <Link href="/truck-parking" onClick={closeMobileMenu}>
+                  <i className="fas fa-parking"></i> Truck Parking
+                </Link>
+              </li>
+              <li className="dropdown-divider"></li>
+              <li>
+                <Link href="/cross-docking" onClick={closeMobileMenu}>
+                  <i className="fas fa-truck-loading"></i> Cross Docking
+                </Link>
+              </li>
+            </ul>
           </li>
           <li>
-            <Link href="/#services" className="nav-link" onClick={closeMobileMenu}>Services</Link>
+            <Link href="/contact" className="contact-btn" onClick={closeMobileMenu}>Contact</Link>
           </li>
           <li>
-            <Link href="/#contact" className="contact-btn" onClick={closeMobileMenu}>Contact</Link>
+            <Link href="/faq" className="nav-link" onClick={closeMobileMenu}>FAQ</Link>
           </li>
         </ul>
 

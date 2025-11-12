@@ -322,12 +322,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Supply Chain - Image Left, Content Right */}
+        {/* Trucking - Image Left, Content Right */}
         <div className="service-row scroll-animate-right">
           <div className="service-image">
             <Image
-              src="/supply-chain-service.jpg"
-              alt="K&C Logistics supply chain management and freight distribution network"
+              src="/trucking-service.jpg"
+              alt="K&C Logistics trucking services with reliable freight transportation"
               width={600}
               height={400}
               priority={false}
@@ -336,6 +336,40 @@ export default function Home() {
               style={{ width: "100%", height: "auto", objectFit: "cover" }}
             />
           </div>
+          <div className="service-content-box">
+            <div className="service-icon">
+              <i className="fas fa-truck-moving"></i>
+            </div>
+            <h3>Professional Trucking Services</h3>
+            <p>
+              Reliable trucking solutions with flexible capacity, professional
+              dispatch support, and on-time delivery throughout Orange County
+              and Southern California. Our experienced drivers and well-maintained
+              fleet ensure safe, efficient freight transportation for your business.
+            </p>
+            <ul className="service-features">
+              <li>
+                <i className="fas fa-check-circle"></i> Local & regional route coverage
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Professional dispatch & tracking
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Flexible capacity options
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Reliable on-time delivery
+              </li>
+            </ul>
+            <Link href="/trucking" className="learn-more-btn">
+              <span>Learn More</span>
+              <i className="fas fa-arrow-right"></i>
+            </Link>
+          </div>
+        </div>
+
+        {/* Supply Chain - Content Left, Image Right */}
+        <div className="service-row reverse scroll-animate-left">
           <div className="service-content-box">
             <div className="service-icon">
               <i className="fas fa-network-wired"></i>
@@ -371,10 +405,34 @@ export default function Home() {
               <i className="fas fa-arrow-right"></i>
             </Link>
           </div>
+          <div className="service-image">
+            <Image
+              src="/supply-chain-service.jpg"
+              alt="K&C Logistics supply chain management and freight distribution network"
+              width={600}
+              height={400}
+              priority={false}
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
+              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+            />
+          </div>
         </div>
 
-        {/* Parking - Content Left, Image Right */}
-        <div className="service-row reverse scroll-animate-left">
+        {/* Truck Parking - Image Left, Content Right */}
+        <div className="service-row scroll-animate-right">
+          <div className="service-image">
+            <Image
+              src="/parking-service.jpg"
+              alt="K&C Logistics truck parking facilities with secure overnight parking and easy access"
+              width={600}
+              height={400}
+              priority={false}
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
+              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+            />
+          </div>
           <div className="service-content-box">
             <div className="service-icon">
               <i className="fas fa-parking"></i>
@@ -405,22 +463,34 @@ export default function Home() {
                 distribution
               </li>
             </ul>
-            <Link href="/parking-solutions" className="learn-more-btn">
+            <Link href="/truck-parking" className="learn-more-btn">
               <span>Learn More</span>
               <i className="fas fa-arrow-right"></i>
             </Link>
           </div>
-          <div className="service-image">
-            <Image
-              src="/parking-service.jpg"
-              alt="K&C Logistics truck parking facilities with secure overnight parking and easy access"
-              width={600}
-              height={400}
-              priority={false}
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
-            />
+        </div>
+      </section>
+
+      {/* Cross Docking CTA Section */}
+      <section className="cross-docking-cta scroll-animate">
+        <div className="cta-container">
+          <div className="cta-icon">
+            <i className="fas fa-truck-loading"></i>
+          </div>
+          <h2>Need Fast Cross Docking Services?</h2>
+          <p>
+            Minimize dwell time with our efficient cross docking operations.
+            Quick transfers, freight consolidation, repalletizing, and staging
+            services to keep your supply chain moving.
+          </p>
+          <div className="cta-buttons">
+            <Link href="/cross-docking" className="btn btn-primary">
+              Learn More About Cross Docking
+            </Link>
+            <a href="tel:7145882005" className="btn btn-secondary">
+              <i className="fas fa-phone-alt"></i>
+              Call (714) 588-2005
+            </a>
           </div>
         </div>
       </section>

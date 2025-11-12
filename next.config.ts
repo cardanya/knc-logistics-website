@@ -59,6 +59,37 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Anchor links to new pages
+      {
+        source: '/#about',
+        destination: '/about',
+        permanent: true,
+      },
+      {
+        source: '/#services',
+        destination: '/warehousing-services',
+        permanent: true,
+      },
+      {
+        source: '/#contact',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/#faq',
+        destination: '/faq',
+        permanent: true,
+      },
+      // Old parking-solutions to new truck-parking
+      {
+        source: '/parking-solutions',
+        destination: '/truck-parking',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
