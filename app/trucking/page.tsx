@@ -46,16 +46,17 @@ export default function Trucking() {
       <section className="service-detail-hero">
         <div className="service-hero-content">
           <div className="service-hero-text">
-            <h1>Professional Trucking Services</h1>
+            <h1>Professional Trucking Services Built for Speed and Reliability</h1>
+            <h2>Efficient, Safe, and On-Time Freight Transport Solutions</h2>
             <p>
-              Reliable trucking solutions in Orange County with flexible capacity,
-              professional dispatch support, and on-time delivery. K&C Logistics
-              provides dedicated local and regional freight transportation services
-              to keep your supply chain moving efficiently.
+              At K&amp;C Logistics, we provide professional trucking services designed to keep your freight moving efficiently across Southern California and nationwide. Our experienced drivers, well-maintained fleet, and real-time tracking systems ensure your loads arrive on time, safely, and without interruption.
             </p>
-            <a href="/contact" className="btn btn-primary">
+            <p>
+              Whether you require local deliveries, regional hauls, LTL/FTL transport, or specialized freight handling, our logistics team delivers dependable service backed by clear communication and 24/7 support.
+            </p>
+            <Link href="/contact" className="btn btn-primary">
               Get a Quote
-            </a>
+            </Link>
           </div>
           <div className="service-hero-image">
             <Image
@@ -75,82 +76,41 @@ export default function Trucking() {
       {/* Service Overview */}
       <section className="service-overview">
         <div className="service-overview-container">
-          <h2>Orange County Trucking Solutions</h2>
+          <h2>Our Trucking Services Include:</h2>
           <p className="service-intro">
-            K&C Logistics offers comprehensive trucking services tailored to your
-            freight transportation needs. From local deliveries to regional routes,
-            our professional drivers and well-maintained fleet ensure your cargo
-            arrives safely and on schedule.
+            From local deliveries to nationwide hauls, K&amp;C Logistics keeps freight on schedule with real-time visibility and 24/7 dispatch support.
           </p>
 
-          <div className="service-features-grid">
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-truck-moving"></i>
-              </div>
-              <h3>Local & Regional Routes</h3>
-              <p>
-                Comprehensive coverage throughout Orange County and Southern
-                California with dedicated lanes and regular schedules for
-                consistent service.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-headset"></i>
-              </div>
-              <h3>Dispatch Support</h3>
-              <p>
-                Professional dispatch team providing real-time updates, route
-                optimization, and responsive communication throughout transit.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-boxes"></i>
-              </div>
-              <h3>Flexible Capacity</h3>
-              <p>
-                Scalable transportation solutions from partial loads to full
-                truckloads, accommodating your changing freight volume needs.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-clock"></i>
-              </div>
-              <h3>Reliable ETAs</h3>
-              <p>
-                Consistent on-time delivery performance with accurate tracking
-                and proactive communication of any schedule changes.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-shield-alt"></i>
-              </div>
-              <h3>Professional Drivers</h3>
-              <p>
-                Experienced, licensed drivers with comprehensive training in
-                cargo handling, safety protocols, and customer service.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-wrench"></i>
-              </div>
-              <h3>Well-Maintained Fleet</h3>
-              <p>
-                Modern, regularly serviced trucks and trailers to minimize
-                breakdowns and ensure reliable transportation service.
-              </p>
-            </div>
-          </div>
+          <ul className="capabilities-list">
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Local &amp; regional freight delivery</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>LTL (Less-Than-Truckload) &amp; FTL (Full-Truckload) services</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Same-day and scheduled pickups</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Dedicated trucking routes</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Palletized and non-palletized freight</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Temperature-controlled shipment coordination</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Real-time tracking &amp; 24/7 dispatch support</span>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -200,12 +160,11 @@ export default function Trucking() {
             needs and receive a competitive quote for our trucking services.
           </p>
           <div className="service-cta-buttons">
-            <a href="tel:7145882005" className="btn btn-primary">
-              <i className="fas fa-phone-alt"></i>
-              Call (714) 588-2005
-            </a>
-            <a href="/contact" className="btn btn-secondary">
-              Request a Quote
+            <Link href="/contact" className="btn btn-primary">
+              Get a Quote
+            </Link>
+            <a href="tel:7145882005" className="btn btn-secondary">
+              Call/Text Us
             </a>
           </div>
         </div>

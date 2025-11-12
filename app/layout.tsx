@@ -8,7 +8,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Cross Docking Services | K&C Logistics - Warehousing & Supply Chain Solutions",
+  title: "K&C Logistics | Warehousing, Trucking, Cross Docking & Truck Parking",
   description: "Professional cross docking, warehousing, and supply chain management services. Reduce costs, improve delivery times with our freight consolidation, transloading, and logistics solutions. 24/7 operations nationwide.",
   keywords: "cross docking services, cross docking warehouse, freight consolidation, transloading services, warehousing solutions, supply chain management, logistics services, distribution center, freight handling, cargo consolidation, just-in-time delivery, inventory management, dock-to-stock, freight forwarding, third-party logistics, 3PL services, truck parking, lumper services, palletizing, deconsolidation",
   authors: [{ name: "K&C Logistics" }],

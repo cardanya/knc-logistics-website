@@ -46,14 +46,15 @@ export default function SupplyChainSolutions() {
       <section className="service-detail-hero">
         <div className="service-hero-content">
           <div className="service-hero-text">
-            <h1>Supply Chain & Logistics Management</h1>
+            <h1>Smart Supply Chain Solutions for Modern Logistics</h1>
+            <h2>Integrated, Scalable, and Cost-Effective Freight Management</h2>
             <p>
-              End-to-end supply chain solutions that optimize your logistics
-              operations, reduce costs, and improve delivery performance. From
-              freight consolidation to advanced tracking, K&C Logistics handles
-              every aspect of your supply chain with precision and care.
+              At K&amp;C Logistics, we deliver end-to-end Supply Chain Solutions engineered to help businesses move freight faster, reduce operational costs, and maintain total control over every stage of their logistics process. Our integrated approach combines warehousing, trucking, cross docking, distribution, pallet handling, and real-time coordination, ensuring your shipments stay on schedule with maximum efficiency.
             </p>
-            <Link href="/#contact" className="btn btn-primary">
+            <p>
+              Whether you handle high-volume distribution, LTL/FTL freight, or specialized loads, our expert team designs a tailored logistics strategy that improves flow, strengthens reliability, and supports long-term growth.
+            </p>
+            <Link href="/contact" className="btn btn-primary">
               Get a Quote
             </Link>
           </div>
@@ -75,85 +76,44 @@ export default function SupplyChainSolutions() {
       {/* Service Overview */}
       <section className="service-overview">
         <div className="service-overview-container">
-          <h2>Comprehensive Supply Chain Management</h2>
+          <h2>Our Supply Chain Solutions Include:</h2>
           <p className="service-intro">
-            At K&C Logistics, we understand that an efficient supply chain is the
-            backbone of your business success. Our integrated logistics solutions
-            streamline your operations, minimize costs, and ensure timely delivery
-            of your products across the distribution network.
+            Integrated logistics, warehousing, and trucking support for businesses that demand transparency and speed.
           </p>
-
-          <div className="service-features-grid">
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-network-wired"></i>
-              </div>
-              <h3>Network Optimization</h3>
-              <p>
-                Strategic planning and route optimization to reduce transit times
-                and transportation costs while maximizing efficiency across your
-                distribution network.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-map-marked-alt"></i>
-              </div>
-              <h3>Real-Time Tracking</h3>
-              <p>
-                Advanced GPS tracking and monitoring systems provide complete
-                visibility of your shipments from origin to destination with
-                real-time updates.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-truck-moving"></i>
-              </div>
-              <h3>Freight Consolidation</h3>
-              <p>
-                Combine multiple shipments to maximize truck capacity, reduce
-                transportation costs, and minimize environmental impact through
-                efficient load planning.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-exchange-alt"></i>
-              </div>
-              <h3>Cross Docking Services</h3>
-              <p>
-                Seamless transfer of goods from inbound to outbound transportation
-                with minimal handling and storage time for faster order fulfillment.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-clipboard-check"></i>
-              </div>
-              <h3>Order Management</h3>
-              <p>
-                Comprehensive order processing, fulfillment tracking, and delivery
-                confirmation to ensure accuracy and customer satisfaction.
-              </p>
-            </div>
-
-            <div className="service-feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-chart-bar"></i>
-              </div>
-              <h3>Analytics & Reporting</h3>
-              <p>
-                Detailed performance metrics, cost analysis, and customizable
-                reports to help you make data-driven decisions and optimize your
-                supply chain.
-              </p>
-            </div>
-          </div>
+          <ul className="capabilities-list">
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>End-to-end freight coordination</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Warehousing &amp; inventory management</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Trucking (LTL / FTL / regional delivery)</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Cross docking &amp; load transfer</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Palletizing, repalletizing &amp; labeling</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Route planning &amp; distribution support</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Real-time visibility &amp; shipment tracking</span>
+            </li>
+            <li>
+              <i className="fas fa-check-circle"></i>
+              <span>Cost optimization &amp; operational consulting</span>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -197,20 +157,17 @@ export default function SupplyChainSolutions() {
       {/* CTA Section */}
       <section className="service-cta">
         <div className="service-cta-content">
-          <h2>Transform Your Supply Chain Today</h2>
+          <h2>Looking for Smarter Supply Chain Solutions?</h2>
           <p>
-            Let K&C Logistics optimize your logistics operations and take your
-            business to the next level with our comprehensive supply chain
-            solutions.
+            Our team is ready to optimize your logistics from start to finish.
           </p>
           <div className="service-cta-buttons">
-            <a href="tel:7145882005" className="btn btn-primary">
-              <i className="fas fa-phone-alt"></i>
-              Call (714) 588-2005
-            </a>
-            <Link href="/#contact" className="btn btn-secondary">
-              Request Quote
+            <Link href="/contact" className="btn btn-primary">
+              Get a Quote
             </Link>
+            <a href="tel:7145882005" className="btn btn-secondary">
+              Call/Text Us
+            </a>
           </div>
         </div>
       </section>
