@@ -343,21 +343,7 @@ function generateCustomerEmailHTML(data: EmailData): string {
     }
     .social-links {
       margin: 20px 0 10px 0;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-    }
-    .social-links a {
-      display: inline-flex;
-      width: 36px;
-      height: 36px;
-      background: #812530;
-      color: white;
-      border-radius: 50%;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 16px;
+      text-align: center;
     }
   </style>
 </head>
@@ -410,8 +396,8 @@ function generateCustomerEmailHTML(data: EmailData): string {
         <h3>Need Immediate Help?</h3>
         <p>Our team is available to assist you right away</p>
         <div class="cta-buttons">
-          <a href="tel:+17145882005" class="btn btn-primary">Call (714) 588-2005</a>
-          <a href="https://wa.me/17145882005" class="btn btn-secondary">WhatsApp</a>
+          <a href="tel:+17145882005" class="btn btn-primary">📞 Call (714) 588-2005</a>
+          <a href="https://wa.me/17145882005" class="btn btn-secondary">💬 WhatsApp</a>
         </div>
       </div>
 
@@ -420,10 +406,10 @@ function generateCustomerEmailHTML(data: EmailData): string {
 
     <div class="footer">
       <div class="social-links">
-        <a href="https://www.facebook.com/profile.php?id=61581692743100" aria-label="Facebook">f</a>
-        <a href="https://www.instagram.com/knclogistics.co/" aria-label="Instagram">📷</a>
-        <a href="https://x.com/knclogistics" aria-label="Twitter">𝕏</a>
-        <a href="https://www.linkedin.com/in/knclogistics/" aria-label="LinkedIn">in</a>
+        <a href="https://www.facebook.com/profile.php?id=61581692743100" style="background: #1877f2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Facebook</a>
+        <a href="https://www.instagram.com/knclogistics.co/" style="background: #e4405f; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Instagram</a>
+        <a href="https://x.com/knclogistics" style="background: #000000; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Twitter</a>
+        <a href="https://www.linkedin.com/in/knclogistics/" style="background: #0a66c2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">LinkedIn</a>
       </div>
       <p><strong>K&C Logistics</strong></p>
       <p>3060 Daimler St, Santa Ana, CA 92705</p>
@@ -457,18 +443,24 @@ WHAT HAPPENS NEXT:
 ${data.phone ? `- We may also call you at: ${data.phone}` : ''}
 
 NEED IMMEDIATE HELP?
-Call us: (714) 588-2005
-WhatsApp: https://wa.me/17145882005
+📞 Call us: (714) 588-2005
+💬 WhatsApp: https://wa.me/17145882005
 
 Best regards,
 K&C Logistics Team
 
 ---
 K&C Logistics
-3060 Daimler St, Santa Ana, CA 92705
-Phone: (714) 588-2005
-Email: info@knclogistics.com
-Website: https://www.knclogistics.com
+🏢 3060 Daimler St, Santa Ana, CA 92705
+📞 Phone: (714) 588-2005
+📧 Email: info@knclogistics.com
+🌐 Website: https://www.knclogistics.com
+
+Follow us:
+Facebook: https://www.facebook.com/profile.php?id=61581692743100
+Instagram: https://www.instagram.com/knclogistics.co/
+Twitter: https://x.com/knclogistics
+LinkedIn: https://www.linkedin.com/in/knclogistics/
 
 © ${new Date().getFullYear()} K&C Logistics. All rights reserved.
   `.trim();
