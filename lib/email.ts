@@ -15,12 +15,15 @@ function formatServiceName(service: string): string {
     parking: "Parking Solutions",
     warehousing: "Warehousing Services",
     "supply-chain": "Supply Chain Solutions",
+    trucking: "Trucking Services",
+    "truck-parking": "Truck Parking",
+    "cross-docking": "Cross Docking",
   };
   return serviceMap[service] || service;
 }
 
-// Generate email HTML template
-function generateEmailHTML(data: EmailData): string {
+// Generate admin notification email HTML
+function generateAdminEmailHTML(data: EmailData): string {
   return `
 <!DOCTYPE html>
 <html>
@@ -165,8 +168,8 @@ function generateEmailHTML(data: EmailData): string {
   `.trim();
 }
 
-// Generate plain text version
-function generateEmailText(data: EmailData): string {
+// Generate admin notification plain text version
+function generateAdminEmailText(data: EmailData): string {
   return `
 New Contact Form Submission - K&C Logistics
 
@@ -184,6 +187,290 @@ Submitted on ${new Date().toLocaleString("en-US", {
     timeStyle: "long",
     timeZone: "America/Los_Angeles",
   })}
+  `.trim();
+}
+
+// Generate customer confirmation email HTML
+function generateCustomerEmailHTML(data: EmailData): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You - K&C Logistics</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #812530 0%, #a82f3d 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .header p {
+      margin: 0;
+      opacity: 0.95;
+      font-size: 16px;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .greeting {
+      font-size: 18px;
+      color: #812530;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .message-box {
+      background: #f8f9fa;
+      border-left: 4px solid #812530;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    .message-box p {
+      margin: 0 0 10px 0;
+      color: #555;
+    }
+    .message-box p:last-child {
+      margin: 0;
+    }
+    .info-grid {
+      display: grid;
+      gap: 15px;
+      margin: 25px 0;
+    }
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .info-icon {
+      width: 24px;
+      height: 24px;
+      background: #812530;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+    .info-text {
+      flex: 1;
+    }
+    .info-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, #812530 0%, #a82f3d 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 30px 0;
+    }
+    .cta-box h3 {
+      margin: 0 0 15px 0;
+      font-size: 20px;
+    }
+    .cta-box p {
+      margin: 0 0 20px 0;
+      opacity: 0.95;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: #FFD700;
+      color: #812530;
+    }
+    .btn-secondary {
+      background: white;
+      color: #812530;
+    }
+    .footer {
+      padding: 30px;
+      text-align: center;
+      background: #f8f9fa;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer p {
+      margin: 5px 0;
+      font-size: 13px;
+      color: #666;
+    }
+    .social-links {
+      margin: 20px 0 10px 0;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+    .social-links a {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      background: #812530;
+      color: white;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Thank You for Contacting Us!</h1>
+      <p>We've received your message</p>
+    </div>
+
+    <div class="content">
+      <p class="greeting">Hi ${escapeHtml(data.name)},</p>
+
+      <p>Thank you for reaching out to K&C Logistics! We've successfully received your inquiry about <strong>${formatServiceName(data.service)}</strong> and our team will review it shortly.</p>
+
+      <div class="message-box">
+        <p><strong>Your Message:</strong></p>
+        <p style="white-space: pre-wrap; line-height: 1.6;">${escapeHtml(data.message)}</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon">⏱️</div>
+          <div class="info-text">
+            <div class="info-label">Response Time</div>
+            <div class="info-value">Within 24 hours</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📧</div>
+          <div class="info-text">
+            <div class="info-label">We'll Reply To</div>
+            <div class="info-value">${escapeHtml(data.email)}</div>
+          </div>
+        </div>
+        ${data.phone ? `
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div class="info-text">
+            <div class="info-label">Your Phone</div>
+            <div class="info-value">${escapeHtml(data.phone)}</div>
+          </div>
+        </div>
+        ` : ''}
+      </div>
+
+      <p>One of our logistics specialists will personally respond to your inquiry. If you need immediate assistance, feel free to contact us directly:</p>
+
+      <div class="cta-box">
+        <h3>Need Immediate Help?</h3>
+        <p>Our team is available to assist you right away</p>
+        <div class="cta-buttons">
+          <a href="tel:+17145882005" class="btn btn-primary">Call (714) 588-2005</a>
+          <a href="https://wa.me/17145882005" class="btn btn-secondary">WhatsApp</a>
+        </div>
+      </div>
+
+      <p style="margin-top: 30px;">Best regards,<br><strong>K&C Logistics Team</strong></p>
+    </div>
+
+    <div class="footer">
+      <div class="social-links">
+        <a href="https://www.facebook.com/profile.php?id=61581692743100" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com/knclogistics.co/" aria-label="Instagram">📷</a>
+        <a href="https://x.com/knclogistics" aria-label="Twitter">𝕏</a>
+        <a href="https://www.linkedin.com/in/knclogistics/" aria-label="LinkedIn">in</a>
+      </div>
+      <p><strong>K&C Logistics</strong></p>
+      <p>3060 Daimler St, Santa Ana, CA 92705</p>
+      <p>📞 (714) 588-2005 | 📧 info@knclogistics.com</p>
+      <p style="margin-top: 15px; font-size: 11px; color: #999;">
+        This email was sent because you submitted a contact form on our website.<br>
+        © ${new Date().getFullYear()} K&C Logistics. All rights reserved.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+// Generate customer confirmation plain text version
+function generateCustomerEmailText(data: EmailData): string {
+  return `
+Thank You for Contacting K&C Logistics!
+
+Hi ${data.name},
+
+Thank you for reaching out to us! We've successfully received your inquiry about ${formatServiceName(data.service)} and our team will review it shortly.
+
+YOUR MESSAGE:
+${data.message}
+
+WHAT HAPPENS NEXT:
+- Our team will review your request within 24 hours
+- We'll respond to: ${data.email}
+${data.phone ? `- We may also call you at: ${data.phone}` : ''}
+
+NEED IMMEDIATE HELP?
+Call us: (714) 588-2005
+WhatsApp: https://wa.me/17145882005
+
+Best regards,
+K&C Logistics Team
+
+---
+K&C Logistics
+3060 Daimler St, Santa Ana, CA 92705
+Phone: (714) 588-2005
+Email: info@knclogistics.com
+Website: https://www.knclogistics.com
+
+© ${new Date().getFullYear()} K&C Logistics. All rights reserved.
   `.trim();
 }
 
@@ -210,11 +497,15 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     .map((e) => e.trim())
     .filter(Boolean);
 
-  const subject = `New Contact Form: ${formatServiceName(data.service)} - ${
-    data.name
-  }`;
-  const html = generateEmailHTML(data);
-  const text = generateEmailText(data);
+  // Admin notification email
+  const adminSubject = `New Contact Form: ${formatServiceName(data.service)} - ${data.name}`;
+  const adminHtml = generateAdminEmailHTML(data);
+  const adminText = generateAdminEmailText(data);
+
+  // Customer confirmation email
+  const customerSubject = `Thank You for Contacting K&C Logistics`;
+  const customerHtml = generateCustomerEmailHTML(data);
+  const customerText = generateCustomerEmailText(data);
 
   // Check which email provider is configured
   if (process.env.RESEND_API_KEY) {
@@ -223,14 +514,26 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       // @ts-expect-error - Resend package is optional and installed separately
       const { Resend } = await import("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
+
+      // Send admin notification with Reply-To
       await resend.emails.send({
         from: emailFrom,
         to: emailTo,
         cc: emailCC,
         bcc: emailBCC,
-        subject,
-        html,
-        text,
+        replyTo: data.email,
+        subject: adminSubject,
+        html: adminHtml,
+        text: adminText,
+      });
+
+      // Send customer confirmation
+      await resend.emails.send({
+        from: emailFrom,
+        to: data.email,
+        subject: customerSubject,
+        html: customerHtml,
+        text: customerText,
       });
     } catch (error) {
       console.error("Failed to send email with Resend:", error);
@@ -244,14 +547,25 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       const sgMail = await import("@sendgrid/mail");
       sgMail.default.setApiKey(process.env.SENDGRID_API_KEY);
 
+      // Send admin notification with Reply-To
       await sgMail.default.send({
         from: emailFrom,
         to: emailTo,
         cc: emailCC,
         bcc: emailBCC,
-        subject,
-        html,
-        text,
+        replyTo: data.email,
+        subject: adminSubject,
+        html: adminHtml,
+        text: adminText,
+      });
+
+      // Send customer confirmation
+      await sgMail.default.send({
+        from: emailFrom,
+        to: data.email,
+        subject: customerSubject,
+        html: customerHtml,
+        text: customerText,
       });
     } catch (error) {
       console.error("Failed to send email with SendGrid:", error);
@@ -274,14 +588,25 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
         },
       });
 
+      // Send admin notification with Reply-To
       await transporter.sendMail({
         from: emailFrom,
         to: emailTo,
         cc: emailCC,
         bcc: emailBCC,
-        subject,
-        html,
-        text,
+        replyTo: data.email,
+        subject: adminSubject,
+        html: adminHtml,
+        text: adminText,
+      });
+
+      // Send customer confirmation
+      await transporter.sendMail({
+        from: emailFrom,
+        to: data.email,
+        subject: customerSubject,
+        html: customerHtml,
+        text: customerText,
       });
     } catch (error) {
       console.error("Failed to send email with SMTP:", error);
@@ -291,7 +616,8 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     }
   } else {
     // No email provider configured - just log (development mode)
-    console.log("📧 Email would be sent:", { to: emailTo, subject, data });
+    console.log("📧 Admin notification would be sent:", { to: emailTo, subject: adminSubject, data });
+    console.log("📧 Customer confirmation would be sent:", { to: data.email, subject: customerSubject });
     console.log(
       "⚠️  No email provider configured. Set RESEND_API_KEY, SENDGRID_API_KEY, or SMTP_* in .env.local"
     );
