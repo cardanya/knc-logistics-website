@@ -55,7 +55,7 @@ export default function RootLayout({
           referrerPolicy="no-referrer"
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>

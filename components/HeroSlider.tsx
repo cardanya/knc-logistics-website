@@ -14,7 +14,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     type: "video",
-    src: "/videos/hero-video-1.mp4",
+    src: "/videos/hero-video-1.mp4?v=2",
     title: "Expert Cross Docking Services.",
     description: `Speed isn't just about driving fast.
     It's about smarter logistics.
@@ -24,7 +24,7 @@ const slides: Slide[] = [
 
   {
     type: "video",
-    src: "/videos/hero-video-2.mp4",
+    src: "/videos/hero-video-2.mp4?v=2",
     title: "K&C Logistics moving freight the right way",
     description:
       "At K&C Logistics, we keep freight moving, fast, safe and organized.",
