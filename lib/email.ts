@@ -537,7 +537,13 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     // Option 2: SendGrid
     try {
       const sgMail = await import("@sendgrid/mail");
-      sgMail.default.setApiKey(process.env.SENDGRID_API_KEY);
+      const apiKey = process.env.SENDGRID_API_KEY.trim();
+      
+      if (!apiKey || !apiKey.startsWith("SG.")) {
+        throw new Error("Invalid SendGrid API key format. Should start with 'SG.'");
+      }
+      
+      sgMail.default.setApiKey(apiKey);
 
       // Send admin notification with Reply-To
       await sgMail.default.send({
@@ -559,11 +565,25 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
         html: customerHtml,
         text: customerText,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to send email with SendGrid:", error);
-      throw new Error(
-        "Email service not configured. Install SendGrid package: npm install @sendgrid/mail"
-      );
+      
+      // Provide more specific error messages
+      if (error?.code === 401 || error?.response?.statusCode === 401) {
+        throw new Error(
+          "SendGrid authentication failed. Please check your SENDGRID_API_KEY in .env.local. The API key may be invalid or expired."
+        );
+      } else if (error?.code === 403 || error?.response?.statusCode === 403) {
+        throw new Error(
+          "SendGrid API access denied. Please verify your API key has the correct permissions."
+        );
+      } else if (error?.message?.includes("Invalid")) {
+        throw error;
+      } else {
+        throw new Error(
+          `SendGrid email sending failed: ${error?.message || "Unknown error"}. Please check your SENDGRID_API_KEY configuration.`
+        );
+      }
     }
   } else if (process.env.SMTP_HOST) {
     // Option 3: SMTP (Nodemailer)
