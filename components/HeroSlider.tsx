@@ -48,6 +48,9 @@ export default function HeroSlider() {
   const [loadedSlides, setLoadedSlides] = useState<Set<number>>(
     () => new Set()
   );
+  const [failedVideos, setFailedVideos] = useState<Set<number>>(
+    () => new Set()
+  );
   const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -144,6 +147,15 @@ export default function HeroSlider() {
     });
   }, []);
 
+  const markVideoFailed = useCallback((index: number) => {
+    setFailedVideos((prev) => {
+      if (prev.has(index)) return prev;
+      const updated = new Set(prev);
+      updated.add(index);
+      return updated;
+    });
+  }, []);
+
   const defaultPoster = "/kc_logo.png";
 
   return (
@@ -159,7 +171,7 @@ export default function HeroSlider() {
                 : ""
             }`}
           >
-            {slide.type === "video" && !prefersReducedMotion ? (
+            {slide.type === "video" && !prefersReducedMotion && !failedVideos.has(index) ? (
               <>
                 {index === currentSlide && !loadedSlides.has(index) && (
                   <div className="video-skeleton skeleton" />
@@ -191,6 +203,11 @@ export default function HeroSlider() {
                     if (index === currentSlide) {
                       markSlideLoaded(index);
                     }
+                  }}
+                  onError={(e) => {
+                    // Fallback to poster image if video fails to load
+                    console.warn(`Video ${index + 1} failed to load, using poster image`);
+                    markVideoFailed(index);
                   }}
                 />
               </>
