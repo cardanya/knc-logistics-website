@@ -62,7 +62,7 @@ export default function TruckParking() {
                 href="https://www.orangecountytruckstop.com/reserve-parking-spot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-primary"
+                className="btn btn-primary reserve-spot-btn"
               >
                 Reserve a Spot
               </a>
@@ -187,7 +187,7 @@ export default function TruckParking() {
                 href="https://www.orangecountytruckstop.com/reserve-parking-spot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary"
+                className="btn btn-secondary reserve-spot-btn"
               >
                 Reserve a Spot
               </a>
