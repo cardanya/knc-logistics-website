@@ -390,7 +390,6 @@ nav {
   font-weight: 500;
   cursor: pointer;
   font-size: 1rem;
-  font-family: inherit;
   transition: color 0.3s ease;
 }
 
@@ -786,17 +785,6 @@ nav {
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
   border-color: var(--primary-color);
-}
-
-.reserve-spot-btn {
-  background: #f77444;
-  color: #ffffff;
-  border-color: #f77444;
-}
-
-.reserve-spot-btn:hover {
-  border-color: #f77444;
-  box-shadow: 0 10px 25px rgba(247, 116, 68, 0.4);
 }
 
 .btn-link {

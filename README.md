@@ -45,63 +45,6 @@ npm run build
 npm start
 ```
 
-## Test Altyapısı
-
-Proje kapsamlı test coverage'ı ile donatılmıştır:
-
-### Test Komutları
-
-```bash
-# Unit ve integration testleri çalıştır
-npm run test
-
-# Watch modda test çalıştır
-npm run test:watch
-
-# UI ile test çalıştır
-npm run test:ui
-
-# Coverage raporu oluştur
-npm run test:coverage
-
-# E2E testleri çalıştır (Playwright browsers gerekli)
-npm run test:e2e
-
-# E2E UI modda
-npm run test:e2e:ui
-
-# Tüm testleri çalıştır (unit + E2E)
-npm run test:all
-
-# Playwright browsers kur
-npm run playwright:install
-```
-
-### Test Coverage
-
-- **150+ test** (124+ passing)
-- **Unit Tests**: Utility functions (formatters, validators)
-- **Integration Tests**: 12 React componentleri
-- **Hook Tests**: Custom React hooks
-- **API Tests**: Contact endpoint validation, rate limiting, spam detection
-- **E2E Tests**: 19 Playwright scenarios (homepage, contact form, navigation)
-- **Coverage**: %83+ code coverage
-
-### Test Araçları
-
-- **Vitest**: Modern ve hızlı test runner (unit + integration)
-- **React Testing Library**: User-centric component testing
-- **Playwright**: Cross-browser E2E testing (Chrome, Firefox, Safari, Mobile)
-- **V8 Coverage**: Code coverage reporting (HTML, JSON, LCOV)
-
-### CI/CD
-
-GitHub Actions workflow otomatik olarak:
-- Her commit'te unit testleri çalıştırır
-- E2E testleri browser'larda çalıştırır
-- Coverage raporunu oluşturur
-- Test sonuçlarını artifact olarak saklar
-
 ## Proje Yapısı
 
 ```

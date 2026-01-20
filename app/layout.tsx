@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 import MobileStickyBar from "@/components/MobileStickyBar";
-import ReCaptchaProvider from "@/components/ReCaptchaProvider";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -55,22 +54,17 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
-        <meta
-          name="google-site-verification"
-          content="66UrXVjkTU7FHfVNuXQtPnP4SA1hSBEMR-ghc_-RIAI"
-        />
       </head>
-      <body suppressHydrationWarning>
-        <ReCaptchaProvider>
-          <a href="#main-content" className="skip-to-content">
-            Skip to main content
-          </a>
-          <Header />
-          {children}
-          <Footer />
-          <CookieConsent />
-          <WhatsAppWidget />
-          <MobileStickyBar />
+      <body>
+        <a href="#main-content" className="skip-to-content">
+          Skip to main content
+        </a>
+        <Header />
+        {children}
+        <Footer />
+        <CookieConsent />
+        <WhatsAppWidget />
+        <MobileStickyBar />
 
         {/* Google Analytics 4 */}
         {process.env.NEXT_PUBLIC_GA_ID && (
@@ -91,8 +85,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-
-        </ReCaptchaProvider>
 
         {/* Schema.org LocalBusiness & Service Markup */}
         <Script
