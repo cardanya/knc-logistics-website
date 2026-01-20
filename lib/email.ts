@@ -570,13 +570,29 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     } catch (error: any) {
       console.error("Failed to send email with SendGrid:", error);
       
+      // Log detailed error information for debugging
+      if (error?.response) {
+        console.error("SendGrid Error Details:", {
+          statusCode: error.response.statusCode,
+          body: error.response.body,
+          headers: error.response.headers,
+        });
+      }
+      
       // Provide more specific error messages
       if (error?.code === 401 || error?.response?.statusCode === 401) {
+        const errorBody = error?.response?.body;
+        const errorMessage = errorBody?.errors?.[0]?.message || errorBody?.message || "Unauthorized";
+        
         throw new Error(
-          `SendGrid authentication failed (401 Unauthorized). Possible causes:\n` +
-          `1. Invalid or expired API key - Check your SENDGRID_API_KEY in .env.local\n` +
-          `2. Unverified sender email - Verify "${emailFrom}" in SendGrid (Settings → Sender Authentication)\n` +
-          `3. API key revoked - Create a new API key in SendGrid Dashboard\n` +
+          `SendGrid authentication failed (401 Unauthorized).\n` +
+          `Error: ${errorMessage}\n` +
+          `FROM email: ${emailFrom}\n` +
+          `Possible causes:\n` +
+          `1. API key may need "Full Access" or "Mail Send" permissions\n` +
+          `2. Domain authentication required (not just single sender) - Check: https://app.sendgrid.com/settings/sender_auth\n` +
+          `3. API key might have IP restrictions - Check API key settings\n` +
+          `4. API key format issue - Ensure no extra spaces/characters\n` +
           `Visit: https://app.sendgrid.com/settings/api_keys`
         );
       } else if (error?.code === 403 || error?.response?.statusCode === 403) {
