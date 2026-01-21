@@ -503,7 +503,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
   if (process.env.RESEND_API_KEY) {
     // Option 1: Resend
     try {
-      // @ts-expect-error - Resend package is optional and installed separately
+      // Resend package is optional and installed separately
       const { Resend } = await import("resend").catch(() => {
         throw new Error("Resend package not found. Install it with: npm install resend");
       });
@@ -614,7 +614,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
   } else if (process.env.SMTP_HOST) {
     // Option 3: SMTP (Nodemailer)
     try {
-      // @ts-expect-error - Nodemailer package is optional and installed separately
+      // Nodemailer package is optional and installed separately
       const nodemailer = await import("nodemailer").catch(() => {
         throw new Error("Nodemailer package not found. Install it with: npm install nodemailer");
       });
