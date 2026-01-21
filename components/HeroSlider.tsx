@@ -2,42 +2,35 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Slide {
-  type: "video" | "image";
   src: string;
   title: string;
   description: string;
-  poster?: string;
 }
 
 const slides: Slide[] = [
   {
-    type: "image",
     src: "/videos/hero-slider-1.png",
     title: "Expert Cross Docking Services.",
     description: `Speed isn't just about driving fast.
     It's about smarter logistics.
     Save Time with Cross-Docking. `,
-    poster: "/videos/hero-slider-1.png",
   },
 
   {
-    type: "image",
     src: "/videos/hero-slider-2.png",
     title: "K&C Logistics moving freight the right way",
     description:
       "At K&C Logistics, we keep freight moving, fast, safe and organized.",
-    poster: "/videos/hero-slider-2.png",
   },
 
   {
-    type: "image",
     src: "/videos/hero-slider-3.jpg",
     title: "Complete Warehousing Solutions",
     description:
       "End-to-end logistics management, inventory control, and distribution services with real-time tracking for seamless operations",
-    poster: "/videos/hero-slider-3.jpg",
   },
 ];
 
@@ -45,17 +38,14 @@ export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [initialAnimationTriggered, setInitialAnimationTriggered] = useState(false);
   const [loadedSlides, setLoadedSlides] = useState<Set<number>>(
     () => new Set()
   );
-  const [failedVideos, setFailedVideos] = useState<Set<number>>(
-    () => new Set()
-  );
-  const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRefs = useRef<Map<number, NodeJS.Timeout>>(new Map());
 
   const currentSlideData = slides[currentSlide];
-  const isVideo = currentSlideData.type === "video";
   const SLIDE_DURATION = 10000; // 10 seconds
 
   const startAutoPlay = useCallback(() => {
@@ -83,20 +73,21 @@ export default function HeroSlider() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
+  // Trigger initial slide animation on mount
+  // Using double requestAnimationFrame ensures the browser:
+  // 1. Renders the initial DOM with base styles (scale(1))
+  // 2. Paints those styles to the screen
+  // 3. Only then applies the 'active' class (scale(1.1))
+  // This creates the necessary before/after states for CSS transitions to work
   useEffect(() => {
-    if (isVideo && videoRef.current) {
-      // Reset video to start
-      videoRef.current.currentTime = 0;
-
-      if (!isPaused && !prefersReducedMotion) {
-        videoRef.current.play().catch(() => {
-          // Silently handle autoplay restrictions
+    if (!initialAnimationTriggered) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setInitialAnimationTriggered(true);
         });
-      } else {
-        videoRef.current.pause();
-      }
+      });
     }
-  }, [currentSlide, isPaused, isVideo, prefersReducedMotion]);
+  }, [initialAnimationTriggered]);
 
   const togglePlayPause = () => {
     const newPausedState = !isPaused;
@@ -105,21 +96,9 @@ export default function HeroSlider() {
     if (newPausedState || prefersReducedMotion) {
       // Pause slider
       if (intervalRef.current) clearInterval(intervalRef.current);
-
-      // Also pause video if current slide is video
-      if (isVideo && videoRef.current) {
-        videoRef.current.pause();
-      }
     } else {
       // Resume slider
       startAutoPlay();
-
-      // Also resume video if current slide is video
-      if (isVideo && videoRef.current) {
-        videoRef.current.play().catch(() => {
-          // Silently handle autoplay restrictions
-        });
-      }
     }
   };
 
@@ -145,18 +124,30 @@ export default function HeroSlider() {
       updated.add(index);
       return updated;
     });
+
+    // Clear timeout for this slide
+    const timeout = timeoutRefs.current.get(index);
+    if (timeout) {
+      clearTimeout(timeout);
+      timeoutRefs.current.delete(index);
+    }
   }, []);
 
-  const markVideoFailed = useCallback((index: number) => {
-    setFailedVideos((prev) => {
-      if (prev.has(index)) return prev;
-      const updated = new Set(prev);
-      updated.add(index);
-      return updated;
-    });
-  }, []);
+  // Add timeout fallback for slides that don't load
+  useEffect(() => {
+    if (!loadedSlides.has(currentSlide) && !timeoutRefs.current.has(currentSlide)) {
+      const timeout = setTimeout(() => {
+        markSlideLoaded(currentSlide);
+      }, 3000); // 3 second timeout
 
-  const defaultPoster = "/kc_logo.png";
+      timeoutRefs.current.set(currentSlide, timeout);
+    }
+
+    return () => {
+      // Cleanup: clear all timeouts on unmount
+      timeoutRefs.current.forEach(clearTimeout);
+    };
+  }, [currentSlide, loadedSlides, markSlideLoaded]);
 
   return (
     <section className="hero-slider" id="home">
@@ -164,61 +155,44 @@ export default function HeroSlider() {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`slide ${index === currentSlide ? "active" : ""} ${
+            className={`slide ${
+              index === currentSlide && (currentSlide !== 0 || initialAnimationTriggered)
+                ? "active"
+                : ""
+            } ${
               index === currentSlide - 1 ||
               (currentSlide === 0 && index === slides.length - 1)
                 ? "prev"
                 : ""
             }`}
           >
-            {slide.type === "video" && !prefersReducedMotion && !failedVideos.has(index) ? (
-              <>
-                {index === currentSlide && !loadedSlides.has(index) && (
-                  <div className="video-skeleton skeleton" />
-                )}
-                <video
-                  ref={index === currentSlide ? videoRef : null}
-                  src={slide.src}
-                  className="slide-media"
-                  style={{
-                    opacity:
-                      index === currentSlide
-                        ? loadedSlides.has(index)
-                          ? 1
-                          : 0
-                        : 0,
-                    transition: "opacity 0.5s ease-in",
-                  }}
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  poster={slide.poster ?? defaultPoster}
-                  onCanPlay={() => {
-                    if (index === currentSlide) {
-                      markSlideLoaded(index);
-                    }
-                  }}
-                  onLoadedData={() => {
-                    if (index === currentSlide) {
-                      markSlideLoaded(index);
-                    }
-                  }}
-                  onError={(e) => {
-                    // Fallback to poster image if video fails to load
-                    console.warn(`Video ${index + 1} failed to load, using poster image`);
-                    markVideoFailed(index);
-                  }}
-                />
-              </>
-            ) : (
-              <div
-                className="slide-media slide-image"
-                style={{
-                  backgroundImage: `url(${slide.poster ?? defaultPoster})`,
-                }}
-              />
+            {index === currentSlide && !loadedSlides.has(index) && (
+              <div className="image-skeleton skeleton" />
             )}
+            <Image
+              src={slide.src}
+              alt={slide.title}
+              fill
+              priority={index <= 1}
+              className="slide-media"
+              style={{
+                objectFit: "cover",
+                opacity:
+                  index === currentSlide
+                    ? loadedSlides.has(index)
+                      ? 1
+                      : 0
+                    : 0,
+                transition: "opacity 0.5s ease-in",
+              }}
+              onLoad={() => {
+                markSlideLoaded(index);
+              }}
+              onError={() => {
+                console.error(`Failed to load slide ${index}: ${slide.src}`);
+                markSlideLoaded(index); // Hide skeleton even on error
+              }}
+            />
             <div className="slide-overlay" />
           </div>
         ))}
@@ -237,11 +211,11 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Video Control Button */}
+      {/* Slider Control Button */}
       <button
         className="video-control-btn"
         onClick={togglePlayPause}
-        aria-label={isPaused ? "Play" : "Pause"}
+        aria-label={isPaused ? "Resume slider" : "Pause slider"}
       >
         <i className={`fas ${isPaused ? "fa-play" : "fa-pause"}`}></i>
       </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface MapWithSkeletonProps {
   src: string;
@@ -9,6 +9,36 @@ interface MapWithSkeletonProps {
 
 export default function MapWithSkeleton({ src, title }: MapWithSkeletonProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    // Set timeout to force-hide skeleton after 5 seconds
+    timeoutRef.current = setTimeout(() => {
+      if (mountedRef.current) {
+        console.log(`Map load timeout reached for: ${title}`);
+        setIsLoaded(true);
+      }
+    }, 5000);
+
+    return () => {
+      mountedRef.current = false;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [title]);
+
+  const handleLoad = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    if (mountedRef.current) {
+      setIsLoaded(true);
+    }
+  };
 
   return (
     <div className="map-wrapper">
@@ -22,7 +52,7 @@ export default function MapWithSkeleton({ src, title }: MapWithSkeletonProps) {
         allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-        onLoad={() => setIsLoaded(true)}
+        onLoad={handleLoad}
       ></iframe>
     </div>
   );
