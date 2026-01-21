@@ -1,5 +1,6 @@
 // Email sending utility
 // Supports multiple providers: Resend, SendGrid, and SMTP (Nodemailer)
+// Fixed TypeScript build errors - removed unused @ts-expect-error directives
 
 interface EmailData {
   service: string;
