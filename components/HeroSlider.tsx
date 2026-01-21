@@ -13,31 +13,31 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    type: "video",
-    src: "/videos/hero-video-1.mp4?v=2",
+    type: "image",
+    src: "/videos/hero-slider-1.png",
     title: "Expert Cross Docking Services.",
     description: `Speed isn't just about driving fast.
     It's about smarter logistics.
     Save Time with Cross-Docking. `,
-    poster: "/warehousing-service.jpg",
+    poster: "/videos/hero-slider-1.png",
   },
 
   {
-    type: "video",
-    src: "/videos/hero-video-2.mp4?v=2",
+    type: "image",
+    src: "/videos/hero-slider-2.png",
     title: "K&C Logistics moving freight the right way",
     description:
       "At K&C Logistics, we keep freight moving, fast, safe and organized.",
-    poster: "/supply-chain-service.jpg",
+    poster: "/videos/hero-slider-2.png",
   },
 
   {
-    type: "video",
-    src: "/videos/hero-video-3.mp4",
+    type: "image",
+    src: "/videos/hero-slider-3.jpg",
     title: "Complete Warehousing Solutions",
     description:
       "End-to-end logistics management, inventory control, and distribution services with real-time tracking for seamless operations",
-    poster: "/parking-service.jpg",
+    poster: "/videos/hero-slider-3.jpg",
   },
 ];
 
