@@ -189,6 +189,76 @@ export default function RootLayout({
             }),
           }}
         />
+
+        {/* Schema.org Site Navigation for Google Sitelinks */}
+        <Script
+          id="schema-navigation"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 1,
+                  "name": "Home",
+                  "description": "K&C Logistics homepage - Professional warehousing, trucking, and logistics services",
+                  "url": "https://www.knclogistics.com/"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 2,
+                  "name": "About Us",
+                  "description": "Learn about K&C Logistics, our experience and commitment to excellence",
+                  "url": "https://www.knclogistics.com/about"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 3,
+                  "name": "Cross Docking",
+                  "description": "Fast cross docking operations for freight consolidation and distribution",
+                  "url": "https://www.knclogistics.com/cross-docking"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 4,
+                  "name": "Truck Parking",
+                  "description": "Secure 24/7 truck parking with spacious lots and staging areas",
+                  "url": "https://www.knclogistics.com/truck-parking"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 5,
+                  "name": "Warehousing",
+                  "description": "Modern warehouse facilities with climate-controlled storage",
+                  "url": "https://www.knclogistics.com/warehousing-services"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 6,
+                  "name": "Trucking",
+                  "description": "Reliable trucking services for local and regional routes",
+                  "url": "https://www.knclogistics.com/trucking"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 7,
+                  "name": "Supply Chain",
+                  "description": "End-to-end supply chain management and logistics optimization",
+                  "url": "https://www.knclogistics.com/supply-chain-solutions"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 8,
+                  "name": "Contact",
+                  "description": "Get in touch with K&C Logistics team",
+                  "url": "https://www.knclogistics.com/contact"
+                }
+              ]
+            }),
+          }}
+        />
       </body>
     </html>
   );

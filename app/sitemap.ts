@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/supply-chain-solutions", priority: 0.9, changeFrequency: "weekly" },
     { url: "/truck-parking", priority: 0.9, changeFrequency: "weekly" },
     { url: "/cross-docking", priority: 0.9, changeFrequency: "weekly" },
+    { url: "/parking-solutions", priority: 0.9, changeFrequency: "weekly" },
     { url: "/about", priority: 0.8, changeFrequency: "monthly" },
     { url: "/contact", priority: 0.8, changeFrequency: "monthly" },
     { url: "/faq", priority: 0.7, changeFrequency: "monthly" },
