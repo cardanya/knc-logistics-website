@@ -1,6 +1,7 @@
 // Email sending utility
-// Supports multiple providers: Resend, SendGrid, and SMTP (Nodemailer)
-// Fixed TypeScript build errors - removed unused @ts-expect-error directives
+// Uses Brevo (Sendinblue) for transactional emails
+
+import { COMPANY_INFO, SOCIAL_LINKS } from './constants';
 
 interface EmailData {
   service: string;
@@ -106,7 +107,7 @@ function generateAdminEmailHTML(data: EmailData): string {
 <body>
   <div class="header">
     <h1>🚚 New Contact Form Submission</h1>
-    <p style="margin: 10px 0 0 0; opacity: 0.9;">K&C Logistics Website</p>
+    <p style="margin: 10px 0 0 0; opacity: 0.9;">${COMPANY_INFO.name} Website</p>
   </div>
 
   <div class="content">
@@ -156,7 +157,7 @@ function generateAdminEmailHTML(data: EmailData): string {
     </div>
 
     <div class="footer">
-      <p>This email was sent from the K&C Logistics contact form.</p>
+      <p>This email was sent from the ${COMPANY_INFO.name} contact form.</p>
       <p>Submitted on ${new Date().toLocaleString("en-US", {
         dateStyle: "full",
         timeStyle: "long",
@@ -172,7 +173,7 @@ function generateAdminEmailHTML(data: EmailData): string {
 // Generate admin notification plain text version
 function generateAdminEmailText(data: EmailData): string {
   return `
-New Contact Form Submission - K&C Logistics
+New Contact Form Submission - ${COMPANY_INFO.name}
 
 Service Interest: ${formatServiceName(data.service)}
 Name: ${data.name}
@@ -199,7 +200,7 @@ function generateCustomerEmailHTML(data: EmailData): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You - K&C Logistics</title>
+  <title>Thank You - ${COMPANY_INFO.name}</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -358,7 +359,7 @@ function generateCustomerEmailHTML(data: EmailData): string {
     <div class="content">
       <p class="greeting">Hi ${escapeHtml(data.name)},</p>
 
-      <p>Thank you for reaching out to K&C Logistics! We've successfully received your inquiry about <strong>${formatServiceName(data.service)}</strong> and our team will review it shortly.</p>
+      <p>Thank you for reaching out to ${COMPANY_INFO.name}! We've successfully received your inquiry about <strong>${formatServiceName(data.service)}</strong> and our team will review it shortly.</p>
 
       <div class="message-box">
         <p><strong>Your Message:</strong></p>
@@ -397,27 +398,27 @@ function generateCustomerEmailHTML(data: EmailData): string {
         <h3>Need Immediate Help?</h3>
         <p>Our team is available to assist you right away</p>
         <div class="cta-buttons">
-          <a href="tel:+17145882005" class="btn btn-primary">📞 Call (714) 588-2005</a>
-          <a href="https://wa.me/17145882005" class="btn btn-secondary">💬 WhatsApp</a>
+          <a href="tel:${COMPANY_INFO.phones.cellE164}" class="btn btn-primary">📞 Call ${COMPANY_INFO.phones.cellFormatted}</a>
+          <a href="https://wa.me/${COMPANY_INFO.phones.whatsappE164.replace('+', '')}" class="btn btn-secondary">💬 WhatsApp</a>
         </div>
       </div>
 
-      <p style="margin-top: 30px;">Best regards,<br><strong>K&C Logistics Team</strong></p>
+      <p style="margin-top: 30px;">Best regards,<br><strong>${COMPANY_INFO.name} Team</strong></p>
     </div>
 
     <div class="footer">
       <div class="social-links">
-        <a href="https://www.facebook.com/profile.php?id=61581692743100" style="background: #1877f2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Facebook</a>
-        <a href="https://www.instagram.com/knclogistics.co/" style="background: #e4405f; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Instagram</a>
-        <a href="https://x.com/knclogistics" style="background: #000000; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Twitter</a>
-        <a href="https://www.linkedin.com/in/knclogistics/" style="background: #0a66c2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">LinkedIn</a>
+        <a href="${SOCIAL_LINKS.facebook}" style="background: #1877f2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Facebook</a>
+        <a href="${SOCIAL_LINKS.instagram}" style="background: #e4405f; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Instagram</a>
+        <a href="${SOCIAL_LINKS.twitter}" style="background: #000000; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">Twitter</a>
+        <a href="${SOCIAL_LINKS.linkedin}" style="background: #0a66c2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 0 5px; font-size: 12px; font-weight: 600;">LinkedIn</a>
       </div>
-      <p><strong>K&C Logistics</strong></p>
-      <p>3060 Daimler St, Santa Ana, CA 92705</p>
-      <p>📞 (714) 588-2005 | 📧 info@knclogistics.com</p>
+      <p><strong>${COMPANY_INFO.name}</strong></p>
+      <p>${COMPANY_INFO.addresses[0].fullAddress}</p>
+      <p>📞 ${COMPANY_INFO.phones.cellFormatted} | 📧 ${COMPANY_INFO.emails.info}</p>
       <p style="margin-top: 15px; font-size: 11px; color: #999;">
         This email was sent because you submitted a contact form on our website.<br>
-        © ${new Date().getFullYear()} K&C Logistics. All rights reserved.
+        © ${new Date().getFullYear()} ${COMPANY_INFO.name}. All rights reserved.
       </p>
     </div>
   </div>
@@ -429,7 +430,7 @@ function generateCustomerEmailHTML(data: EmailData): string {
 // Generate customer confirmation plain text version
 function generateCustomerEmailText(data: EmailData): string {
   return `
-Thank You for Contacting K&C Logistics!
+Thank You for Contacting ${COMPANY_INFO.name}!
 
 Hi ${data.name},
 
@@ -444,26 +445,26 @@ WHAT HAPPENS NEXT:
 ${data.phone ? `- We may also call you at: ${data.phone}` : ''}
 
 NEED IMMEDIATE HELP?
-📞 Call us: (714) 588-2005
-💬 WhatsApp: https://wa.me/17145882005
+📞 Call us: ${COMPANY_INFO.phones.cellFormatted}
+💬 WhatsApp: https://wa.me/${COMPANY_INFO.phones.whatsappE164.replace('+', '')}
 
 Best regards,
-K&C Logistics Team
+${COMPANY_INFO.name} Team
 
 ---
-K&C Logistics
-🏢 3060 Daimler St, Santa Ana, CA 92705
-📞 Phone: (714) 588-2005
-📧 Email: info@knclogistics.com
+${COMPANY_INFO.name}
+🏢 ${COMPANY_INFO.addresses[0].fullAddress}
+📞 Phone: ${COMPANY_INFO.phones.cellFormatted}
+📧 Email: ${COMPANY_INFO.emails.info}
 🌐 Website: https://www.knclogistics.com
 
 Follow us:
-Facebook: https://www.facebook.com/profile.php?id=61581692743100
-Instagram: https://www.instagram.com/knclogistics.co/
-Twitter: https://x.com/knclogistics
-LinkedIn: https://www.linkedin.com/in/knclogistics/
+Facebook: ${SOCIAL_LINKS.facebook}
+Instagram: ${SOCIAL_LINKS.instagram}
+Twitter: ${SOCIAL_LINKS.twitter}
+LinkedIn: ${SOCIAL_LINKS.linkedin}
 
-© ${new Date().getFullYear()} K&C Logistics. All rights reserved.
+© ${new Date().getFullYear()} ${COMPANY_INFO.name}. All rights reserved.
   `.trim();
 }
 
@@ -481,7 +482,7 @@ function escapeHtml(text: string): string {
 
 // Main email sending function
 export async function sendContactEmail(data: EmailData): Promise<void> {
-  const emailTo = process.env.EMAIL_TO || "info@knclogistics.com";
+  const emailTo = process.env.EMAIL_TO || "${COMPANY_INFO.emails.info}";
   const emailFrom = process.env.EMAIL_FROM || "noreply@knclogistics.com";
   const emailCC = process.env.EMAIL_CC?.split(",")
     .map((e) => e.trim())
@@ -496,163 +497,51 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
   const adminText = generateAdminEmailText(data);
 
   // Customer confirmation email
-  const customerSubject = `Thank You for Contacting K&C Logistics`;
+  const customerSubject = `Thank You for Contacting ${COMPANY_INFO.name}`;
   const customerHtml = generateCustomerEmailHTML(data);
   const customerText = generateCustomerEmailText(data);
 
   // Check which email provider is configured
-  if (process.env.RESEND_API_KEY) {
-    // Option 1: Resend
+  if (process.env.BREVO_API_KEY) {
+    // Option 1: Brevo (Sendinblue) - Recommended for free tier
     try {
-      // Resend package is optional and installed separately
-      const { Resend } = await import("resend").catch(() => {
-        throw new Error("Resend package not found. Install it with: npm install resend");
-      });
-      const resend = new Resend(process.env.RESEND_API_KEY);
-
-      // Send admin notification with Reply-To
-      await resend.emails.send({
-        from: emailFrom,
-        to: emailTo,
-        cc: emailCC,
-        bcc: emailBCC,
-        replyTo: data.email,
-        subject: adminSubject,
-        html: adminHtml,
-        text: adminText,
-      });
-
-      // Send customer confirmation
-      await resend.emails.send({
-        from: emailFrom,
-        to: data.email,
-        subject: customerSubject,
-        html: customerHtml,
-        text: customerText,
-      });
-    } catch (error) {
-      console.error("Failed to send email with Resend:", error);
-      throw new Error(
-        "Email service not configured. Install resend package: npm install resend"
+      const brevo = await import("@getbrevo/brevo");
+      const apiInstance = new brevo.TransactionalEmailsApi();
+      apiInstance.setApiKey(
+        brevo.TransactionalEmailsApiApiKeys.apiKey,
+        process.env.BREVO_API_KEY
       );
-    }
-  } else if (process.env.SENDGRID_API_KEY) {
-    // Option 2: SendGrid
-    try {
-      const sgMail = await import("@sendgrid/mail");
-      const apiKey = process.env.SENDGRID_API_KEY.trim();
-      
-      if (!apiKey || !apiKey.startsWith("SG.")) {
-        throw new Error("Invalid SendGrid API key format. Should start with 'SG.'");
-      }
-      
-      sgMail.default.setApiKey(apiKey);
 
       // Send admin notification with Reply-To
-      await sgMail.default.send({
-        from: emailFrom,
-        to: emailTo,
-        cc: emailCC,
-        bcc: emailBCC,
-        replyTo: data.email,
-        subject: adminSubject,
-        html: adminHtml,
-        text: adminText,
-      });
+      const adminEmail = new brevo.SendSmtpEmail();
+      adminEmail.sender = { email: emailFrom, name: "${COMPANY_INFO.name}" };
+      adminEmail.to = [{ email: emailTo }];
+      if (emailCC && emailCC.length > 0) {
+        adminEmail.cc = emailCC.map(email => ({ email }));
+      }
+      if (emailBCC && emailBCC.length > 0) {
+        adminEmail.bcc = emailBCC.map(email => ({ email }));
+      }
+      adminEmail.replyTo = { email: data.email, name: data.name };
+      adminEmail.subject = adminSubject;
+      adminEmail.htmlContent = adminHtml;
+      adminEmail.textContent = adminText;
+
+      await apiInstance.sendTransacEmail(adminEmail);
 
       // Send customer confirmation
-      await sgMail.default.send({
-        from: emailFrom,
-        to: data.email,
-        subject: customerSubject,
-        html: customerHtml,
-        text: customerText,
-      });
-    } catch (error: any) {
-      console.error("Failed to send email with SendGrid:", error);
-      
-      // Log detailed error information for debugging
-      if (error?.response) {
-        console.error("SendGrid Error Details:", {
-          statusCode: error.response.statusCode,
-          body: error.response.body,
-          headers: error.response.headers,
-        });
-      }
-      
-      // Provide more specific error messages
-      if (error?.code === 401 || error?.response?.statusCode === 401) {
-        const errorBody = error?.response?.body;
-        const errorMessage = errorBody?.errors?.[0]?.message || errorBody?.message || "Unauthorized";
-        
-        throw new Error(
-          `SendGrid authentication failed (401 Unauthorized).\n` +
-          `Error: ${errorMessage}\n` +
-          `FROM email: ${emailFrom}\n` +
-          `Possible causes:\n` +
-          `1. API key may need "Full Access" or "Mail Send" permissions\n` +
-          `2. Domain authentication required (not just single sender) - Check: https://app.sendgrid.com/settings/sender_auth\n` +
-          `3. API key might have IP restrictions - Check API key settings\n` +
-          `4. API key format issue - Ensure no extra spaces/characters\n` +
-          `Visit: https://app.sendgrid.com/settings/api_keys`
-        );
-      } else if (error?.code === 403 || error?.response?.statusCode === 403) {
-        throw new Error(
-          `SendGrid API access denied (403 Forbidden). Your API key needs "Mail Send" permissions.\n` +
-          `Please update your API key permissions in SendGrid Dashboard.\n` +
-          `Visit: https://app.sendgrid.com/settings/api_keys`
-        );
-      } else if (error?.message?.includes("Invalid")) {
-        throw error;
-      } else {
-        throw new Error(
-          `SendGrid email sending failed: ${error?.message || "Unknown error"}.\n` +
-          `FROM email: ${emailFrom}\n` +
-          `Please check your SENDGRID_API_KEY and verify the sender email in SendGrid.`
-        );
-      }
-    }
-  } else if (process.env.SMTP_HOST) {
-    // Option 3: SMTP (Nodemailer)
-    try {
-      // Nodemailer package is optional and installed separately
-      const nodemailer = await import("nodemailer").catch(() => {
-        throw new Error("Nodemailer package not found. Install it with: npm install nodemailer");
-      });
-      const transporter = nodemailer.default.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || "587"),
-        secure: process.env.SMTP_PORT === "465",
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      });
+      const customerEmail = new brevo.SendSmtpEmail();
+      customerEmail.sender = { email: emailFrom, name: "${COMPANY_INFO.name}" };
+      customerEmail.to = [{ email: data.email, name: data.name }];
+      customerEmail.subject = customerSubject;
+      customerEmail.htmlContent = customerHtml;
+      customerEmail.textContent = customerText;
 
-      // Send admin notification with Reply-To
-      await transporter.sendMail({
-        from: emailFrom,
-        to: emailTo,
-        cc: emailCC,
-        bcc: emailBCC,
-        replyTo: data.email,
-        subject: adminSubject,
-        html: adminHtml,
-        text: adminText,
-      });
-
-      // Send customer confirmation
-      await transporter.sendMail({
-        from: emailFrom,
-        to: data.email,
-        subject: customerSubject,
-        html: customerHtml,
-        text: customerText,
-      });
+      await apiInstance.sendTransacEmail(customerEmail);
     } catch (error) {
-      console.error("Failed to send email with SMTP:", error);
+      console.error("Failed to send email with Brevo:", error);
       throw new Error(
-        "Email service not configured. Install nodemailer package: npm install nodemailer"
+        "Brevo email service error. Please check your BREVO_API_KEY configuration."
       );
     }
   } else {
@@ -660,7 +549,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     console.log("📧 Admin notification would be sent:", { to: emailTo, subject: adminSubject, data });
     console.log("📧 Customer confirmation would be sent:", { to: data.email, subject: customerSubject });
     console.log(
-      "⚠️  No email provider configured. Set RESEND_API_KEY, SENDGRID_API_KEY, or SMTP_* in .env.local"
+      "⚠️  No email provider configured. Set BREVO_API_KEY in .env.local"
     );
   }
 }
