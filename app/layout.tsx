@@ -54,6 +54,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+
+        {/* Google Search Console Verification */}
+        <meta name="google-site-verification" content="66UrXVjkTU7FHfVNuXQtPnP4SA1hSBEMR-ghc_-RIAI" />
       </head>
       <body suppressHydrationWarning>
         <a href="#main-content" className="skip-to-content">
