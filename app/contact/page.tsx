@@ -7,7 +7,7 @@ import Toast, { ToastType } from "@/components/Toast";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
 import { generateBreadcrumbSchema } from "@/lib/schema";
 import { useRecaptcha } from "@/lib/useRecaptcha";
-import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink, getDirectionsLink, getGoogleMapsEmbedUrl } from "@/lib/constants";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink, getDirectionsLink } from "@/lib/constants";
 import { submitContactForm } from "@/lib/api/contact";
 
 interface FormErrors {
@@ -463,8 +463,10 @@ export default function Contact() {
               </h3>
               <p>{address.fullAddress}</p>
               <MapWithSkeleton
-                src={getGoogleMapsEmbedUrl(address)}
-                title={`Map of ${address.name}`}
+                latitude={address.latitude}
+                longitude={address.longitude}
+                title={address.name}
+                address={address.fullAddress}
               />
             </div>
           ))}

@@ -1,59 +1,94 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+// Dynamically import map components (client-side only)
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Popup),
+  { ssr: false }
+);
 
 interface MapWithSkeletonProps {
-  src: string;
+  latitude: number;
+  longitude: number;
   title: string;
+  address: string;
 }
 
-export default function MapWithSkeleton({ src, title }: MapWithSkeletonProps) {
+export default function MapWithSkeleton({
+  latitude,
+  longitude,
+  title,
+  address,
+}: MapWithSkeletonProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const mountedRef = useRef(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    mountedRef.current = true;
+    setIsMounted(true);
 
-    // Set timeout to force-hide skeleton after 5 seconds
-    timeoutRef.current = setTimeout(() => {
-      if (mountedRef.current) {
-        console.log(`Map load timeout reached for: ${title}`);
-        setIsLoaded(true);
-      }
-    }, 5000);
-
-    return () => {
-      mountedRef.current = false;
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [title]);
-
-  const handleLoad = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+    // Fix Leaflet default marker icons (only on client side)
+    if (typeof window !== "undefined") {
+      import("leaflet").then((L) => {
+        delete (L.Icon.Default.prototype as any)._getIconUrl;
+        L.Icon.Default.mergeOptions({
+          iconUrl: "/leaflet/marker-icon.png",
+          iconRetinaUrl: "/leaflet/marker-icon-2x.png",
+          shadowUrl: "/leaflet/marker-shadow.png",
+        });
+      });
     }
-    if (mountedRef.current) {
-      setIsLoaded(true);
-    }
-  };
+
+    // Simulate loading delay
+    const timer = setTimeout(() => setIsLoaded(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Don't render anything until mounted on client
+  if (!isMounted) {
+    return (
+      <div className="map-wrapper">
+        <div className="map-skeleton skeleton" aria-hidden="true" />
+      </div>
+    );
+  }
 
   return (
     <div className="map-wrapper">
       {!isLoaded && <div className="map-skeleton skeleton" aria-hidden="true" />}
-      <iframe
-        className={`map-frame ${isLoaded ? "is-visible" : ""}`}
-        src={src}
-        width="100%"
-        height="100%"
-        title={title}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        onLoad={handleLoad}
-      ></iframe>
+      {isLoaded && (
+        <MapContainer
+          center={[latitude, longitude]}
+          zoom={15}
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%", borderRadius: "12px" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[latitude, longitude]}>
+            <Popup>
+              <strong>{title}</strong>
+              <br />
+              {address}
+            </Popup>
+          </Marker>
+        </MapContainer>
+      )}
     </div>
   );
 }

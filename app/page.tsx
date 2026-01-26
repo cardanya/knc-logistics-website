@@ -9,7 +9,7 @@ import StatsCounter from "@/components/StatsCounter";
 import Toast, { ToastType } from "@/components/Toast";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
 import { useRecaptcha } from "@/lib/useRecaptcha";
-import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink, getGoogleMapsEmbedUrl } from "@/lib/constants";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink } from "@/lib/constants";
 import { submitContactForm } from "@/lib/api/contact";
 
 interface FormErrors {
@@ -910,8 +910,10 @@ export default function Home() {
               </h3>
               <p>{address.fullAddress}</p>
               <MapWithSkeleton
-                src={getGoogleMapsEmbedUrl(address)}
-                title={`Map of ${address.name}`}
+                latitude={address.latitude}
+                longitude={address.longitude}
+                title={address.name}
+                address={address.fullAddress}
               />
               <button
                 className="map-directions-btn"
