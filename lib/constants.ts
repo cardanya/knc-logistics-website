@@ -10,6 +10,8 @@ export interface Address {
   zip: string;
   fullAddress: string;
   googleMapsQuery: string;
+  latitude: number;
+  longitude: number;
   embedUrl?: string; // Optional embed URL for reliable map display
 }
 
@@ -64,6 +66,8 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92705',
       fullAddress: '3060 Daimler St, Santa Ana, CA 92705',
       googleMapsQuery: 'K%26C%20Warehousing%2C%20Cross%20Docking%2C%20Lumper%20Services%2C%20Trucking',
+      latitude: 33.677531,
+      longitude: -117.884897,
       embedUrl: 'https://maps.google.com/maps?q=3060+Daimler+St,+Santa+Ana,+CA+92705&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
     {
@@ -74,6 +78,8 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92705',
       fullAddress: '3100 S Standard Ave, Santa Ana, CA 92705',
       googleMapsQuery: 'Orange%20County%20Truck%20Stop%20%26%20Warehousing',
+      latitude: 33.676531,
+      longitude: -117.879347,
       embedUrl: 'https://maps.google.com/maps?q=3100+S+Standard+Ave,+Santa+Ana,+CA+92705&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
     {
@@ -84,6 +90,8 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92707',
       fullAddress: '133 E Alton Ave, Santa Ana, CA 92707',
       googleMapsQuery: 'K%26C%20Logistics%2C%20Warehousing%20Alton%20Branch',
+      latitude: 33.705290269161914,
+      longitude: -117.86607248083804,
       embedUrl: 'https://maps.google.com/maps?q=133+E+Alton+Ave,+Santa+Ana,+CA+92707&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
   ],
