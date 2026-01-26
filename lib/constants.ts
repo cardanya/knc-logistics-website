@@ -112,12 +112,21 @@ export function getTelLink(phoneE164: string): string {
 }
 
 export function getGoogleMapsEmbedUrl(address: Address): string {
-  // If a custom embed URL is provided, use it for better reliability
-  if (address.embedUrl) {
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+  // If a custom embed URL is provided, use it
+  if (address.embedUrl && !apiKey) {
     return address.embedUrl;
   }
 
-  // Fallback: construct a basic embed URL
+  // Use Maps Embed API if API key is available (recommended)
+  if (apiKey) {
+    const query = encodeURIComponent(address.fullAddress);
+    return `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${query}&zoom=15`;
+  }
+
+  // Fallback to basic embed (may be blocked by Google)
+  console.warn('Google Maps API key not found. Maps may not display correctly.');
   const query = encodeURIComponent(address.fullAddress);
   return `https://www.google.com/maps?q=${query}&output=embed`;
 }
