@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Image backups
+public/images-backup/
+
+# Test files
+test-recaptcha.js

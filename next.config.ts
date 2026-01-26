@@ -48,6 +48,21 @@ const nextConfig: NextConfig = {
             value: '1; mode=block'
           },
           {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.googletagmanager.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+              "frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.google.com/ https://www.google.com/maps/",
+              "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+              "img-src 'self' data: https: https://images.unsplash.com https://www.knclogistics.com",
+              "font-src 'self' data: https://cdnjs.cloudflare.com",
+              "connect-src 'self' https://www.google-analytics.com",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'"
+            ].join('; ')
+          },
+          {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin'
           },

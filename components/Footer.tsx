@@ -1,12 +1,13 @@
 import Link from 'next/link';
+import { COMPANY_INFO, SOCIAL_LINKS } from '@/lib/constants';
 
 export default function Footer() {
   return (
     <footer>
       <div className="footer-content">
         <div className="footer-section">
-          <h3>K&C Logistics</h3>
-          <p>Your trusted solution partner in the logistics industry with 20 years of experience. Customer satisfaction is our priority.</p>
+          <h3>{COMPANY_INFO.name}</h3>
+          <p>{COMPANY_INFO.tagline} with {COMPANY_INFO.yearsOfExperience} of experience. Customer satisfaction is our priority.</p>
         </div>
 
         <div className="footer-section">
@@ -35,19 +36,19 @@ export default function Footer() {
         <div className="footer-section">
           <h3>Follow Us</h3>
           <div className="social-links-footer">
-            <a href="https://www.facebook.com/profile.php?id=61581692743100" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <i className="fab fa-facebook-f"></i>
             </a>
-            <a href="https://www.instagram.com/knclogistics.co/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="https://x.com/knclogistics" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
               <i className="fab fa-x-twitter"></i>
             </a>
-            <a href="https://www.linkedin.com/in/knclogistics/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <i className="fab fa-linkedin-in"></i>
             </a>
-            <a href="https://www.tiktok.com/@knclogistics" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">
               <i className="fab fa-tiktok"></i>
             </a>
           </div>
@@ -55,7 +56,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2025 K&C Logistics. All rights reserved.</p>
+        <p>&copy; 2025 {COMPANY_INFO.name}. All rights reserved.</p>
       </div>
     </footer>
   );

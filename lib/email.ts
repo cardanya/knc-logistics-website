@@ -482,7 +482,7 @@ function escapeHtml(text: string): string {
 
 // Main email sending function
 export async function sendContactEmail(data: EmailData): Promise<void> {
-  const emailTo = process.env.EMAIL_TO || "${COMPANY_INFO.emails.info}";
+  const emailTo = process.env.EMAIL_TO || COMPANY_INFO.emails.info;
   const emailFrom = process.env.EMAIL_FROM || "noreply@knclogistics.com";
   const emailCC = process.env.EMAIL_CC?.split(",")
     .map((e) => e.trim())
@@ -514,7 +514,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
 
       // Send admin notification with Reply-To
       const adminEmail = new brevo.SendSmtpEmail();
-      adminEmail.sender = { email: emailFrom, name: "${COMPANY_INFO.name}" };
+      adminEmail.sender = { email: emailFrom, name: COMPANY_INFO.name };
       adminEmail.to = [{ email: emailTo }];
       if (emailCC && emailCC.length > 0) {
         adminEmail.cc = emailCC.map(email => ({ email }));
@@ -531,7 +531,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
 
       // Send customer confirmation
       const customerEmail = new brevo.SendSmtpEmail();
-      customerEmail.sender = { email: emailFrom, name: "${COMPANY_INFO.name}" };
+      customerEmail.sender = { email: emailFrom, name: COMPANY_INFO.name };
       customerEmail.to = [{ email: data.email, name: data.name }];
       customerEmail.subject = customerSubject;
       customerEmail.htmlContent = customerHtml;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { generateServiceMetadata, pageMetadata } from "@/lib/metadata";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink } from "@/lib/constants";
 
 export const metadata = generateServiceMetadata(pageMetadata.about);
 
@@ -94,7 +95,7 @@ export default function About() {
                   <Link href="/contact" className="btn btn-primary">
                     Get a Quote
                   </Link>
-                  <a href="tel:7145882005" className="btn btn-secondary">
+                  <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="btn btn-secondary">
                     Call/Text Us
                   </a>
                 </div>
@@ -184,7 +185,7 @@ export default function About() {
               and logistics needs. Our team is ready to provide customized solutions.
             </p>
             <div className="service-cta-buttons">
-              <a href="tel:7145882005" className="btn btn-primary">
+              <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="btn btn-primary">
                 <i className="fas fa-phone-alt"></i>
                 Call (714) 588-2005
               </a>
@@ -192,7 +193,7 @@ export default function About() {
                 Contact Us
               </Link>
               <a
-                href="https://wa.me/17145882005"
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-secondary"

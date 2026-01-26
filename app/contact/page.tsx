@@ -6,6 +6,9 @@ import { useState, useRef, useEffect } from "react";
 import Toast, { ToastType } from "@/components/Toast";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { useRecaptcha } from "@/lib/useRecaptcha";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink, getDirectionsLink, getGoogleMapsEmbedUrl } from "@/lib/constants";
+import { submitContactForm } from "@/lib/api/contact";
 
 interface FormErrors {
   service?: string;
@@ -29,6 +32,8 @@ export default function Contact() {
   const phoneRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
+  const { executeRecaptcha } = useRecaptcha();
+
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -51,10 +56,9 @@ export default function Contact() {
     return () => observer.disconnect();
   }, []);
 
-  const openDirections = (address: string) => {
-    const encodedAddress = encodeURIComponent(address);
-    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
-    window.open(mapsUrl, "_blank", "noopener,noreferrer");
+  const openDirections = (addressIndex: number) => {
+    const address = COMPANY_INFO.addresses[addressIndex];
+    window.open(getDirectionsLink(address), "_blank", "noopener,noreferrer");
   };
 
   const validateForm = (formData: FormData): boolean => {
@@ -116,26 +120,31 @@ export default function Contact() {
 
     setIsLoading(true);
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          service: formData.get('service'),
-          name: formData.get('name'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          message: formData.get('message'),
-        }),
+    // Execute reCAPTCHA
+    const recaptchaToken = await executeRecaptcha('contact_form');
+    if (!recaptchaToken) {
+      setFormErrors({
+        ...formErrors,
       });
+      setToast({
+        message: 'Security verification failed. Please try again.',
+        type: 'error'
+      });
+      setIsLoading(false);
+      return;
+    }
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
-      }
+    try {
+      const data = await submitContactForm({
+        data: {
+          service: formData.get('service') as string,
+          name: formData.get('name') as string,
+          email: formData.get('email') as string,
+          phone: formData.get('phone') as string || undefined,
+          message: formData.get('message') as string,
+        },
+        recaptchaToken,
+      });
 
       setIsLoading(false);
       (e.target as HTMLFormElement).reset();
@@ -201,60 +210,21 @@ export default function Contact() {
               <i className="fas fa-map-marker-alt"></i>
               <div>
                 <h2>Our Addresses</h2>
-                <div className="address-entry">
-                  <div>
-                    <strong>
-                      K&C Warehousing, Cross Docking, Lumper Services and
-                      Trucking
-                    </strong>
-                    <span>3060 Daimler St, Santa Ana, CA 92705</span>
+                {COMPANY_INFO.addresses.map((address, index) => (
+                  <div key={index} className="address-entry">
+                    <div>
+                      <strong>{address.name}</strong>
+                      <span>{address.fullAddress}</span>
+                    </div>
+                    <button
+                      className="address-directions-btn"
+                      onClick={() => openDirections(index)}
+                      aria-label={`Get directions to ${address.name}`}
+                    >
+                      <i className="fas fa-directions"></i>
+                    </button>
                   </div>
-                  <button
-                    className="address-directions-btn"
-                    onClick={() =>
-                      openDirections(
-                        "K&C Warehousing, Cross Docking, Lumper Services and Trucking, 3060 Daimler St, Santa Ana, CA 92705"
-                      )
-                    }
-                    aria-label="Get directions to K&C Warehousing"
-                  >
-                    <i className="fas fa-directions"></i>
-                  </button>
-                </div>
-                <div className="address-entry">
-                  <div>
-                    <strong>Orange County Truck Stop & Warehousing</strong>
-                    <span>3100 S Standard Ave, Santa Ana, CA 92705</span>
-                  </div>
-                  <button
-                    className="address-directions-btn"
-                    onClick={() =>
-                      openDirections(
-                        "Orange County Truck Stop & Warehousing, 3100 S Standard Ave, Santa Ana, CA 92705"
-                      )
-                    }
-                    aria-label="Get directions to Orange County Truck Stop"
-                  >
-                    <i className="fas fa-directions"></i>
-                  </button>
-                </div>
-                <div className="address-entry">
-                  <div>
-                    <strong>K&C Logistics, Warehousing Alton Branch</strong>
-                    <span>133 E Alton Ave, Santa Ana, CA 92707</span>
-                  </div>
-                  <button
-                    className="address-directions-btn"
-                    onClick={() =>
-                      openDirections(
-                        "K&C Logistics, Warehousing Alton Branch, 133 E Alton Ave, Santa Ana, CA 92707"
-                      )
-                    }
-                    aria-label="Get directions to K&C Alton Branch"
-                  >
-                    <i className="fas fa-directions"></i>
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
             <div className="contact-item">
@@ -263,20 +233,24 @@ export default function Contact() {
                 <h3>Phone Numbers</h3>
                 <p>
                   <strong>Direct:</strong>{" "}
-                  <a href="tel:+19494844686">(949) 484-4686</a>
+                  <a href={getTelLink(`+1${COMPANY_INFO.phones.direct}`)}>
+                    {COMPANY_INFO.phones.directFormatted}
+                  </a>
                 </p>
                 <p>
                   <strong>Cell:</strong>{" "}
-                  <a href="tel:+17145882005">(714) 588-2005</a>
+                  <a href={getTelLink(COMPANY_INFO.phones.cellE164)}>
+                    {COMPANY_INFO.phones.cellFormatted}
+                  </a>
                 </p>
                 <p>
                   <strong>WhatsApp:</strong>{" "}
                   <a
-                    href="https://wa.me/17149097190"
+                    href={getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    (714) 909-7190
+                    {COMPANY_INFO.phones.whatsappFormatted}
                   </a>
                 </p>
                 <p>
@@ -289,13 +263,13 @@ export default function Contact() {
               <div>
                 <h3>Email</h3>
                 <p>
-                  <a href="mailto:info@knclogistics.com">
-                    info@knclogistics.com
+                  <a href={getMailtoLink(COMPANY_INFO.emails.info)}>
+                    {COMPANY_INFO.emails.info}
                   </a>
                 </p>
                 <p>
-                  <a href="mailto:social@knclogistics.com">
-                    social@knclogistics.com
+                  <a href={getMailtoLink(COMPANY_INFO.emails.social)}>
+                    {COMPANY_INFO.emails.social}
                   </a>
                 </p>
               </div>
@@ -432,6 +406,34 @@ export default function Contact() {
               )}
             </div>
 
+            {/* reCAPTCHA Badge Notice */}
+            <div style={{
+              fontSize: '0.75rem',
+              color: '#666',
+              textAlign: 'center',
+              marginTop: '1rem'
+            }}>
+              This site is protected by reCAPTCHA and the Google{' '}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary-color)' }}
+              >
+                Privacy Policy
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary-color)' }}
+              >
+                Terms of Service
+              </a>{' '}
+              apply.
+            </div>
+
             <button
               type="submit"
               className={`submit-btn ${isLoading ? "loading" : ""}`}
@@ -454,36 +456,18 @@ export default function Contact() {
           <p>Visit us at any of our three convenient Orange County locations</p>
         </div>
         <div className="maps-grid">
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> K&C Warehousing & Trucking
-            </h3>
-            <p>3060 Daimler St, Santa Ana, CA 92705</p>
-            <MapWithSkeleton
-              src="https://maps.google.com/maps?q=K%26C%20Warehousing%2C%20Cross%20Docking%2C%20Lumper%20Services%2C%20Trucking&output=embed"
-              title="Map of K&C Warehousing and Trucking location"
-            />
-          </div>
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> Orange County Truck Stop
-            </h3>
-            <p>3100 S Standard Ave, Santa Ana, CA 92705</p>
-            <MapWithSkeleton
-              src="https://maps.google.com/maps?q=Orange%20County%20Truck%20Stop%20%26%20Warehousing&output=embed"
-              title="Map of Orange County Truck Stop location"
-            />
-          </div>
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> K&C Alton Branch
-            </h3>
-            <p>133 E Alton Ave, Santa Ana, CA 92707</p>
-            <MapWithSkeleton
-              src="https://maps.google.com/maps?q=K%26C%20Logistics%2C%20Warehousing%20Alton%20Branch&output=embed"
-              title="Map of K&C Alton Branch location"
-            />
-          </div>
+          {COMPANY_INFO.addresses.map((address, index) => (
+            <div key={index} className="map-card scroll-animate-fade">
+              <h3>
+                <i className="fas fa-map-marker-alt"></i> {address.name}
+              </h3>
+              <p>{address.fullAddress}</p>
+              <MapWithSkeleton
+                src={getGoogleMapsEmbedUrl(address)}
+                title={`Map of ${address.name}`}
+              />
+            </div>
+          ))}
         </div>
       </section>
       </main>

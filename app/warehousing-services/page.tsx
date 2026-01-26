@@ -3,6 +3,7 @@ import Image from "next/image";
 import Script from "next/script";
 import { generateServiceMetadata, serviceMetadata } from "@/lib/metadata";
 import { generateBreadcrumbSchema, generateServiceSchema } from "@/lib/schema";
+import { COMPANY_INFO, getTelLink } from "@/lib/constants";
 
 export const metadata = generateServiceMetadata(serviceMetadata.warehousingServices);
 
@@ -67,7 +68,7 @@ export default function WarehousingServices() {
               priority
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
         </div>
@@ -161,7 +162,7 @@ export default function WarehousingServices() {
             <Link href="/contact" className="btn btn-primary">
               Get a Quote
             </Link>
-            <a href="tel:7145882005" className="btn btn-secondary">
+            <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="btn btn-secondary">
               Call/Text Us
             </a>
           </div>

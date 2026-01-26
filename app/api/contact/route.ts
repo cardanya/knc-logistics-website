@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Email validation regex
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { validateEmail, validatePhone } from '@/lib/utils/validation';
 
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
 const RATE_LIMIT_WINDOW_SECONDS = Math.ceil(RATE_LIMIT_WINDOW / 1000);
@@ -91,6 +89,65 @@ async function checkRateLimit(identifier: string): Promise<boolean> {
   return checkMemoryRateLimit(identifier);
 }
 
+// reCAPTCHA verification function
+async function verifyRecaptcha(token: string): Promise<{ success: boolean; score?: number; error?: string }> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const threshold = parseFloat(process.env.RECAPTCHA_SCORE_THRESHOLD || '0.5');
+
+  if (!secretKey) {
+    console.error('RECAPTCHA_SECRET_KEY not configured');
+
+    // In production, this is a critical misconfiguration - fail closed
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('reCAPTCHA is not properly configured. Please contact support.');
+    }
+
+    // In development, allow bypass for testing
+    console.warn('⚠️  Development mode: Bypassing reCAPTCHA verification');
+    return { success: true, score: 1.0 };
+  }
+
+  if (!token) {
+    return { success: false, error: 'reCAPTCHA token missing' };
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: secretKey,
+        response: token,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      console.error('reCAPTCHA verification failed:', data['error-codes']);
+      return { success: false, error: 'Verification failed' };
+    }
+
+    const score = data.score || 0;
+    console.log('reCAPTCHA score:', score);
+
+    if (score < threshold) {
+      return {
+        success: false,
+        score,
+        error: `Score too low: ${score} < ${threshold}`
+      };
+    }
+
+    return { success: true, score };
+  } catch (error) {
+    console.error('reCAPTCHA verification error:', error);
+    return { success: false, error: 'Verification request failed' };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Get IP address for rate limiting
@@ -110,7 +167,25 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { service, name, email, phone, message } = body;
+    const { service, name, email, phone, message, recaptchaToken } = body;
+
+    // Verify reCAPTCHA token
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken);
+    if (!recaptchaResult.success) {
+      console.log('Bot detected or verification failed:', recaptchaResult);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Security verification failed. Please try again.'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Log score for monitoring (optional)
+    if (recaptchaResult.score !== undefined) {
+      console.log('Contact submission score:', recaptchaResult.score);
+    }
 
     // Validate required fields
     if (!service || !name || !email || !message) {
@@ -135,28 +210,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
-    if (!emailRegex.test(email)) {
+    if (!validateEmail(email)) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid email address'
-        },
+        { success: false, error: 'Invalid email format' },
         { status: 400 }
       );
     }
 
     // Validate phone if provided
-    if (phone) {
-      const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-      if (!phoneRegex.test(phone)) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Invalid phone number'
-          },
-          { status: 400 }
-        );
-      }
+    if (phone && !validatePhone(phone)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid phone number. Must be valid format with at least 10 digits.'
+        },
+        { status: 400 }
+      );
     }
 
     // Validate message length
@@ -202,9 +271,20 @@ export async function POST(request: NextRequest) {
         message,
       });
     } catch (emailError) {
-      // Log email error but don't fail the request
       console.error('Failed to send email notification:', emailError);
-      // Continue - we still want to acknowledge the submission
+
+      // In production, email delivery is critical - fail the request
+      if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'We encountered an issue processing your request. Please try again or contact us directly at (714) 588-2005.',
+          },
+          { status: 500 }
+        );
+      }
+      // In development, continue for testing purposes
+      console.warn('⚠️  Development mode: Email failed but continuing');
     }
 
     // Log non-sensitive submission metadata for monitoring

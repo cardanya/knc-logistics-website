@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useLayoutEffect } from "react";
+import { COMPANY_INFO, getTelLink } from "@/lib/constants";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -133,9 +134,9 @@ export default function Header() {
         </ul>
 
         <div className="nav-right">
-          <a href="tel:7145882005" className="emergency-call-btn">
+          <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="emergency-call-btn">
             <i className="fas fa-phone-alt"></i>
-            <span className="emergency-text">Need a Call?</span>
+            <span className="emergency-text">{COMPANY_INFO.phones.cellFormatted}</span>
           </a>
           <button
             className="theme-toggle"

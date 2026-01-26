@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { validateEmail, validatePhone } from "@/lib/utils/validation";
 import { useState, useEffect, useRef } from "react";
 import HeroSlider from "@/components/HeroSlider";
 import StatsCounter from "@/components/StatsCounter";
 import Toast, { ToastType } from "@/components/Toast";
 import MapWithSkeleton from "@/components/MapWithSkeleton";
+import { useRecaptcha } from "@/lib/useRecaptcha";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink, getMailtoLink, getGoogleMapsEmbedUrl } from "@/lib/constants";
+import { submitContactForm } from "@/lib/api/contact";
 
 interface FormErrors {
   service?: string;
@@ -17,7 +21,6 @@ interface FormErrors {
 }
 
 export default function Home() {
-  const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
     "idle"
@@ -36,6 +39,8 @@ export default function Home() {
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const { executeRecaptcha } = useRecaptcha();
 
   useEffect(() => {
     const observerOptions = {
@@ -70,9 +75,6 @@ export default function Home() {
     };
   }, []);
 
-  const toggleFAQ = (index: number) => {
-    setActiveFAQ(activeFAQ === index ? null : index);
-  };
 
   const validateForm = (formData: FormData): boolean => {
     const errors: FormErrors = {};
@@ -94,15 +96,13 @@ export default function Home() {
       if (!firstErrorField) firstErrorField = nameRef.current;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
+    if (!validateEmail(email)) {
       errors.email = "Please enter a valid email address";
       if (!firstErrorField) firstErrorField = emailRef.current;
     }
 
-    const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-    if (phone && !phoneRegex.test(phone)) {
-      errors.phone = "Please enter a valid phone number";
+    if (phone && !validatePhone(phone)) {
+      errors.phone = "Phone number must be valid and contain at least 10 digits";
       if (!firstErrorField) firstErrorField = phoneRef.current;
     }
 
@@ -139,6 +139,20 @@ export default function Home() {
 
     setIsLoading(true);
 
+    // Execute reCAPTCHA
+    const recaptchaToken = await executeRecaptcha('contact_form');
+    if (!recaptchaToken) {
+      setFormErrors({
+        ...formErrors,
+      });
+      setToast({
+        message: 'Security verification failed. Please try again.',
+        type: 'error'
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -151,6 +165,7 @@ export default function Home() {
           email: formData.get("email"),
           phone: formData.get("phone"),
           message: formData.get("message"),
+          recaptchaToken,
         }),
       });
 
@@ -215,7 +230,7 @@ export default function Home() {
       <HeroSlider />
 
       {/* Stats Section */}
-      <section className="stats scroll-animate">
+      <section className="stats">
         <div className="stats-container">
           <StatsCounter
             icon="fas fa-calendar-check"
@@ -224,7 +239,7 @@ export default function Home() {
           />
           <StatsCounter
             icon="fas fa-warehouse"
-            targetValue="100%"
+            targetValue="99%"
             label="Customer Satisfaction"
           />
           <StatsCounter
@@ -255,7 +270,7 @@ export default function Home() {
             <Link href="/cross-docking" className="btn btn-primary">
               Learn More
             </Link>
-            <a href="tel:7145882005" className="btn btn-secondary">
+            <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="btn btn-secondary">
               <i className="fas fa-phone-alt"></i>
               Call/Text Us
             </a>
@@ -318,7 +333,7 @@ export default function Home() {
               priority={false}
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
         </div>
@@ -334,7 +349,7 @@ export default function Home() {
               priority={false}
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
           <div className="service-content-box">
@@ -416,7 +431,7 @@ export default function Home() {
               priority={false}
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
         </div>
@@ -432,7 +447,7 @@ export default function Home() {
               priority={false}
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlNWU3ZWI7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmM2Y0ZjY7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
           <div className="service-content-box">
@@ -486,7 +501,7 @@ export default function Home() {
             <Link href="/cross-docking" className="btn btn-primary">
               Learn More
             </Link>
-            <a href="tel:7145882005" className="btn btn-secondary">
+            <a href={getTelLink(COMPANY_INFO.phones.cellE164)} className="btn btn-secondary">
               <i className="fas fa-phone-alt"></i>
               Call/Text Us
             </a>
@@ -641,12 +656,12 @@ export default function Home() {
                 </p>
                 <p>
                   <strong>Cell:</strong>{" "}
-                  <a href="tel:+17145882005">(714) 588-2005</a>
+                  <a href={getTelLink(COMPANY_INFO.phones.cellE164)}>{COMPANY_INFO.phones.cellFormatted}</a>
                 </p>
                 <p>
                   <strong>WhatsApp:</strong>{" "}
                   <a
-                    href="https://wa.me/17149097190"
+                    href={getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -663,8 +678,8 @@ export default function Home() {
               <div>
                 <h4>Email</h4>
                 <p>
-                  <a href="mailto:info@knclogistics.com">
-                    info@knclogistics.com
+                  <a href={getMailtoLink(COMPANY_INFO.emails.info)}>
+                    {COMPANY_INFO.emails.info}
                   </a>
                 </p>
                 <p>
@@ -702,7 +717,7 @@ export default function Home() {
             )}
 
             <div className={`form-group ${formErrors.service ? "error" : ""}`}>
-              <label htmlFor="service">Service Interest</label>
+              <label htmlFor="service">Service Interested In</label>
               <select
                 id="service"
                 name="service"
@@ -714,10 +729,13 @@ export default function Home() {
                   formErrors.service ? "service-error" : undefined
                 }
               >
-                <option value="">Select a service...</option>
-                <option value="parking">Parking Solutions</option>
-                <option value="warehousing">Warehousing Services</option>
-                <option value="supply-chain">Supply Chain Solutions</option>
+                <option value="">Select a service</option>
+                <option value="Warehousing Services">Warehousing Services</option>
+                <option value="Trucking">Trucking</option>
+                <option value="Truck Parking">Truck Parking</option>
+                <option value="Cross Docking">Cross Docking</option>
+                <option value="Supply Chain Solutions">Supply Chain Solutions</option>
+                <option value="General Inquiry">General Inquiry</option>
               </select>
               {formErrors.service && (
                 <span id="service-error" className="error-message" role="alert">
@@ -727,7 +745,7 @@ export default function Home() {
             </div>
 
             <div className={`form-group ${formErrors.name ? "error" : ""}`}>
-              <label htmlFor="name">Your Name</label>
+              <label htmlFor="name">Full Name</label>
               <input
                 type="text"
                 id="name"
@@ -808,6 +826,34 @@ export default function Home() {
               )}
             </div>
 
+            {/* reCAPTCHA Badge Notice */}
+            <div style={{
+              fontSize: '0.75rem',
+              color: '#666',
+              textAlign: 'center',
+              marginTop: '1rem'
+            }}>
+              This site is protected by reCAPTCHA and the Google{' '}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary-color)' }}
+              >
+                Privacy Policy
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary-color)' }}
+              >
+                Terms of Service
+              </a>{' '}
+              apply.
+            </div>
+
             <button
               type="submit"
               className={`submit-btn ${isLoading ? "loading" : ""}`}
@@ -837,132 +883,13 @@ export default function Home() {
             transloading, and complete supply chain optimization.
           </p>
           <a
-            href="tel:7145882005"
+            href={getTelLink(COMPANY_INFO.phones.cellE164)}
             className="btn btn-primary"
             style={{ background: "var(--accent-color)" }}
           >
             <i className="fas fa-phone-alt"></i>
             <span>Call Us Now</span>
           </a>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="faq" id="faq">
-        <div className="section-header scroll-animate">
-          <h2>Frequently Asked Questions</h2>
-          <p>Find answers to common questions about our services</p>
-        </div>
-        <div className="faq-container">
-          {[
-            {
-              question: "What services does K&C Logistics provide?",
-              answer:
-                "We offer warehousing, trucking, cross docking, truck parking, pallet handling, lumping, and complete supply chain solutions.",
-            },
-            {
-              question: "Do you offer 24/7 truck parking access?",
-              answer:
-                "Yes. Our gated truck yards provide secure 24/7 access with HD camera surveillance and on-site staff.",
-            },
-            {
-              question: "What types of vehicles can park at your yard?",
-              answer:
-                "We accommodate semi-trucks, trailers, box trucks, sprinter vans, flatbeds, and other commercial vehicles.",
-            },
-            {
-              question:
-                "Do you offer daily, weekly, and monthly parking rates?",
-              answer:
-                "Yes. We provide flexible parking packages including daily, weekly, and monthly options to fit your needs.",
-            },
-            {
-              question: "How secure is your truck parking facility?",
-              answer:
-                "Every yard is gated with controlled entry, HD surveillance, yard lighting, and staffed support for added security.",
-            },
-            {
-              question: "Do you provide cross docking services?",
-              answer:
-                "Yes. We offer truck-to-truck transfers, repalletizing, relabeling, sorting, and same-day cross docking support.",
-            },
-            {
-              question: "Can I store pallets short-term or long-term?",
-              answer:
-                "Absolutely. Our warehousing team can hold pallets for short-term overflow or long-term storage with inventory tracking.",
-            },
-            {
-              question: "Do you offer repalletizing and pallet rebuilding?",
-              answer:
-                "Yes, we handle pallet rebuilds, wrapping, sorting, and reconfiguration based on your requirements.",
-            },
-            {
-              question: "Do you offer LTL and FTL trucking?",
-              answer:
-                "Yes. We run local and regional LTL/FTL routes with same-day pickup options and scheduled deliveries.",
-            },
-            {
-              question:
-                "Can I coordinate inbound/outbound shipments with your warehouse?",
-              answer:
-                "Definitely. We manage inbound receiving, outbound loading, staging, and distribution coordination.",
-            },
-            {
-              question: "Do you offer supply chain consulting or optimization?",
-              answer:
-                "Yes. Our logistics specialists provide end-to-end supply chain analysis, cost optimization, and planning.",
-            },
-            {
-              question: "Are same-day services available?",
-              answer:
-                "Many services—including cross docking, trucking, and pallet rebuilds—can be scheduled same day based on availability.",
-            },
-            {
-              question: "How do I get a quote for your services?",
-              answer:
-                "Request pricing through our Get a Quote form, call us directly, or text our team for faster communication.",
-            },
-            {
-              question: "Where are your facilities located?",
-              answer:
-                "We operate in Orange County, CA with easy access to I-5, I-405, and CA-55 for convenient logistics.",
-            },
-            {
-              question:
-                "Do you work with carriers, 3PLs, and distribution companies?",
-              answer:
-                "Yes. We support carriers, brokers, 3PLs, e-commerce shippers, manufacturers, and distributors of every size.",
-            },
-          ].map((faq, index) => (
-            <div
-              key={index}
-              className={`faq-item ${activeFAQ === index ? "active" : ""}`}
-            >
-              <button
-                className="faq-question"
-                onClick={() => toggleFAQ(index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggleFAQ(index);
-                  }
-                }}
-                aria-expanded={activeFAQ === index}
-                aria-controls={`faq-answer-${index}`}
-                type="button"
-              >
-                <h3>{faq.question}</h3>
-                <i className="fas fa-chevron-down"></i>
-              </button>
-              <div
-                id={`faq-answer-${index}`}
-                className="faq-answer"
-                aria-hidden={activeFAQ !== index}
-              >
-                <p>{faq.answer}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -976,73 +903,26 @@ export default function Home() {
           <p>Visit us at any of our three convenient Orange County locations</p>
         </div>
         <div className="maps-grid">
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> K&C Warehousing &
-              Trucking
-            </h3>
-            <p>3060 Daimler St, Santa Ana, CA 92705</p>
-            <MapWithSkeleton
-              src="https://maps.google.com/maps?q=K%26C%20Warehousing%2C%20Cross%20Docking%2C%20Lumper%20Services%2C%20Trucking&output=embed"
-              title="Map of K&C Warehousing and Trucking location"
-            />
-            <button
-              className="map-directions-btn"
-              onClick={() =>
-                openDirections(
-                  "K&C Warehousing, Cross Docking, Lumper Services, Trucking"
-                )
-              }
-              aria-label="Get directions to K&C Warehousing & Trucking"
-            >
-              <i className="fas fa-directions"></i>
-              Get Directions
-            </button>
-          </div>
-
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> Orange County Truck Stop
-            </h3>
-            <p>3100 S Standard Ave, Santa Ana, CA 92705</p>
-            <MapWithSkeleton
-              src="https://maps.google.com/maps?q=Orange%20County%20Truck%20Stop%20%26%20Warehousing&output=embed"
-              title="Map of Orange County Truck Stop and Warehousing"
-            />
-            <button
-              className="map-directions-btn"
-              onClick={() =>
-                openDirections("Orange County Truck Stop & Warehousing")
-              }
-              aria-label="Get directions to Orange County Truck Stop & Warehousing"
-            >
-              <i className="fas fa-directions"></i>
-              Get Directions
-            </button>
-          </div>
-
-          <div className="map-card scroll-animate-fade">
-            <h3>
-              <i className="fas fa-map-marker-alt"></i> K&C Alton Branch
-            </h3>
-            <p>133 E Alton Ave, Santa Ana, CA 92707</p>
-            <MapWithSkeleton
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3317.2!2d-117.8670!3d33.7420!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcd7e1a0b8c6d5%3A0x3456789012cdefgh!2s133%20E%20Alton%20Ave%2C%20Santa%20Ana%2C%20CA%2092707!5e0!3m2!1sen!2sus!4v1234567892"
-              title="Map of K&C Logistics Alton Branch"
-            />
-            <button
-              className="map-directions-btn"
-              onClick={() =>
-                openDirections(
-                  "K&C Alton Branch, 133 E Alton Ave, Santa Ana CA"
-                )
-              }
-              aria-label="Get directions to K&C Alton Branch"
-            >
-              <i className="fas fa-directions"></i>
-              Get Directions
-            </button>
-          </div>
+          {COMPANY_INFO.addresses.map((address, index) => (
+            <div key={index} className="map-card scroll-animate-fade">
+              <h3>
+                <i className="fas fa-map-marker-alt"></i> {address.name}
+              </h3>
+              <p>{address.fullAddress}</p>
+              <MapWithSkeleton
+                src={getGoogleMapsEmbedUrl(address)}
+                title={`Map of ${address.name}`}
+              />
+              <button
+                className="map-directions-btn"
+                onClick={() => openDirections(address.fullAddress)}
+                aria-label={`Get directions to ${address.name}`}
+              >
+                <i className="fas fa-directions"></i>
+                Get Directions
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 

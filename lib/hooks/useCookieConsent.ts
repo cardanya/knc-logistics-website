@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const COOKIE_CONSENT_KEY = 'knc-cookie-consent';
 const ANALYTICS_CONSENT_KEY = 'knc-analytics-consent';
@@ -20,6 +20,9 @@ export function useCookieConsent() {
     marketing: false,
   });
   const [showBanner, setShowBanner] = useState(false);
+
+  // Prevent concurrent savePreferences calls (race condition protection)
+  const isProcessingRef = useRef(false);
 
   // Read from localStorage after component mounts (client-only)
   // Using queueMicrotask to defer state updates and avoid linting warning
@@ -62,15 +65,30 @@ export function useCookieConsent() {
   };
 
   const savePreferences = (prefs: CookiePreferences) => {
-    localStorage.setItem(COOKIE_CONSENT_KEY, 'true');
-    localStorage.setItem(ANALYTICS_CONSENT_KEY, prefs.analytics.toString());
-    setPreferences(prefs);
-    setHasConsent(true);
-    setShowBanner(false);
+    // Guard against concurrent execution (race condition fix)
+    if (isProcessingRef.current) {
+      console.log('Cookie consent already processing, ignoring duplicate request');
+      return;
+    }
 
-    // Reload page to apply analytics settings
-    if (prefs.analytics && 'gtag' in window) {
-      window.location.reload();
+    isProcessingRef.current = true;
+
+    try {
+      localStorage.setItem(COOKIE_CONSENT_KEY, 'true');
+      localStorage.setItem(ANALYTICS_CONSENT_KEY, prefs.analytics.toString());
+      setPreferences(prefs);
+      setHasConsent(true);
+      setShowBanner(false);
+
+      // Reload page to apply analytics settings
+      if (prefs.analytics && 'gtag' in window) {
+        window.location.reload();
+      }
+    } finally {
+      // Reset processing flag after a short delay to prevent rapid re-clicks
+      setTimeout(() => {
+        isProcessingRef.current = false;
+      }, 500);
     }
   };
 

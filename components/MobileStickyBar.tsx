@@ -1,22 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { COMPANY_INFO, getTelLink, getWhatsAppLink, getDirectionsLink } from "@/lib/constants";
 
 // Quick action buttons exposed on the sticky CTA bar
 const quickActions = [
   {
     label: "Call",
-    href: "tel:7145882005",
+    href: getTelLink(COMPANY_INFO.phones.cellE164),
     icon: "fas fa-phone",
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/17149097190?text=Hello!%20I%20would%20like%20to%20inquire%20about%20your%20logistics%20services.",
+    href: getWhatsAppLink(),
     icon: "fab fa-whatsapp",
   },
   {
     label: "Directions",
-    href: "https://www.google.com/maps/dir/?api=1&destination=K%26C%20Logistics%203060%20Daimler%20St%20Santa%20Ana%20CA",
+    href: getDirectionsLink(COMPANY_INFO.addresses[0]),
     icon: "fas fa-location-arrow",
   },
   {

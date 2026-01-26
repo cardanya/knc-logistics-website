@@ -26,11 +26,23 @@ export default function Error({
           <p className="error-message">
             We encountered an unexpected error. Don&rsquo;t worry, our team has been notified.
           </p>
-          {error.message && (
+          {process.env.NODE_ENV === 'development' && error.message && (
             <details className="error-details">
-              <summary>Error Details</summary>
+              <summary>Error Details (Dev Only)</summary>
               <p>{error.message}</p>
+              {error.stack && (
+                <pre style={{ fontSize: '12px', overflow: 'auto' }}>
+                  {error.stack}
+                </pre>
+              )}
             </details>
+          )}
+          {process.env.NODE_ENV === 'production' && (
+            <p className="error-hint">
+              Error ID: {Math.random().toString(36).substring(7)}
+              <br />
+              Please contact support if this issue persists.
+            </p>
           )}
           <div className="error-actions">
             <button
