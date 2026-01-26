@@ -10,6 +10,7 @@ export interface Address {
   zip: string;
   fullAddress: string;
   googleMapsQuery: string;
+  embedUrl?: string; // Optional embed URL for reliable map display
 }
 
 export interface ContactInfo {
@@ -63,6 +64,7 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92705',
       fullAddress: '3060 Daimler St, Santa Ana, CA 92705',
       googleMapsQuery: 'K%26C%20Warehousing%2C%20Cross%20Docking%2C%20Lumper%20Services%2C%20Trucking',
+      embedUrl: 'https://maps.google.com/maps?q=3060+Daimler+St,+Santa+Ana,+CA+92705&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
     {
       name: 'Orange County Truck Stop & Warehousing',
@@ -72,6 +74,7 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92705',
       fullAddress: '3100 S Standard Ave, Santa Ana, CA 92705',
       googleMapsQuery: 'Orange%20County%20Truck%20Stop%20%26%20Warehousing',
+      embedUrl: 'https://maps.google.com/maps?q=3100+S+Standard+Ave,+Santa+Ana,+CA+92705&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
     {
       name: 'K&C Logistics, Warehousing Alton Branch',
@@ -81,6 +84,7 @@ export const COMPANY_INFO: ContactInfo = {
       zip: '92707',
       fullAddress: '133 E Alton Ave, Santa Ana, CA 92707',
       googleMapsQuery: 'K%26C%20Logistics%2C%20Warehousing%20Alton%20Branch',
+      embedUrl: 'https://maps.google.com/maps?q=133+E+Alton+Ave,+Santa+Ana,+CA+92707&t=&z=15&ie=UTF8&iwloc=&output=embed',
     },
   ],
 };
@@ -108,15 +112,14 @@ export function getTelLink(phoneE164: string): string {
 }
 
 export function getGoogleMapsEmbedUrl(address: Address): string {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-  // Use Google Maps Embed API with API key for better reliability and features
-  if (apiKey) {
-    return `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(address.fullAddress)}`;
+  // If a custom embed URL is provided, use it for better reliability
+  if (address.embedUrl) {
+    return address.embedUrl;
   }
 
-  // Fallback to basic embed if API key is not available
-  return `https://maps.google.com/maps?q=${encodeURIComponent(address.fullAddress)}&output=embed`;
+  // Fallback: construct a basic embed URL
+  const query = encodeURIComponent(address.fullAddress);
+  return `https://www.google.com/maps?q=${query}&output=embed`;
 }
 
 export function getWhatsAppLink(
