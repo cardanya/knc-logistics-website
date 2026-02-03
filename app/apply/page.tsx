@@ -24,6 +24,7 @@ export default function Apply() {
     message: string;
     type: ToastType;
   } | null>(null);
+  const [currentPerksSlide, setCurrentPerksSlide] = useState(0);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -55,6 +56,14 @@ export default function Apply() {
 
     return () => observer.disconnect();
   }, []);
+
+  const handlePerksPrev = () => {
+    setCurrentPerksSlide((prev) => (prev === 0 ? 1 : 0));
+  };
+
+  const handlePerksNext = () => {
+    setCurrentPerksSlide((prev) => (prev === 1 ? 0 : 1));
+  };
 
   const validateForm = (formData: FormData): boolean => {
     const errors: FormErrors = {};
@@ -211,68 +220,298 @@ export default function Apply() {
         {/* Hero Section */}
         <section className="contact" id="apply">
           <div className="section-header scroll-animate">
-            <h1>Join Our Team</h1>
+            <h1>Welcome to K&C Logistics Careers Page</h1>
             <p>
-              K&C Logistics is hiring experienced CDL drivers. Apply now and
-              become part of our professional team.
+              With over 20 years of experience, we provide companies with safe,
+              efficient, and reliable transportation solutions across the United
+              States.
             </p>
+            <div className="hero-subtitle">
+              <h2>Drive For Us</h2>
+              <p>Company drivers, your journey starts here.</p>
+            </div>
+          </div>
+
+          {/* Company Drivers Info Section */}
+          <div className="full-width-section scroll-animate">
+            <div className="section-header">
+              <h2>Company Driver Information</h2>
+              <p>
+                Competitive pay rates, excellent benefits, and consistent routes
+                for our valued drivers
+              </p>
+            </div>
+
+            <div className="company-info-grid">
+              <div className="info-card scroll-animate-fade">
+                <h3>
+                  <i className="fas fa-user"></i> Solo Drivers
+                </h3>
+                <ul>
+                  <li>
+                    Up to <span className="highlight-number">$0.65</span> per
+                    loaded/empty pro mile
+                  </li>
+                  <li>100% No Touch dry van freight</li>
+                  <li>
+                    Average yearly earnings:{" "}
+                    <span className="highlight-number">$70,000 - $80,000</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="info-card scroll-animate-fade">
+                <h3>
+                  <i className="fas fa-users"></i> Team Drivers
+                </h3>
+                <ul>
+                  <li>
+                    Up to <span className="highlight-number">$0.80</span> per
+                    loaded/empty pro mile (split)
+                  </li>
+                  <li>100% No Touch dry van freight</li>
+                  <li>Maximize your earning potential as a team</li>
+                </ul>
+              </div>
+
+              <div className="info-card scroll-animate-fade">
+                <h3>
+                  <i className="fas fa-plus-circle"></i> Additional Pay
+                </h3>
+                <ul>
+                  <li>Extra pay for trucks with 400k+ miles</li>
+                  <li>Detention pay for delays</li>
+                  <li>Layover compensation</li>
+                  <li>Extra stops paid</li>
+                  <li>No Forced Dispatch</li>
+                </ul>
+              </div>
+
+              <div className="info-card scroll-animate-fade">
+                <h3>
+                  <i className="fas fa-shield-check"></i> Benefits & Equipment
+                </h3>
+                <ul>
+                  <li>Company paid Occupational accident insurance</li>
+                  <li>Assigned equipment stays with you during home time</li>
+                  <li>Prepass and TollPass equipped trucks</li>
+                  <li>Well-maintained modern fleet</li>
+                </ul>
+              </div>
+
+              <div className="info-card scroll-animate-fade">
+                <h3>
+                  <i className="fas fa-route"></i> Routes & Schedule
+                </h3>
+                <ul>
+                  <li>Primary routes: CA-UT, CA-CA, CA-AZ, CA-NV</li>
+                  <li>Monday to Friday schedule</li>
+                  <li>Home on weekends if requested</li>
+                  <li>Predictable and reliable routing</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           <div className="contact-container">
-            {/* Why Join Us Section */}
+            {/* K&C Perks Section - Carousel */}
             <div className="contact-info scroll-animate-left">
-              <div className="contact-item">
-                <i className="fas fa-truck"></i>
-                <div>
-                  <h2>Why Drive with K&C Logistics?</h2>
-                  <p>
-                    We value our drivers and offer competitive compensation,
-                    modern equipment, and a supportive work environment.
-                  </p>
-                </div>
-              </div>
+              <div className="perks-carousel-container">
+                <div
+                  className="perks-carousel-track"
+                  style={{
+                    transform: `translateX(-${currentPerksSlide * 100}%)`,
+                    transition: "transform 0.6s ease-in-out",
+                  }}
+                >
+                  {/* Slide 1 - First 7 items */}
+                  <div className="perks-slide">
+                    <div className="contact-item">
+                      <i className="fas fa-truck"></i>
+                      <div>
+                        <h2>K&C Perks</h2>
+                        <p>
+                          We value our drivers and offer competitive
+                          compensation, modern equipment, and comprehensive
+                          support to help you succeed.
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="contact-item">
-                <i className="fas fa-dollar-sign"></i>
-                <div>
-                  <h3>Competitive Pay</h3>
-                  <p>
-                    Earn competitive wages with regular increases based on
-                    performance and experience.
-                  </p>
-                </div>
-              </div>
+                    <div className="contact-item">
+                      <i className="fas fa-shield-alt"></i>
+                      <div>
+                        <h3>Safety Bonuses</h3>
+                        <p>
+                          Level I: $500 per inspection • Level II: $300 per
+                          inspection • Level III: $100 per inspection
+                          (Inspections without any violation)
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="contact-item">
-                <i className="fas fa-calendar-check"></i>
-                <div>
-                  <h3>Flexible Schedule</h3>
-                  <p>
-                    We offer various routes and schedules to fit your lifestyle
-                    and preferences.
-                  </p>
-                </div>
-              </div>
+                    <div className="contact-item">
+                      <i className="fas fa-user-friends"></i>
+                      <div>
+                        <h3>Driver Referral Bonus</h3>
+                        <p>
+                          Earn bonuses by referring other qualified drivers to
+                          join our team.
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="contact-item">
-                <i className="fas fa-tools"></i>
-                <div>
-                  <h3>Modern Fleet</h3>
-                  <p>
-                    Drive well-maintained, modern trucks equipped with the
-                    latest safety features.
-                  </p>
-                </div>
-              </div>
+                    <div className="contact-item">
+                      <i className="fas fa-hands"></i>
+                      <div>
+                        <h3>100% No-Touch Freight</h3>
+                        <p>
+                          Dry Van with Live Load/Unload - no heavy lifting
+                          required.
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="contact-item">
-                <i className="fas fa-heart"></i>
-                <div>
-                  <h3>Great Benefits</h3>
-                  <p>
-                    Paid time off, and other benefits available for full-time
-                    drivers.
-                  </p>
+                    <div className="contact-item">
+                      <i className="fas fa-headset"></i>
+                      <div>
+                        <h3>24/7 Support Service</h3>
+                        <p>
+                          Our team is always available to assist you, day or
+                          night.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-file-contract"></i>
+                      <div>
+                        <h3>1099 Contractor Position</h3>
+                        <p>
+                          Flexible contractor status with excellent earning
+                          potential.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-comments-dollar"></i>
+                      <div>
+                        <h3>Free Consulting Services</h3>
+                        <p>
+                          Expert advice on taxes, trucking regulations, and
+                          vehicle maintenance.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slide 2 - Last 7 items */}
+                  <div className="perks-slide">
+                    <div className="contact-item">
+                      <i className="fas fa-flag-usa"></i>
+                      <div>
+                        <h3>Veterans Extra Pay</h3>
+                        <p>
+                          Special compensation program for military veterans -
+                          thank you for your service.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-gift"></i>
+                      <div>
+                        <h3>Driver Welcome Package</h3>
+                        <p>
+                          New drivers receive a comprehensive starter kit to
+                          begin their journey.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-paw"></i>
+                      <div>
+                        <h3>Pet & Rider Friendly</h3>
+                        <p>
+                          Bring your furry friends or family members along for
+                          the ride.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-home"></i>
+                      <div>
+                        <h3>Guaranteed Home Time</h3>
+                        <p>
+                          Reliable schedule to ensure quality time with your
+                          family - home on weekends if requested.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-money-check-alt"></i>
+                      <div>
+                        <h3>Weekly Direct Deposit</h3>
+                        <p>Get paid every week via secure direct deposit.</p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-user-tie"></i>
+                      <div>
+                        <h3>Expert Dispatchers</h3>
+                        <p>
+                          All our dispatchers are CDL A holders who understand
+                          your needs.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <i className="fas fa-ban"></i>
+                      <div>
+                        <h3>No Forced Dispatch</h3>
+                        <p>
+                          You have control over your routes and schedule - your
+                          choice matters.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Buttons */}
+                <button
+                  className="carousel-nav-btn carousel-prev"
+                  onClick={handlePerksPrev}
+                  aria-label="Previous perks"
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  className="carousel-nav-btn carousel-next"
+                  onClick={handlePerksNext}
+                  aria-label="Next perks"
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+
+                {/* Indicators */}
+                <div className="carousel-indicators">
+                  <button
+                    className={`carousel-indicator ${currentPerksSlide === 0 ? "active" : ""}`}
+                    onClick={() => setCurrentPerksSlide(0)}
+                    aria-label="Go to slide 1"
+                  />
+                  <button
+                    className={`carousel-indicator ${currentPerksSlide === 1 ? "active" : ""}`}
+                    onClick={() => setCurrentPerksSlide(1)}
+                    aria-label="Go to slide 2"
+                  />
                 </div>
               </div>
             </div>
@@ -490,6 +729,97 @@ export default function Apply() {
                 </span>
               </button>
             </form>
+          </div>
+
+          {/* Requirements Section */}
+          <div className="full-width-section scroll-animate">
+            <div className="section-header">
+              <h2>Driver Requirements</h2>
+              <p>
+                Make sure you meet these requirements before applying to join
+                our team
+              </p>
+            </div>
+
+            <div className="requirements-list">
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>CDL Experience</strong>
+                  <p>
+                    Minimum 2 years of CDL Class A driving experience required
+                  </p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Valid CDL A License</strong>
+                  <p>Current and valid CDL Class A license in good standing</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Age Requirement</strong>
+                  <p>Must be at least 25 years old</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Clean MVR</strong>
+                  <p>Clean Motor Vehicle Record with safe driving history</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Drug Testing</strong>
+                  <p>Must pass mandatory pre-employment drug screening</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>No DWI or DUI</strong>
+                  <p>No DWI/DUI violations in driving history</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Background Check</strong>
+                  <p>Must pass clean criminal background check</p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>OTR Commitment</strong>
+                  <p>
+                    Minimum 14 consecutive days Over The Road (OTR) required
+                  </p>
+                </div>
+              </div>
+
+              <div className="requirement-item scroll-animate-fade">
+                <i className="fas fa-check-circle"></i>
+                <div>
+                  <strong>Home Time Policy</strong>
+                  <p>
+                    Earn 1 day home time for every extra week spent on the road
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
