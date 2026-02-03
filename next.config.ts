@@ -56,7 +56,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
               "img-src 'self' data: https: https://images.unsplash.com https://www.knclogistics.com",
               "font-src 'self' data: https://cdnjs.cloudflare.com",
-              "connect-src 'self' https://www.google-analytics.com",
+              "connect-src 'self' https://www.google-analytics.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'"

@@ -74,7 +74,6 @@ export function useRecaptcha() {
 
   const executeRecaptcha = async (action: string): Promise<string | null> => {
     if (!siteKey || !isReady) {
-      console.error('reCAPTCHA not ready or site key missing');
       return null;
     }
 
