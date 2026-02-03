@@ -206,4 +206,20 @@ export const pageMetadata = {
     ogImage: "/faq-og.png",
     path: "/faq",
   },
+  apply: {
+    title: "Apply Now - Driver Positions | K&C Logistics",
+    description: "Join K&C Logistics team. Apply for driver positions. We are hiring experienced CDL drivers in Southern California.",
+    keywords: [
+      "cdl driver jobs",
+      "truck driver careers",
+      "california trucking jobs",
+      "apply now",
+      "driver positions",
+      "K&C Logistics careers",
+      "cdl jobs orange county",
+      "truck driver employment"
+    ],
+    ogImage: "/apply-og.png",
+    path: "/apply",
+  },
 };

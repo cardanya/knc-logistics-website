@@ -131,6 +131,11 @@ export default function Header() {
               FAQ
             </Link>
           </li>
+          <li>
+            <Link href="/apply" className="nav-link" onClick={closeMobileMenu}>
+              Careers
+            </Link>
+          </li>
         </ul>
 
         <div className="nav-right">
