@@ -5006,6 +5006,8 @@ select:focus-visible {
 
   .perks-carousel-container {
     padding-bottom: 2.5rem;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .hero-subtitle h2 {
@@ -5019,5 +5021,53 @@ select:focus-visible {
 
   .full-width-section .section-header h2 {
     font-size: 2rem;
+  }
+
+  /* === Mobile Layout Fixes === */
+
+  /* Contact container mobilde tek sütun */
+  .contact .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  /* Contact info tam genişlik */
+  .contact .contact-info {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Contact item layout ve spacing */
+  .contact .contact-item {
+    padding: 1rem;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  /* Icon genişliğini azalt */
+  .contact .contact-item i {
+    min-width: 24px;
+    font-size: 1rem;
+  }
+
+  /* Text wrapper için overflow handling */
+  .contact .contact-item > div {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Typography mobilde optimize et */
+  .contact .contact-item h2,
+  .contact .contact-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .contact .contact-item p {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 }
