@@ -125,8 +125,17 @@ async function verifyRecaptcha(token: string): Promise<{ success: boolean; score
 
     const data = await response.json();
 
+    // GEÇICI DEBUG - Production sorunu tespit için (silinecek)
+    console.log('🔍 PRODUCTION DEBUG - Google API Response:', {
+      success: data.success,
+      score: data.score,
+      errorCodes: data['error-codes'],
+      hostname: data.hostname,
+      action: data.action
+    });
+
     if (!data.success) {
-      console.error('reCAPTCHA verification failed:', data['error-codes']);
+      console.error('❌ reCAPTCHA verification failed:', data['error-codes']);
       return { success: false, error: 'Verification failed' };
     }
 
