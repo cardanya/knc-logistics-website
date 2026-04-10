@@ -1,9 +1,8 @@
 import { generateServiceMetadata, pageMetadata } from "@/lib/metadata";
 
-export const metadata = generateServiceMetadata(pageMetadata.apply);
+export const metadata = generateServiceMetadata(pageMetadata.logisticsSalesRepresentative);
 
-
-export default function ApplyLayout({
+export default function LogisticsSalesRepresentativeLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -1,9 +1,8 @@
 import { generateServiceMetadata, pageMetadata } from "@/lib/metadata";
 
-export const metadata = generateServiceMetadata(pageMetadata.apply);
+export const metadata = generateServiceMetadata(pageMetadata.dieselMechanic);
 
-
-export default function ApplyLayout({
+export default function DieselMechanicLayout({
   children,
 }: {
   children: React.ReactNode;
