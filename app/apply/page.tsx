@@ -157,6 +157,45 @@ export default function Apply() {
                 </Link>
               ))}
             </div>
+
+            {/* Employee Referral Program Banner */}
+            <div
+              style={{
+                marginTop: "2.5rem",
+                padding: "2rem 2.5rem",
+                background: "var(--white)",
+                border: "1px solid var(--border-color)",
+                borderRadius: "12px",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1.25rem",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
+                <i
+                  className="fas fa-users"
+                  style={{ fontSize: "2rem", color: "var(--primary-color)" }}
+                ></i>
+                <div style={{ textAlign: "left" }}>
+                  <h3 style={{ margin: 0, fontSize: "1.2rem", color: "var(--text-color)" }}>
+                    Know Someone Great?
+                  </h3>
+                  <p style={{ margin: "0.25rem 0 0", color: "var(--gray)", fontSize: "0.95rem" }}>
+                    Refer a qualified candidate and earn a <strong>$500 bonus</strong>.
+                  </p>
+                </div>
+                <Link href="/employee-referral-program" className="btn btn-primary">
+                  Employee Referral Program
+                  <i className="fas fa-arrow-right" style={{ marginLeft: "0.5rem" }}></i>
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       </main>
